@@ -10,6 +10,7 @@ A hands-on Spring Boot learning project demonstrating **Reactive REST API**, **S
 |---|---|
 | Web Framework | Spring WebFlux (reactive, non-blocking) |
 | AI Integration | **Spring AI** + **Anthropic Claude LLM** (`claude-3-5-sonnet`) |
+| Event Messaging | **Spring Kafka** (`KafkaTemplate`, `KafkaListener`, `TopicBuilder`) |
 | Reactive HTTP Client | WebClient |
 | Reactive Database | Spring Data R2DBC + H2 In-Memory |
 | Circuit Breaker | Resilience4j (`@CircuitBreaker` + operator) |
@@ -54,7 +55,8 @@ src/main/java/com/learn/restapi/
 ├── config/
 │   ├── R2dbcConfig.java               # R2DBC auditing + reactive DB config
 │   ├── SwaggerConfig.java             # OpenAPI info, tags, servers
-│   └── WebClientConfig.java           # WebClient bean + RestTemplate bean + ExecutorService
+│   ├── WebClientConfig.java           # WebClient bean + RestTemplate bean + ExecutorService
+│   └── KafkaConfig.java               # Spring Kafka producer/consumer & topic config
 │
 ├── controller/
 │   ├── ProductController.java         # CRUD REST API (reactive)

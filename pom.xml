@@ -129,6 +129,17 @@
             <artifactId>spring-ai-anthropic-spring-boot-starter</artifactId>
         </dependency>
 
+        <!--
+            ┌─────────────────────────────────────────────┐
+            │  SPRING KAFKA — Messaging / Event Streaming │
+            └─────────────────────────────────────────────┘
+            Spring Kafka integration for Producer, Consumer, Topic Admin, and Reactive Kafka.
+        -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
         <!-- Tests (includes Reactor test utilities like StepVerifier) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
