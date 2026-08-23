@@ -74,6 +74,37 @@ docker logs -f my-app
 | **Service** | Provides a stable virtual IP address and load balancer to expose a set of Pods internally or externally. |
 | **ConfigMap / Secret** | Separates configuration artifacts and sensitive passwords/keys from container image code. |
 
+### Essential `kubectl` Commands Cheat Sheet:
+
+```bash
+# ── Cluster & Node Inspection ────────────────────────────────────────────────
+kubectl cluster-info                           # View cluster master/services status
+kubectl get nodes -o wide                      # List nodes with IP, OS, and runtime
+
+# ── Resource Inspection & Monitoring ─────────────────────────────────────────
+kubectl get pods                               # List all pods in current namespace
+kubectl get pods -A                            # List all pods across all namespaces
+kubectl get deployments                        # List all deployments
+kubectl get services                           # List all services (SVC)
+kubectl describe pod <pod-name>                # Detailed diagnostics & events for a pod
+kubectl get events --sort-by='.metadata.creationTimestamp' # View cluster events sorted by time
+
+# ── Pod Debugging & Logs ─────────────────────────────────────────────────────
+kubectl logs -f <pod-name>                     # Stream live logs from a pod container
+kubectl logs <pod-name> --previous             # View logs from a crashed/restarted container
+kubectl exec -it <pod-name> -- /bin/bash       # Open interactive shell inside a running pod
+
+# ── Deploying & Applying Configurations ──────────────────────────────────────
+kubectl apply -f deployment.yaml              # Create or update resources declaratively
+kubectl delete -f deployment.yaml             # Delete resources defined in YAML file
+
+# ── Scaling & Rolling Updates ────────────────────────────────────────────────
+kubectl scale deployment/my-app --replicas=5   # Dynamically scale deployment to 5 pods
+kubectl rollout status deployment/my-app       # Check progress of a deployment update
+kubectl rollout undo deployment/my-app         # Rollback deployment to previous revision
+kubectl port-forward svc/my-app-service 8080:8080 # Forward local port to cluster service
+```
+
 ---
 
 ## 🔴 4. Redis Cache & Data Structures
