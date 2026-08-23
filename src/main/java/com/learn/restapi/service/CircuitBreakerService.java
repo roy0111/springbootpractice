@@ -86,7 +86,7 @@ public class CircuitBreakerService {
      *
      * <p>Signature rules: same return type + same parameters + {@code Exception} at the end.
      */
-    private List<Post> getAllPostsFallback(Exception ex) {
+    public List<Post> getAllPostsFallback(Exception ex) {
         System.err.println("[CB:externalApi] getAllPosts fallback triggered: " + ex.getMessage());
         return List.of(new Post(0, 0,
                 "[FALLBACK] External API unavailable",
@@ -118,7 +118,7 @@ public class CircuitBreakerService {
      * Fallback for {@link #getPostById(int)}.
      * Note: fallback includes the same parameter {@code id} as the original method.
      */
-    private Optional<Post> getPostByIdFallback(int id, Exception ex) {
+    public Optional<Post> getPostByIdFallback(int id, Exception ex) {
         System.err.printf("[CB:externalApi] getPostById(%d) fallback: %s%n", id, ex.getMessage());
         return Optional.of(new Post(0, id,
                 "[FALLBACK] Post " + id + " unavailable",
@@ -140,7 +140,7 @@ public class CircuitBreakerService {
         return posts != null ? Arrays.asList(posts) : List.of();
     }
 
-    private List<Post> getPostsByUserFallback(int userId, Exception ex) {
+    public List<Post> getPostsByUserFallback(int userId, Exception ex) {
         System.err.printf("[CB:externalApi] getPostsByUser(%d) fallback: %s%n", userId, ex.getMessage());
         return List.of(new Post(0, 0,
                 "[FALLBACK] Posts for user " + userId + " unavailable",
@@ -174,7 +174,7 @@ public class CircuitBreakerService {
                 comments != null ? Arrays.asList(comments) : List.of());
     }
 
-    private PostWithComments getPostWithCommentsFallback(int postId, Exception ex) {
+    public PostWithComments getPostWithCommentsFallback(int postId, Exception ex) {
         System.err.printf("[CB:externalApi] getPostWithComments(%d) fallback: %s%n", postId, ex.getMessage());
         Post fallbackPost = new Post(0, postId, "[FALLBACK] Post unavailable", "Circuit is OPEN.");
         return new PostWithComments(fallbackPost, List.of());
@@ -208,7 +208,7 @@ public class CircuitBreakerService {
                 .toList();
     }
 
-    private List<Post> getPostsByIdsFallback(List<Integer> ids, Exception ex) {
+    public List<Post> getPostsByIdsFallback(List<Integer> ids, Exception ex) {
         System.err.println("[CB:externalApi] getPostsByIds fallback: " + ex.getMessage());
         return List.of(new Post(0, 0, "[FALLBACK] Batch fetch unavailable", "Circuit is OPEN."));
     }
@@ -241,7 +241,7 @@ public class CircuitBreakerService {
         );
     }
 
-    private Map<String, Object> fetchFromBlockingSourceFallback(long simulatedDelayMs, Exception ex) {
+    public Map<String, Object> fetchFromBlockingSourceFallback(long simulatedDelayMs, Exception ex) {
         System.err.println("[CB:blockingApi] fetchFromBlockingSource fallback: " + ex.getMessage());
         return Map.of(
                 "source",         "FALLBACK (cached response)",
