@@ -547,9 +547,9 @@ flowchart TD
     end
 
     subgraph DataStores["Storage Layer"]
-        OracleDB[("Oracle DB (Relational SQL)")]
-        MongoDB[("MongoDB (Document NoSQL)")]
-        ChromaDB[("ChromaDB (AI Vector DB)")]
+        OracleDB["Oracle DB (Relational SQL)"]
+        MongoDB["MongoDB (Document NoSQL)"]
+        ChromaDB["ChromaDB (AI Vector DB)"]
     end
 
     Service -->|CrudRepository / JpaRepository| SpringJPA

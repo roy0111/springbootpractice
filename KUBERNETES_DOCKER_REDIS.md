@@ -8,7 +8,7 @@ A comprehensive guide covering **Containerization (Docker)**, **Container Orches
 
 ```mermaid
 flowchart TD
-    Client(["HTTP Client / Browser"])
+    Client["HTTP Client / Browser"]
 
     subgraph K8sCluster["Kubernetes Cluster"]
         Ingress["K8s Ingress (Nginx / ALB)"]
@@ -19,9 +19,9 @@ flowchart TD
         Pod3["SpringBoot Pod 3"]
     end
 
-    subgraph StorageLayer["Data & Caching Layer"]
-        RedisCache[("Redis Cluster (In-Memory Cache)")]
-        Database[("Relational Database (Oracle / PostgreSQL)")]
+    subgraph StorageLayer["Data and Caching Layer"]
+        RedisCache["Redis Cluster (In-Memory Cache)"]
+        Database["Relational Database (Oracle / PostgreSQL)"]
     end
 
     Client -->|HTTP / HTTPS Request| Ingress
@@ -31,11 +31,11 @@ flowchart TD
     K8sService -->|Load Balance| Pod3
 
     Pod1 -->|1. Cache Read/Write| RedisCache
-    Pod1 -->|2. DB Query (Cache Miss)| Database
+    Pod1 -->|2. DB Query Cache Miss| Database
     Pod2 -->|1. Cache Read/Write| RedisCache
-    Pod2 -->|2. DB Query (Cache Miss)| Database
+    Pod2 -->|2. DB Query Cache Miss| Database
     Pod3 -->|1. Cache Read/Write| RedisCache
-    Pod3 -->|2. DB Query (Cache Miss)| Database
+    Pod3 -->|2. DB Query Cache Miss| Database
 ```
 
 ---
