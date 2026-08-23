@@ -69,15 +69,15 @@ src/main/java/com/learn/restapi/
 │   ├── ReactivePatternService.java    # Pure WebFlux + WebClient patterns
 │   ├── CircuitBreakerService.java     # Blocking RestTemplate + @CircuitBreaker
 │   ├── AiService.java                 # ChatClient Claude completion & streaming
+│   ├── RagService.java                # VectorStore RAG pipeline integration
 │   └── KafkaService.java              # Kafka Producer (KafkaTemplate) & Consumer (@KafkaListener)
 
-│
 ├── model/
 │   ├── Product.java                   # R2DBC entity (reactive DB)
-│   ├── Tag.java                       # R2DBC entity — Tag domain model
 │   ├── Post.java                      # DTO — JSONPlaceholder post
 │   ├── PostComment.java               # DTO — JSONPlaceholder comment
 │   └── PostWithComments.java          # Aggregated DTO (post + comments)
+
 
 │
 ├── repository/
@@ -254,32 +254,33 @@ sequenceDiagram
 
 ---
 
-### 5. Tag Domain Model & Entity Relationship Flow
+### 5. Spring AI Retrieval-Augmented Generation (RAG) Architecture Flow
 
 ```mermaid
-classDiagram
-    class Tag {
-        +Long id
-        +String name
-        +String color
-        +getId() Long
-        +setId(Long id)
-        +getName() String
-        +setName(String name)
-        +getColor() String
-        +setColor(String color)
-    }
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Controller as AiController
+    participant RagService as RagService
+    participant VectorStore as SimpleVectorStore
+    participant Claude as Anthropic Claude LLM
 
-    class Product {
-        +Long id
-        +String name
-        +String description
-        +BigDecimal price
-        +String category
-        +int stockQuantity
-    }
+    note over RagService, VectorStore: Startup: Knowledge Ingestion / Indexing
+    RagService->>VectorStore: Seed Document Chunks & Embeddings
 
-    Product "1" -- "*" Tag : Categorized / Labeled By
+    Client->>Controller: GET /api/ai/rag?query=...
+    Controller->>RagService: queryRag(query)
+    
+    RagService->>VectorStore: 1. similaritySearch(query)
+    VectorStore-->>RagService: 2. Return Top Matching Document Chunks
+
+    Note over RagService: 3. Augment Prompt with Document Context
+
+    RagService->>Claude: 4. Prompt(Context + User Question)
+    Claude-->>RagService: 5. Context-Aware Grounded Response
+
+    RagService-->>Controller: Mono<Map> (Query, Context, Answer)
+    Controller-->>Client: 200 OK (Grounded RAG Answer JSON)
 ```
 
 ---
@@ -292,6 +293,7 @@ Integration using `ChatClient` from **Spring AI** connecting to Claude models (`
 |---|---|---|
 | `GET` | `/api/ai/generate?prompt=...` | Single completion from Claude (`Mono<Map>`) |
 | `GET` | `/api/ai/stream?prompt=...` | Token streaming via Server-Sent Events (`Flux<String>`) |
+| `GET` | `/api/ai/rag?query=...` | **RAG Query Pipeline**: VectorStore retrieval + Claude completion (`Mono<Map>`) |
 
 ---
 

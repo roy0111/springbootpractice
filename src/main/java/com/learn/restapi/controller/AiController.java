@@ -21,13 +21,15 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/ai")
-@Tag(name = "04. Spring AI (Claude LLM)", description = "Spring AI integration with Anthropic Claude LLM models")
+@Tag(name = "04. Spring AI (Claude LLM & RAG)", description = "Spring AI integration with Anthropic Claude LLM & VectorStore RAG")
 public class AiController {
 
     private final AiService aiService;
+    private final com.learn.restapi.service.RagService ragService;
 
-    public AiController(AiService aiService) {
+    public AiController(AiService aiService, com.learn.restapi.service.RagService ragService) {
         this.aiService = aiService;
+        this.ragService = ragService;
     }
 
     @GetMapping("/generate")
@@ -45,5 +47,11 @@ public class AiController {
     @Operation(summary = "Stream AI completion tokens", description = "Streams Claude AI token responses reactively in real-time (Server-Sent Events).")
     public Flux<String> stream(@RequestParam(defaultValue = "Write a short poem about coding in Java.") String prompt) {
         return aiService.streamCompletion(prompt);
+    }
+
+    @GetMapping("/rag")
+    @Operation(summary = "Query RAG pipeline", description = "Executes Retrieval-Augmented Generation by querying VectorStore before prompting Claude LLM.")
+    public Mono<Map<String, Object>> rag(@RequestParam(defaultValue = "What reactive features does Spring Boot support?") String query) {
+        return ragService.queryRag(query);
     }
 }

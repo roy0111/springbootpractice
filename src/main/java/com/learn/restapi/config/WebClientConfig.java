@@ -133,4 +133,13 @@ public class WebClientConfig {
                 .setReadTimeout(java.time.Duration.ofSeconds(10))
                 .build();
     }
+
+    /**
+     * In-memory VectorStore for Spring AI Retrieval-Augmented Generation (RAG).
+     */
+    @Bean
+    public org.springframework.ai.vectorstore.VectorStore vectorStore(
+            org.springframework.ai.embedding.EmbeddingModel embeddingModel) {
+        return new org.springframework.ai.vectorstore.SimpleVectorStore(embeddingModel);
+    }
 }
