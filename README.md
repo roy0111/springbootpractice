@@ -218,6 +218,46 @@ flowchart TD
 
 ---
 
+### 4. Spring AI (Claude LLM) Integration Flow (`AiController` → `AiService` → `ChatClient` → Anthropic Claude)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Controller as AiController
+    participant Service as AiService
+    participant SpringAI as ChatClient / AnthropicChatModel
+    participant Claude as Anthropic API (Claude 3.5 Sonnet)
+
+    rect rgb(240, 248, 255)
+        note over Client, Claude: Single Completion Flow (Mono)
+        Client->>Controller: GET /api/ai/generate?prompt=...
+        Controller->>Service: generateCompletion(prompt)
+        Service->>SpringAI: chatClient.prompt().user(prompt).call().content()
+        SpringAI->>Claude: HTTP POST /v1/messages (JSON Payload)
+        Claude-->>SpringAI: Complete Answer Text JSON
+        SpringAI-->>Service: Generated String
+        Service-->>Controller: Mono<Map<String, Object>>
+        Controller-->>Client: 200 OK (JSON Response)
+    end
+
+    rect rgb(245, 255, 250)
+        note over Client, Claude: Token Streaming Flow (Flux SSE)
+        Client->>Controller: GET /api/ai/stream?prompt=...
+        Controller->>Service: streamCompletion(prompt)
+        Service->>SpringAI: chatClient.prompt().user(prompt).stream().content()
+        SpringAI->>Claude: HTTP POST /v1/messages (stream=true)
+        loop Reactive Server-Sent Events (SSE)
+            Claude-->>SpringAI: SSE Token Chunk
+            SpringAI-->>Service: Flux Chunk (String)
+            Service-->>Controller: Flux<String>
+            Controller-->>Client: text/event-stream Chunk
+        end
+    end
+```
+
+---
+
 ## 🤖 Spring AI (Anthropic Claude LLM) (`/api/ai`)
 
 Integration using `ChatClient` from **Spring AI** connecting to Claude models (`claude-3-5-sonnet`).
