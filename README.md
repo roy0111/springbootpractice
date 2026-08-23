@@ -35,14 +35,16 @@ export ANTHROPIC_API_KEY=your_claude_api_key_here
 ./mvnw spring-boot:run
 ```
 
-### Access the APIs
-| URL | Description |
+### Access the APIs & Guides
+| URL / Guide | Description |
 |---|---|
 | http://localhost:8080/swagger-ui.html | **Swagger UI** — explore all endpoints |
 | http://localhost:8080/v3/api-docs | OpenAPI JSON spec |
 | http://localhost:8080/actuator | Actuator endpoints list |
 | http://localhost:8080/actuator/health | Health check |
 | http://localhost:8080/actuator/circuitbreakers | Circuit breaker metrics |
+| [JVM.md](file:///Users/biratsaha/Desktop/spring%20boot%20projects/springboot%20learning/JVM.md) | **JVM Guide** — Architecture, Memory Model, GC & Interview Q&A |
+
 
 ---
 
@@ -510,6 +512,85 @@ Tests use Spring Boot Test with an embedded H2 database and test WebClient.
 | Spring Boot Validation | managed | Bean validation (`@Valid`) |
 | Spring Boot AOP | managed | Proxy for `@CircuitBreaker` |
 | Reactor Test | managed | `StepVerifier` for reactive testing |
+
+---
+
+## 🗄️ Database & ORM Ecosystem (SQL, NoSQL, Vector DB & Data Access)
+
+### 1. Technology Overview
+
+| Component | Category | Key Characteristics & Best Use Cases |
+|---|---|---|
+| **JDBC** (Java Database Connectivity) | Low-level API | Fundamental Java API for executing raw SQL queries via `Connection`, `Statement`, and `ResultSet`. Manual transaction and connection management. |
+| **HikariCP** | Connection Pool | Extremely high-performance, lightweight JDBC connection pool used by default in Spring Boot. Manages reusable DB connections. |
+| **Hibernate** | ORM Framework | Industry-standard Object-Relational Mapping (ORM) framework implementing JPA. Handles SQL generation, lazy loading, caching (L1/L2), and dirty checking. |
+| **Spring Data JPA** | Data Access Abstraction | Abstraction layer over JPA/Hibernate. Eliminates boilerplate code by auto-generating DAO implementations from interface method names (`findBy...`). |
+| **Oracle Database** | Relational SQL DB | Enterprise RDBMS providing ACID compliance, complex PL/SQL procedures, table partitioning, and high availability (RAC). |
+| **MongoDB** | Document NoSQL DB | Schema-flexible document database storing data in JSON/BSON format. Ideal for high write loads, dynamic attributes, and horizontal scaling (Sharding). |
+| **ChromaDB** | Vector DB | High-performance AI vector database for storing embeddings and enabling fast nearest-neighbor similarity search (used in RAG pipelines). |
+
+---
+
+### 2. Architecture & Data Access Flow Diagram
+
+```mermaid
+flowchart TD
+    subgraph SpringApp["Spring Boot Application Layer"]
+        Service["Service Layer"]
+        SpringJPA["Spring Data JPA Repositories"]
+        Hibernate["Hibernate ORM (JPA Provider)"]
+        HikariPool["HikariCP Connection Pool"]
+    end
+
+    subgraph DataStores["Storage Layer"]
+        OracleDB[("Oracle DB (Relational SQL)")]
+        MongoDB[("MongoDB (Document NoSQL)")]
+        ChromaDB[("ChromaDB (AI Vector DB)")]
+    end
+
+    Service -->|CrudRepository / JpaRepository| SpringJPA
+    SpringJPA -->|Entity Lifecycle & HQL/JPQL| Hibernate
+    Hibernate -->|JDBC Driver Calls| HikariPool
+    HikariPool -->|Pooled Connections| OracleDB
+
+    Service -->|MongoTemplate / MongoRepository| MongoDB
+    Service -->|VectorStore / Embedding API| ChromaDB
+```
+
+---
+
+### 💡 Top Database & SQL Interview Questions & Answers
+
+#### Q1: What is the difference between JPA, Hibernate, and Spring Data JPA?
+- **JPA (Jakarta Persistence API):** A Java specification/interface standard defining how ORM should be implemented.
+- **Hibernate:** An actual implementation of the JPA specification that provides object-relational mapping logic.
+- **Spring Data JPA:** An abstraction framework built on top of JPA that automatically generates repository implementations (DAO pattern) at runtime, reducing boilerplate SQL/HQL.
+
+#### Q2: How does HikariCP improve database connection performance?
+HikariCP uses bytecode generation (Javassist), optimized micro-benchmarking, custom fast collections (FastList), and lock-free thread synchronization. It eliminates connection creation overhead by maintaining a pool of pre-established, healthy database connections.
+
+#### Q3: How do SQL databases (Oracle) differ from Document NoSQL (MongoDB) and Vector DBs (ChromaDB)?
+- **Oracle (Relational SQL):** Structured tables with fixed schemas, strong ACID guarantees, foreign keys, and complex SQL joins.
+- **MongoDB (Document NoSQL):** Flexible BSON document schemas, horizontal scaling via sharded clusters, ideal for unstructured or rapidly evolving data.
+- **ChromaDB (Vector DB):** Optimized for high-dimensional vector embeddings (e.g. 1536-dim arrays) and fast ANN (Approximate Nearest Neighbor) similarity search (Cosine, Euclidean distance).
+
+#### Q4: Write a SQL query to find the Nth highest salary in an Employee table.
+```sql
+SELECT salary 
+FROM (
+    SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) as rnk 
+    FROM employees
+) 
+WHERE rnk = N;
+```
+
+#### Q5: Write a SQL query to find duplicate email records in a Customer table.
+```sql
+SELECT email, COUNT(email) AS count 
+FROM customers 
+GROUP BY email 
+HAVING COUNT(email) > 1;
+```
 
 ---
 
