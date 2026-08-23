@@ -2,7 +2,6 @@ package com.learn.restapi.repository;
 
 import com.learn.restapi.model.Product;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,7 +20,6 @@ import reactor.core.publisher.Mono;
  * <p>Custom query methods are derived from the method name — Spring Data generates
  * the SQL at startup. Return types MUST be {@code Flux<T>} (many) or {@code Mono<T>} (one/zero).
  */
-@Repository
 public interface ProductRepository extends ReactiveCrudRepository<Product, Long> {
 
     /**
