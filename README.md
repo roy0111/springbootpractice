@@ -68,7 +68,9 @@ src/main/java/com/learn/restapi/
 │   ├── ProductService.java            # Reactive CRUD business logic
 │   ├── ReactivePatternService.java    # Pure WebFlux + WebClient patterns
 │   ├── CircuitBreakerService.java     # Blocking RestTemplate + @CircuitBreaker
-│   └── AiService.java                 # ChatClient Claude completion & streaming
+│   ├── AiService.java                 # ChatClient Claude completion & streaming
+│   └── KafkaService.java              # Kafka Producer (KafkaTemplate) & Consumer (@KafkaListener)
+
 │
 ├── model/
 │   ├── Product.java                   # R2DBC entity (reactive DB)
