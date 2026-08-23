@@ -14,12 +14,12 @@ import reactor.core.publisher.Mono;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Service class demonstrating Kafka Producer and multiple Consumer methods for learning.
+ * Service class demonstrating clean Kafka Producer and dynamic Consumer for learning.
  *
  * <ul>
  *   <li><b>Producer:</b> Sends messages asynchronously via {@link KafkaTemplate}.</li>
- *   <li><b>Consumers (5 Instances):</b> Demonstrates concurrent message consumption using
- *       either concurrency settings or distinct consumer methods/groups.</li>
+ *   <li><b>Dynamic Consumer:</b> Uses Spring's {@code concurrency = "${spring.kafka.listener.concurrency:5}"}
+ *       property to dynamically spawn consumer thread instances in production without hardcoded methods.</li>
  * </ul>
  */
 @Service
@@ -62,52 +62,25 @@ public class KafkaService {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  KAFKA CONSUMERS (5 Consumer Instances in Consumer Group)
+    //  KAFKA CONSUMER (Dynamic Multi-threaded Consumer)
     // ═══════════════════════════════════════════════════════════════════════
 
     /**
-     * Approach 1: Concurrent Consumer (Spawns 5 consumer thread instances inside same listener).
+     * Single clean listener method configured with dynamic concurrency.
      *
-     * <p>Setting {@code concurrency = "5"} creates 5 active consumer threads in the container
-     * sharing partitions of {@code learning-events}.
+     * <p>Spring Boot automatically spawns N consumer instances (threads) based on
+     * {@code spring.kafka.listener.concurrency} in application.properties (default: 5).
      */
     @KafkaListener(
             topics = KafkaConfig.TOPIC_NAME,
             groupId = "${spring.kafka.consumer.group-id:learning-group}",
-            concurrency = "5"
+            concurrency = "${spring.kafka.listener.concurrency:5}"
     )
     public void consumeMessage(
             String message,
             @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
             @Header(KafkaHeaders.OFFSET) long offset) {
-        log.info("[Kafka Concurrent Consumer Thread: {}] Received message='{}' from partition={} offset={}",
+        log.info("[Kafka Consumer Thread: {}] Received message='{}' from partition={} offset={}",
                 Thread.currentThread().getName(), message, partition, offset);
-    }
-
-    // ── Approach 2: 5 Explicit Consumer Methods (for distinct learning listeners) ──────
-
-    @KafkaListener(topics = KafkaConfig.TOPIC_NAME, groupId = "explicit-group-1")
-    public void consumerOne(String message) {
-        log.info("[Explicit Consumer 1] Processed message: '{}'", message);
-    }
-
-    @KafkaListener(topics = KafkaConfig.TOPIC_NAME, groupId = "explicit-group-2")
-    public void consumerTwo(String message) {
-        log.info("[Explicit Consumer 2] Processed message: '{}'", message);
-    }
-
-    @KafkaListener(topics = KafkaConfig.TOPIC_NAME, groupId = "explicit-group-3")
-    public void consumerThree(String message) {
-        log.info("[Explicit Consumer 3] Processed message: '{}'", message);
-    }
-
-    @KafkaListener(topics = KafkaConfig.TOPIC_NAME, groupId = "explicit-group-4")
-    public void consumerFour(String message) {
-        log.info("[Explicit Consumer 4] Processed message: '{}'", message);
-    }
-
-    @KafkaListener(topics = KafkaConfig.TOPIC_NAME, groupId = "explicit-group-5")
-    public void consumerFive(String message) {
-        log.info("[Explicit Consumer 5] Processed message: '{}'", message);
     }
 }
