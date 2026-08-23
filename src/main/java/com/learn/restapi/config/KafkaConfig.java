@@ -45,7 +45,7 @@ public class KafkaConfig {
     @Bean
     public NewTopic learningEventsTopic() {
         return TopicBuilder.name(TOPIC_NAME)
-                .partitions(3)
+                .partitions(5)
                 .replicas(1)
                 .build();
     }
