@@ -9,6 +9,7 @@ A hands-on Spring Boot learning project demonstrating **Reactive REST API**, **S
 | Area | Technology |
 |---|---|
 | Web Framework | Spring WebFlux (reactive, non-blocking) |
+| AI Integration | **Spring AI** + **Anthropic Claude LLM** (`claude-3-5-sonnet`) |
 | Reactive HTTP Client | WebClient |
 | Reactive Database | Spring Data R2DBC + H2 In-Memory |
 | Circuit Breaker | Resilience4j (`@CircuitBreaker` + operator) |
@@ -29,6 +30,7 @@ A hands-on Spring Boot learning project demonstrating **Reactive REST API**, **S
 ```bash
 git clone https://github.com/<your-username>/springbootpractice.git
 cd springbootpractice
+export ANTHROPIC_API_KEY=your_claude_api_key_here
 ./mvnw spring-boot:run
 ```
 
@@ -57,12 +59,14 @@ src/main/java/com/learn/restapi/
 ├── controller/
 │   ├── ProductController.java         # CRUD REST API (reactive)
 │   ├── ReactivePatternController.java # /api/reactive — 7 reactive patterns
-│   └── CircuitBreakerController.java  # /api/cb      — 7 circuit breaker patterns
+│   ├── CircuitBreakerController.java  # /api/cb      — 7 circuit breaker patterns
+│   └── AiController.java              # /api/ai      — Spring AI Claude integration
 │
 ├── service/
 │   ├── ProductService.java            # Reactive CRUD business logic
 │   ├── ReactivePatternService.java    # Pure WebFlux + WebClient patterns
-│   └── CircuitBreakerService.java     # Blocking RestTemplate + @CircuitBreaker
+│   ├── CircuitBreakerService.java     # Blocking RestTemplate + @CircuitBreaker
+│   └── AiService.java                 # ChatClient Claude completion & streaming
 │
 ├── model/
 │   ├── Product.java                   # R2DBC entity (reactive DB)
@@ -77,9 +81,20 @@ src/main/java/com/learn/restapi/
     └── ResourceNotFoundException.java # Custom 404 exception
 
 src/main/resources/
-├── application.properties             # App config (R2DBC, Actuator, Resilience4j)
+├── application.properties             # App config (R2DBC, Actuator, Resilience4j, Spring AI)
 └── schema.sql                         # DDL — creates PRODUCT table on startup
 ```
+
+---
+
+## 🤖 Spring AI (Anthropic Claude LLM) (`/api/ai`)
+
+Integration using `ChatClient` from **Spring AI** connecting to Claude models (`claude-3-5-sonnet`).
+
+| Method | URL | Description |
+|---|---|---|
+| `GET` | `/api/ai/generate?prompt=...` | Single completion from Claude (`Mono<Map>`) |
+| `GET` | `/api/ai/stream?prompt=...` | Token streaming via Server-Sent Events (`Flux<String>`) |
 
 ---
 

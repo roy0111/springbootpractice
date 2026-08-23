@@ -36,13 +36,13 @@ public class SwaggerConfig {
                                 ### Key Features
                                 - Full CRUD for Products
                                 - Non-blocking reactive stack (Project Reactor)
-                                - Bean Validation with structured error responses
-                                - Spring Boot Actuator for operational monitoring
+                                - Spring AI with Anthropic Claude LLM (generate & streaming)
+                                - Resilience4j Circuit Breaker & Actuator monitoring
                                 
                                 ### Try it out!
                                 Use the **Try it out** button on each endpoint to send live requests.
                                 """)
-                        .version("v2.0.0")
+                        .version("v2.1.0")
                         .contact(new Contact()
                                 .name("Spring Boot Learner")
                                 .email("learner@example.com")
