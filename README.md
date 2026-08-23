@@ -74,9 +74,11 @@ src/main/java/com/learn/restapi/
 │
 ├── model/
 │   ├── Product.java                   # R2DBC entity (reactive DB)
+│   ├── Tag.java                       # R2DBC entity — Tag domain model
 │   ├── Post.java                      # DTO — JSONPlaceholder post
 │   ├── PostComment.java               # DTO — JSONPlaceholder comment
 │   └── PostWithComments.java          # Aggregated DTO (post + comments)
+
 │
 ├── repository/
 │   └── ProductRepository.java         # ReactiveCrudRepository<Product, Long>
@@ -247,13 +249,37 @@ sequenceDiagram
         Controller->>Service: streamCompletion(prompt)
         Service->>SpringAI: chatClient.prompt().user(prompt).stream().content()
         SpringAI->>Claude: HTTP POST /v1/messages (stream=true)
-        loop Reactive Server-Sent Events (SSE)
-            Claude-->>SpringAI: SSE Token Chunk
-            SpringAI-->>Service: Flux Chunk (String)
-            Service-->>Controller: Flux<String>
-            Controller-->>Client: text/event-stream Chunk
-        end
     end
+```
+
+---
+
+### 5. Tag Domain Model & Entity Relationship Flow
+
+```mermaid
+classDiagram
+    class Tag {
+        +Long id
+        +String name
+        +String color
+        +getId() Long
+        +setId(Long id)
+        +getName() String
+        +setName(String name)
+        +getColor() String
+        +setColor(String color)
+    }
+
+    class Product {
+        +Long id
+        +String name
+        +String description
+        +BigDecimal price
+        +String category
+        +int stockQuantity
+    }
+
+    Product "1" -- "*" Tag : Categorized / Labeled By
 ```
 
 ---

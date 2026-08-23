@@ -12,3 +12,10 @@ CREATE TABLE IF NOT EXISTS products (
     created_at     TIMESTAMP,
     updated_at     TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS tags (
+    id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name  VARCHAR(50) NOT NULL UNIQUE,
+    color VARCHAR(20) NOT NULL DEFAULT '#000000'
+);
+
