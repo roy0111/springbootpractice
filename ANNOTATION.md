@@ -1,10 +1,12 @@
-# 🏷️ Spring Boot Annotations Master Reference Guide
+# 🏷️ Spring Boot Annotations & Application Properties Master Reference
 
-A complete, categorized cheat-sheet table of essential **Spring Boot**, **Spring Core**, **Spring WebFlux / MVC**, **Spring Data / R2DBC**, **Resilience4j**, and **Spring AI** annotations.
+A complete, categorized cheat-sheet guide covering both **Spring Boot Java Annotations** and **Configuration Properties** used in `application.properties` or `application.yml`.
 
 ---
 
-## 📑 1. Core Framework & Bean Management
+## PART 1: SPRING BOOT ANNOTATIONS
+
+### 📑 1. Core Framework & Bean Management
 
 | Annotation | Description & Usage |
 |---|---|
@@ -25,7 +27,7 @@ A complete, categorized cheat-sheet table of essential **Spring Boot**, **Spring
 
 ---
 
-## 🌐 2. Web, REST & Reactive Annotations (`WebFlux` / `MVC`)
+### 🌐 2. Web, REST & Reactive Annotations (`WebFlux` / `MVC`)
 
 | Annotation | Description & Usage |
 |---|---|
@@ -46,7 +48,7 @@ A complete, categorized cheat-sheet table of essential **Spring Boot**, **Spring
 
 ---
 
-## 🗄️ 3. Spring Data, R2DBC & Validation Annotations
+### 🗄️ 3. Spring Data, R2DBC & Validation Annotations
 
 | Annotation | Description & Usage |
 |---|---|
@@ -63,7 +65,7 @@ A complete, categorized cheat-sheet table of essential **Spring Boot**, **Spring
 
 ---
 
-## ⚡ 4. Messaging, Resiliency & Testing Annotations
+### ⚡ 4. Messaging, Resiliency & Testing Annotations
 
 | Annotation | Description & Usage |
 |---|---|
@@ -75,3 +77,111 @@ A complete, categorized cheat-sheet table of essential **Spring Boot**, **Spring
 | `@Operation` | OpenAPI / Swagger annotation documenting summary and description of an API operation. |
 | `@Schema` | OpenAPI / Swagger annotation documenting model properties and example payloads. |
 | `@SpringBootTest` | Spring Boot test annotation that bootstraps full application context for integration testing. |
+
+---
+
+## PART 2: APPLICATION PROPERTIES Cheat Sheet (`application.properties` / `application.yml`)
+
+### 🐘 1. Spring Data JPA, R2DBC & Database Properties
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `spring.datasource.url` | JDBC Database connection URL (e.g., `jdbc:oracle:thin:@localhost:1521:xe` or `jdbc:h2:mem:testdb`). |
+| `spring.datasource.username` | Database connection username (e.g., `sa`, `admin`). |
+| `spring.datasource.password` | Database connection password. |
+| `spring.datasource.driver-class-name` | Fully qualified JDBC driver class name (e.g. `oracle.jdbc.OracleDriver`). |
+| `spring.jpa.hibernate.ddl-auto` | Hibernate DDL auto schema management (`none`, `validate`, `update`, `create-drop`). |
+| `spring.jpa.show-sql` | Logs generated SQL statements to console (`true`/`false`). |
+| `spring.jpa.properties.hibernate.format_sql` | Formats logged SQL queries for better readability (`true`/`false`). |
+| `spring.r2dbc.url` | R2DBC reactive database URL (e.g. `r2dbc:h2:mem:///productdb`). |
+| `spring.sql.init.mode` | Controls schema initialization scripts (`always`, `never`, `embedded`). |
+
+---
+
+### 🚀 2. Kafka Messaging Properties
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `spring.kafka.bootstrap-servers` | Comma-separated list of Kafka broker host:port addresses (e.g., `localhost:9092`). |
+| `spring.kafka.consumer.group-id` | Default consumer group identifier (e.g. `learning-group`). |
+| `spring.kafka.consumer.auto-offset-reset` | Where to start reading when no offset exists (`earliest`, `latest`). |
+| `spring.kafka.consumer.key-deserializer` | Deserializer class for message keys (`StringDeserializer`). |
+| `spring.kafka.consumer.value-deserializer` | Deserializer class for message values (`StringDeserializer`, `JsonDeserializer`). |
+| `spring.kafka.producer.key-serializer` | Serializer class for message keys (`StringSerializer`). |
+| `spring.kafka.producer.value-serializer` | Serializer class for message values (`StringSerializer`, `JsonSerializer`). |
+| `spring.kafka.listener.concurrency` | Number of concurrent consumer listener threads (e.g. `5`). |
+
+---
+
+### 🏥 3. Spring Boot Actuator Properties
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `management.endpoints.web.exposure.include` | Endpoints to expose over HTTP (`*`, `health,info,metrics,circuitbreakers`). |
+| `management.endpoints.web.base-path` | Custom base path for Actuator endpoints (default `/actuator`). |
+| `management.endpoint.health.show-details` | Shows full health component details (`always`, `never`, `when-authorized`). |
+| `management.info.env.enabled` | Enables environment properties in `/actuator/info` endpoint (`true`/`false`). |
+
+---
+
+### 📖 4. Swagger / OpenAPI Properties (`springdoc`)
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `springdoc.swagger-ui.path` | Custom path to access Swagger UI (e.g., `/swagger-ui.html`). |
+| `springdoc.api-docs.path` | Custom path for OpenAPI JSON specification (e.g., `/v3/api-docs`). |
+| `springdoc.swagger-ui.operationsSorter` | Sorting order for operations in Swagger UI (`method`, `alpha`). |
+| `springdoc.swagger-ui.try-it-out-enabled` | Enables "Try it out" button by default (`true`/`false`). |
+
+---
+
+### 🤖 5. Spring AI (Anthropic Claude & VectorStore) Properties
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `spring.ai.anthropic.api-key` | API Key for Anthropic Claude (e.g. `${ANTHROPIC_API_KEY}`). |
+| `spring.ai.anthropic.chat.options.model` | Target Claude model name (`claude-3-5-sonnet-20240620`). |
+| `spring.ai.anthropic.chat.options.temperature` | Randomness / sampling temperature (e.g., `0.7`). |
+
+---
+
+### 🛡️ 6. Resilience4j Circuit Breaker Properties
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `resilience4j.circuitbreaker.configs.default.sliding-window-type` | Type of sliding window (`COUNT_BASED`, `TIME_BASED`). |
+| `resilience4j.circuitbreaker.configs.default.sliding-window-size` | Number of calls recorded in sliding window (e.g. `10`). |
+| `resilience4j.circuitbreaker.configs.default.failure-rate-threshold` | Failure percentage threshold to OPEN circuit (e.g. `50`). |
+| `resilience4j.circuitbreaker.configs.default.wait-duration-in-open-state` | Time circuit stays OPEN before probing HALF_OPEN (e.g. `10s`). |
+| `resilience4j.circuitbreaker.configs.default.register-health-indicator` | Exposes circuit breaker state in `/actuator/health` (`true`). |
+
+---
+
+### 📜 7. Logging & Logging Level Properties
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `logging.level.root` | Root logger severity level (`INFO`, `DEBUG`, `WARN`, `ERROR`). |
+| `logging.level.org.springframework` | Package-specific log level (e.g., `logging.level.org.springframework.web=DEBUG`). |
+| `logging.file.name` | Log output file path (e.g. `logs/app.log`). |
+| `logging.pattern.console` | Console log formatting pattern. |
+
+---
+
+### ☕ 8. JVM & System Properties (Environment / Spring)
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `spring.main.banner-mode` | Controls Spring Boot startup banner (`console`, `log`, `off`). |
+| `spring.profiles.active` | Active Spring environment profiles (e.g. `dev`, `prod`, `staging`). |
+| `server.port` | HTTP web server port (default `8080`). |
+
+---
+
+### ☸️ 9. Kubernetes & Docker Cloud Properties (`spring-cloud-kubernetes`)
+
+| Property Key | Description & Typical Value |
+|---|---|
+| `spring.cloud.kubernetes.enabled` | Enables Kubernetes environment detection (`true`/`false`). |
+| `spring.cloud.kubernetes.reload.enabled` | Enables auto-reloading configuration when K8s ConfigMap changes (`true`). |
+| `spring.cloud.kubernetes.discovery.enabled` | Enables K8s service discovery for load balancing (`true`). |
