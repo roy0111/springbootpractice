@@ -91,6 +91,133 @@ src/main/resources/
 
 ---
 
+## 📊 Architecture & Flow Diagrams
+
+### 1. Reactive Patterns Flow (`ReactivePatternController` → `ReactivePatternService` → `WebClient`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Controller as ReactivePatternController
+    participant Service as ReactivePatternService
+    participant WebClient as WebClient / R2DBC
+    participant External as External API (JSONPlaceholder)
+
+    Client->>Controller: GET /api/reactive/posts/{id}/with-comments
+    Controller->>Service: getPostWithCommentsConcurrently(postId)
+    
+    par Concurrent Request 1
+        Service->>WebClient: GET /posts/{id}
+        WebClient->>External: HTTP GET /posts/{id}
+        External-->>WebClient: Post JSON
+    and Concurrent Request 2
+        Service->>WebClient: GET /posts/{id}/comments
+        WebClient->>External: HTTP GET /posts/{id}/comments
+        External-->>WebClient: Comments JSON Array
+    end
+
+    Note over Service: Mono.zip(postMono, commentsMono)<br/>combines responses reactively
+    Service-->>Controller: Mono<PostWithComments>
+    Controller-->>Client: 200 OK (Post + Comments aggregated)
+```
+
+---
+
+### 2. Circuit Breaker State Machine & Flow (`CircuitBreakerController` → `CircuitBreakerService` → `Resilience4j`)
+
+```mermaid
+stateDiagram-v2
+    [*] --> CLOSED : Normal Operation
+
+    CLOSED --> OPEN : Failure Rate ≥ Threshold (e.g. 50%)
+    note right of CLOSED
+      All requests pass to target service.
+      Metrics monitored in sliding window.
+    end note
+
+    OPEN --> HALF_OPEN : Wait Duration Elapsed (e.g. 10s)
+    note right of OPEN
+      Fast-fallback activated!
+      Calls immediately fail/fallback without calling target.
+    end note
+
+    HALF_OPEN --> CLOSED : Permitted probe calls succeed
+    HALF_OPEN --> OPEN : Probe calls fail
+    note right of HALF_OPEN
+      Limited probe calls allowed
+      to test downstream health.
+    end note
+```
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Controller as CircuitBreakerController
+    participant Service as CircuitBreakerService
+    participant CB as Resilience4j CircuitBreaker
+    participant Target as External API / Legacy Service
+
+    Client->>Controller: GET /api/cb/resilient/{id}
+    Controller->>Service: getPostResilient(id)
+    Service->>CB: Execute Call via CircuitBreaker
+
+    alt Circuit State = CLOSED (Healthy)
+        CB->>Target: Execute WebClient request
+        Target-->>CB: 200 OK Response
+        CB-->>Service: Return Data
+        Service-->>Controller: Mono<Post>
+        Controller-->>Client: 200 OK Response
+    else Circuit State = OPEN (Failing)
+        CB-->>Service: CallNotPermittedException
+        Note over Service: Fallback Method Triggered<br/>fetchPostFallback(id, ex)
+        Service-->>Controller: Return Fallback DTO / Cached Data
+        Controller-->>Client: 200 OK (Fallback Payload)
+    end
+```
+
+---
+
+### 3. Kafka Event Streaming Flow (`KafkaConfig` ↔ `KafkaService` ↔ Kafka Broker)
+
+```mermaid
+flowchart TD
+    subgraph SpringBootApp["Spring Boot Application"]
+        Producer["KafkaService.sendMessage(key, msg)"]
+        Template["KafkaTemplate<String, String>"]
+        
+        subgraph Consumers["Dynamic Consumer Group (concurrency = 5)"]
+            C1["Consumer Thread 1 (Partition 0)"]
+            C2["Consumer Thread 2 (Partition 1)"]
+            C3["Consumer Thread 3 (Partition 2)"]
+            C4["Consumer Thread 4 (Partition 3)"]
+            C5["Consumer Thread 5 (Partition 4)"]
+        end
+    end
+
+    subgraph KafkaBroker["Kafka Cluster / Broker"]
+        subgraph Topic["Topic: learning-events (5 Partitions)"]
+            P0["Partition 0"]
+            P1["Partition 1"]
+            P2["Partition 2"]
+            P3["Partition 3"]
+            P4["Partition 4"]
+        end
+    end
+
+    Producer -->|1. Async Send| Template
+    Template -->|2. Route by Key| Topic
+
+    P0 -->|3. Consume| C1
+    P1 -->|3. Consume| C2
+    P2 -->|3. Consume| C3
+    P3 -->|3. Consume| C4
+    P4 -->|3. Consume| C5
+```
+
+---
+
 ## 🤖 Spring AI (Anthropic Claude LLM) (`/api/ai`)
 
 Integration using `ChatClient` from **Spring AI** connecting to Claude models (`claude-3-5-sonnet`).
