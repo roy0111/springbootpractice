@@ -8,31 +8,34 @@ A comprehensive guide covering **Containerization (Docker)**, **Container Orches
 
 ```mermaid
 flowchart TD
-    subgraph K8sCluster["Kubernetes Cluster"]
-        subgraph IngressController["Ingress Controller / Service"]
-            Ingress["K8s Ingress (Nginx / ALB)"]
-            K8sService["K8s ClusterIP Service"]
-        end
+    Client(["HTTP Client / Browser"])
 
-        subgraph Pods["SpringBoot Deployment (Pods)"]
-            Pod1["Pod 1: Spring Boot Container"]
-            Pod2["Pod 2: Spring Boot Container"]
-            Pod3["Pod 3: Spring Boot Container"]
-        end
+    subgraph K8sCluster["Kubernetes Cluster"]
+        Ingress["K8s Ingress (Nginx / ALB)"]
+        K8sService["K8s ClusterIP Service"]
+        
+        Pod1["SpringBoot Pod 1"]
+        Pod2["SpringBoot Pod 2"]
+        Pod3["SpringBoot Pod 3"]
     end
 
-    subgraph ExternalServices["External Infrastructure"]
-        RedisCache[("Redis Cluster (In-Memory Cache / PubSub)")]
+    subgraph StorageLayer["Data & Caching Layer"]
+        RedisCache[("Redis Cluster (In-Memory Cache)")]
         Database[("Relational Database (Oracle / PostgreSQL)")]
     end
 
-    Ingress --> K8sService
-    K8sService --> Pod1
-    K8sService --> Pod2
-    K8sService --> Pod3
+    Client -->|HTTP / HTTPS Request| Ingress
+    Ingress -->|Route Traffic| K8sService
+    K8sService -->|Load Balance| Pod1
+    K8sService -->|Load Balance| Pod2
+    K8sService -->|Load Balance| Pod3
 
     Pod1 -->|1. Cache Read/Write| RedisCache
     Pod1 -->|2. DB Query (Cache Miss)| Database
+    Pod2 -->|1. Cache Read/Write| RedisCache
+    Pod2 -->|2. DB Query (Cache Miss)| Database
+    Pod3 -->|1. Cache Read/Write| RedisCache
+    Pod3 -->|2. DB Query (Cache Miss)| Database
 ```
 
 ---
