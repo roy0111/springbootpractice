@@ -1,16 +1,16 @@
-# Spring Security Configuration with OAuth2 + JWT (WebFlux / Reactive)
+# Spring Security Configuration with OAuth2 + JWT (Standard Servlet / Non-Reactive)
 
-This document provides a comprehensive guide to configuring **Spring Security with OAuth2 Resource Server & JWT validation** in a **Spring WebFlux (Reactive)** application to secure REST APIs like `ProductController`.
+This document provides a comprehensive guide to configuring **standard Servlet-based Spring Security with OAuth2 Resource Server & JWT validation** to secure REST APIs like `ProductController`.
 
 ---
 
 ## 1. Overview & Security Flow Architecture
 
-In a modern microservices / single-page application (SPA) setup using **OAuth2 + JWT**:
+In a standard Spring Security OAuth2 + JWT setup:
 1. The **Client** authenticates with an **Identity Provider / Authorization Server** (e.g., Keycloak, Auth0, Okta, Azure AD, or custom Spring Authorization Server).
 2. The Authorization Server issues a signed **JSON Web Token (JWT)** Access Token.
-3. The Client calls the Reactive REST API (`ProductController`), passing the token in the `Authorization: Bearer <jwt-token>` HTTP header.
-4. **Spring Security WebFlux (Resource Server)** intercepts the request, verifies the JWT signature using the Authorization Server's public keys (via **JWK Set URI** or Issuer URI), extracts granted authorities/roles, and approves or denies access.
+3. The Client calls the REST API (`ProductController`), passing the token in the `Authorization: Bearer <jwt-token>` HTTP header.
+4. **Spring Security Filter Chain (Resource Server)** intercepts the request via `BearerTokenAuthenticationFilter`, verifies the JWT signature using public keys fetched from the Authorization Server (via **JWK Set URI** or Issuer URI), extracts granted authorities/roles, and approves or denies access.
 
 ---
 
@@ -22,10 +22,10 @@ In a modern microservices / single-page application (SPA) setup using **OAuth2 +
 | **Authorization Server** | The centralized service responsible for authenticating users and issuing JWT tokens (e.g., Keycloak, Auth0). |
 | **JWT (JSON Web Token)** | A compact, URL-safe token format consisting of Header, Payload (claims), and Signature (`header.payload.signature`). |
 | **JWK (JSON Web Key) Set** | A set of public cryptographic keys exposed by the Authorization Server used by Resource Servers to verify JWT signatures (`/.well-known/jwks.json`). |
-| **SecurityWebFilterChain** | The reactive pipeline of security filters in Spring WebFlux that processes incoming `ServerWebExchange` requests. |
-| **ReactiveAuthenticationManager** | The reactive interface in Spring Security WebFlux responsible for authenticating requests (e.g., `JwtReactiveAuthenticationManager`). |
-| **ServerHttpSecurity** | The DSL builder for configuring web security in reactive Spring WebFlux applications (counterpart to `HttpSecurity` in Servlet/MVC). |
-| **GrantedAuthority** | Represents a permission or role granted to an authenticated principal (e.g., `ROLE_ADMIN`, `SCOPE_read`). |
+| **SecurityFilterChain** | The chain of Servlet filters in Spring Security that inspects and filters incoming `HttpServletRequest` objects. |
+| **AuthenticationManager** | The core interface in Spring Security responsible for processing an `Authentication` request (e.g., `ProviderManager` with `JwtAuthenticationProvider`). |
+| **HttpSecurity** | The builder object used to configure web security rules, URL authorization matcher expressions, CSRF, and login options. |
+| **GrantedAuthority** | Represents an authority/role granted to an authenticated principal (e.g., `ROLE_ADMIN`, `SCOPE_read`). |
 
 ---
 
@@ -33,12 +33,12 @@ In a modern microservices / single-page application (SPA) setup using **OAuth2 +
 
 | Annotation | Location | Purpose |
 | :--- | :--- | :--- |
-| `@Configuration` | Security Config Class | Marks the class as a source of bean definitions for the Spring IoC container. |
-| `@EnableWebFluxSecurity` | Security Config Class | Enables Spring Security support for WebFlux reactive web applications. |
-| `@EnableReactiveMethodSecurity` | Security Config Class | Enables method-level security annotations like `@PreAuthorize` and `@PostAuthorize` in reactive applications. |
-| `@Bean` | Config Methods | Registers returned components (such as `SecurityWebFilterChain`, `ReactiveJwtDecoder`) into the Spring application context. |
-| `@PreAuthorize` | Controller Methods | Secures specific endpoint methods based on SpEL expressions before method execution (e.g., `@PreAuthorize("hasRole('ADMIN')")`). |
-| `@AuthenticationPrincipal` | Controller Method Parameters | Injects the authenticated principal or `Jwt` object directly into controller handler methods. |
+| `@Configuration` | Security Config Class | Marks the class as a Spring configuration class for bean management. |
+| `@EnableWebSecurity` | Security Config Class | Enables standard Servlet-based Spring Security web support. |
+| `@EnableMethodSecurity` | Security Config Class | Enables method-level security annotations like `@PreAuthorize` and `@PostAuthorize` across services and controllers. |
+| `@Bean` | Config Methods | Registers returned components (such as `SecurityFilterChain`, `JwtDecoder`) in the Spring context. |
+| `@PreAuthorize` | Controller Methods | Secures specific endpoint methods based on SpEL expressions before execution (e.g., `@PreAuthorize("hasRole('ADMIN')")`). |
+| `@AuthenticationPrincipal` | Controller Method Parameters | Directs Spring to resolve the authenticated principal or `Jwt` object into handler parameters. |
 
 ---
 
@@ -49,53 +49,43 @@ sequenceDiagram
     autonumber
     actor Client as Client / SPA / Mobile
     participant AuthServer as Authorization Server<br/>(Keycloak / Auth0 / Okta)
-    participant Gateway as SecurityWebFilterChain<br/>(Spring WebFlux Security)
-    participant Decoder as ReactiveJwtDecoder<br/>(JWK / Issuer Verification)
-    participant Controller as ProductController<br/>(Reactive REST API)
+    participant FilterChain as SecurityFilterChain<br/>(BearerTokenAuthenticationFilter)
+    participant Decoder as JwtDecoder<br/>(NimbusJwtDecoder)
+    participant Controller as ProductController<br/>(REST API)
 
-    Client->>AuthServer: 1. Request Token (Credentials / Grant Flow)
+    Client->>AuthServer: 1. Request Token (Credentials / Authorization Code Grant)
     AuthServer-->>Client: 2. Return JWT Access Token
 
-    Client->>Gateway: 3. HTTP GET/POST /api/products<br/>Header: Authorization: Bearer <jwt>
-    Gateway->>Decoder: 4. Extract & Decode JWT
-    Decoder->>AuthServer: 5. Fetch Public Keys (JWK Set URI / Cache)
+    Client->>FilterChain: 3. HTTP GET/POST /api/products<br/>Header: Authorization: Bearer <jwt>
+    FilterChain->>Decoder: 4. Extract Bearer Token & Decode JWT
+    Decoder->>AuthServer: 5. Fetch Public Keys via JWK Set URI (Cached)
     AuthServer-->>Decoder: 6. Return Public Keys
-    Decoder-->>Gateway: 7. Validated Claims & Signature (Authentication Object created)
+    Decoder-->>FilterChain: 7. Validated Claims & Signature (JwtAuthenticationToken placed in SecurityContext)
     
     alt Authorized Request
-        Gateway->>Controller: 8. Forward request to endpoint
-        Controller-->>Client: 9. HTTP 200 OK / 201 Created (Mono/Flux Response)
+        FilterChain->>Controller: 8. Forward request to controller handler
+        Controller-->>Client: 9. HTTP 200 OK / 201 Created Response
     else Invalid Token / Missing Token
-        Gateway-->>Client: 10. HTTP 401 Unauthorized
+        FilterChain-->>Client: 10. HTTP 401 Unauthorized
     else Insufficient Privileges (Role/Scope mismatch)
-        Gateway-->>Client: 11. HTTP 403 Forbidden
+        FilterChain-->>Client: 11. HTTP 403 Forbidden
     end
 ```
 
 ---
 
-## 5. Application Properties (`application.yml` / `application.properties`)
+## 5. Application Properties (`application.properties` / `application.yml`)
 
 Add the following properties to configure the OAuth2 Resource Server JWT validation:
 
-### `application.yml`
-```yaml
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          # Option A: Issuer URI (Spring Security automatically discovers JWK Set URI via OpenID Provider Configuration)
-          issuer-uri: https://auth.example.com/realms/master
-          
-          # Option B: Direct JWK Set URI (Use if Authorization Server doesn't expose standard OIDC metadata endpoint)
-          # jwk-set-uri: https://auth.example.com/realms/master/protocol/openid-connect/certs
+### `application.properties`
+```properties
+# ── Spring Security OAuth2 Resource Server (JWT) ───────────────────────────
+# Option A: Issuer URI (Spring Security discovers JWK Set URI automatically via OIDC metadata)
+spring.security.oauth2.resourceserver.jwt.issuer-uri=https://auth.example.com/realms/master
 
-# Optional Custom Logging for Security Debugging
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
+# Option B: Direct JWK Set URI (Use if Authorization Server doesn't expose OIDC discovery endpoint)
+# spring.security.oauth2.resourceserver.jwt.jwk-set-uri=https://auth.example.com/realms/master/protocol/openid-connect/certs
 ```
 
 ---
@@ -104,7 +94,7 @@ logging:
 
 ### Step 1: Add Dependencies to `pom.xml`
 
-For a **Spring WebFlux** project, add `spring-boot-starter-oauth2-resource-server`:
+For a standard Servlet-based Spring Boot project, add `spring-boot-starter-oauth2-resource-server`:
 
 ```xml
 <dependency>
@@ -126,17 +116,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import reactor.core.publisher.Mono;
+import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collection;
 import java.util.List;
@@ -144,54 +131,51 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Security Configuration for Spring WebFlux using OAuth2 Resource Server & JWT.
+ * Standard Servlet-based Spring Security Configuration using OAuth2 Resource Server & JWT.
  * 
  * Defines route permissions for ProductController:
  * - Public read operations: GET /api/products/**
- * - Protected write operations: POST, PUT, DELETE require 'ROLE_ADMIN' or specific scopes.
+ * - Protected write operations: POST, PUT, DELETE require 'ROLE_ADMIN' authority.
  */
 @Configuration
-@EnableWebFluxSecurity
-@EnableReactiveMethodSecurity
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(ServerHttpSecurity.CsrfSpec::disable)
-            .authorizeExchange(exchanges -> exchanges
-                // Public endpoints (Swagger UI & OpenAPI docs)
-                .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
-                // Public Actuator health check
-                .pathMatchers("/actuator/health").permitAll()
-                // Allow GET requests on products without authentication (Public Catalog View)
-                .pathMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                // Public swagger / openapi endpoints
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
+                // Public actuator health check
+                .requestMatchers("/actuator/health").permitAll()
+                // Allow GET requests on products without authentication
+                .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                 // Restrict POST, PUT, DELETE on products to users with 'ADMIN' role
-                .pathMatchers(HttpMethod.POST, "/api/products/**").hasAuthority("ROLE_ADMIN")
-                .pathMatchers(HttpMethod.PUT, "/api/products/**").hasAuthority("ROLE_ADMIN")
-                .pathMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/products/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority("ROLE_ADMIN")
                 // All other requests require authentication
-                .anyExchange().authenticated()
+                .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
+                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
             )
             .build();
     }
 
     /**
-     * Custom Converter to extract custom roles/claims from JWT payload
-     * (e.g. keycloak realm_access.roles or custom claims).
+     * Converter to map JWT claims (scopes/roles) into GrantedAuthority objects.
      */
-    private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new CustomJwtGrantedAuthoritiesConverter());
-        return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
+        return jwtAuthenticationConverter;
     }
 
-    /**
-     * Helper Converter to convert JWT claims (scopes/roles) into GrantedAuthority objects.
-     */
     static class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
         @Override
         public Collection<GrantedAuthority> convert(Jwt jwt) {
@@ -201,7 +185,7 @@ public class SecurityConfig {
                 scopes.stream().map(s -> new SimpleGrantedAuthority("SCOPE_" + s)).collect(Collectors.toList()) :
                 List.of();
 
-            // Extract custom roles (e.g., Keycloak realm_access -> roles)
+            // Extract custom roles (e.g. Keycloak realm_access.roles)
             Map<String, Object> realmAccess = jwt.getClaim("realm_access");
             if (realmAccess != null && realmAccess.containsKey("roles")) {
                 @SuppressWarnings("unchecked")
@@ -227,16 +211,16 @@ You can also use method security annotations (`@PreAuthorize`) directly inside `
 // Example: Method-level authorization in ProductController
 @PostMapping
 @PreAuthorize("hasRole('ADMIN')")
-public Mono<ResponseEntity<Product>> createProduct(
+public ResponseEntity<Product> createProduct(
         @Valid @RequestBody Product product,
         @AuthenticationPrincipal Jwt jwt) {
     
-    // You can access JWT claims directly from the authenticated user token:
+    // Access authenticated JWT claims:
     String userId = jwt.getSubject();
-    String userEmail = jwt.getClaimAsString("email");
+    String email = jwt.getClaimAsString("email");
     
-    return productService.createProduct(product)
-            .map(created -> ResponseEntity.status(HttpStatus.CREATED).body(created));
+    Product created = productService.createProduct(product);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
 }
 ```
 
