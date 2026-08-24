@@ -72,7 +72,11 @@ A complete, categorized cheat-sheet guide covering both **Spring Boot Java Annot
 | `@EnableKafka` | Enables detection of `@KafkaListener` annotations on Spring beans. |
 | `@KafkaListener` | Marks a method as a listener for receiving Kafka topic messages. |
 | `@Header` | Injects a specific message header (e.g. partition, offset, topic) in Kafka or WebSocket handlers. |
-| `@CircuitBreaker` | Resilience4j annotation wrapping a method execution in a Circuit Breaker state machine with fallbacks. |
+| `@CircuitBreaker` | Resilience4j annotation wrapping a method execution in a Circuit Breaker state machine (`CLOSED`, `OPEN`, `HALF_OPEN`) with fallback execution. |
+| `@Retry` | Resilience4j annotation automatically re-executing failed methods up to a configured max attempt threshold. |
+| `@RateLimiter` | Resilience4j annotation enforcing rate limiting to cap incoming request executions over a specified time window. |
+| `@Bulkhead` | Resilience4j annotation limiting concurrent executions to isolate resource usage (Semaphore or ThreadPool bulkhead). |
+| `@TimeLimiter` | Resilience4j annotation enforcing execution timeout limits on asynchronous/reactive futures and mono/flux publishers. |
 | `@Tag` | OpenAPI / Swagger annotation grouping endpoints under a specific tag category. |
 | `@Operation` | OpenAPI / Swagger annotation documenting summary and description of an API operation. |
 | `@Schema` | OpenAPI / Swagger annotation documenting model properties and example payloads. |
