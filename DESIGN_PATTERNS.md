@@ -43,37 +43,52 @@ flowchart TD
 
 ---
 
-### 🔄 1.2 Saga Pattern (Distributed Transactions)
+### 🔄 1.2 Saga Orchestration Pattern (Distributed Transactions)
 
 #### 📌 Description & Purpose
-In microservices, each service manages its own isolated database. Since traditional 2PC (Two-Phase Commit) transactions do not scale well, the **Saga Pattern** manages distributed transactions as a sequence of local transactions. If a step fails, compensating transactions are executed in reverse order to rollback changes.
+In microservices, each service manages its own isolated database. Since traditional 2PC (Two-Phase Commit) transactions do not scale across service boundaries, the **Saga Orchestration Pattern** manages distributed transactions through a **Centralized Saga Orchestrator**. 
 
-#### 🔄 Architecture Flowchart (Choreography vs Orchestration)
+The orchestrator explicitly sends command messages to participant microservices, tracks the overall workflow state machine, and automatically triggers **compensating transactions** in reverse order if any step fails.
+
+> [!NOTE]
+> **Why Orchestration?** Unlike Choreography (where services react to events without central coordination), Orchestration centralizes control in a single orchestrator service. This prevents complex cyclic event dependencies, simplifies workflow auditing, and makes multi-step distributed rollbacks easy to trace.
+
+#### 🔄 Architecture Flowchart (Saga Orchestration)
 ```mermaid
 sequenceDiagram
     autonumber
     actor Client
+    participant Orchestrator as Order Saga Orchestrator<br/>(Central Coordinator)
     participant OrderService as Order Service
     participant PaymentService as Payment Service
     participant InventoryService as Inventory Service
 
-    Note over Client, InventoryService: Saga Execution Flow (Choreography)
-    Client->>OrderService: Create Order (Status: PENDING)
-    OrderService->>PaymentService: Publish "OrderCreatedEvent"
+    Note over Client, InventoryService: Successful Saga Orchestration Flow
+    Client->>Orchestrator: 1. Submit New Order Request
+    Orchestrator->>OrderService: 2. Command: Create Order (PENDING)
+    OrderService-->>Orchestrator: 3. Order Created (ID: 101)
     
-    alt Successful Payment
-        PaymentService->>InventoryService: Publish "PaymentProcessedEvent"
-        InventoryService->>OrderService: Reserve Stock & Publish "OrderCompletedEvent"
-        Note over OrderService: Update Order Status -> COMPLETED
-    else Payment Failed (Compensating Transaction Triggered)
-        PaymentService->>OrderService: Publish "PaymentFailedEvent"
-        Note over OrderService: Execute Compensating Action:<br/>Cancel Order (Status: CANCELLED)
+    Orchestrator->>PaymentService: 4. Command: Process Payment
+    
+    alt Payment Succeeded
+        PaymentService-->>Orchestrator: 5. Payment Success Response
+        Orchestrator->>InventoryService: 6. Command: Reserve Stock
+        InventoryService-->>Orchestrator: 7. Stock Reserved Response
+        Orchestrator->>OrderService: 8. Command: Approve Order (COMPLETED)
+        Orchestrator-->>Client: 9. HTTP 200 Order Confirmed
+    else Payment Failed (Orchestrator Triggers Compensating Action)
+        PaymentService-->>Orchestrator: 5b. Payment Failed Error
+        Note over Orchestrator: Execute Compensating Command Flow
+        Orchestrator->>OrderService: 6b. Compensating Command: Cancel Order (CANCELLED)
+        OrderService-->>Orchestrator: 7b. Order Cancelled
+        Orchestrator-->>Client: 8b. HTTP 400 Payment Failed / Order Cancelled
     end
 ```
 
 #### 🍃 Spring Boot Equivalent & Features
-- **Spring Kafka / Spring Cloud Stream:** Event-driven messaging for Saga Event publishing (`@KafkaListener`, `KafkaTemplate`).
-- **Axon Framework / Temporal:** Orchestration engine frameworks for managing Saga workflows in Java.
+- **Central State Machine (Spring StateMachine / Temporal / Axon):** Manages saga execution states (`PENDING`, `PAYMENT_COMPLETED`, `STOCK_RESERVED`, `FAILED`, `COMPENSATED`).
+- **Kafka Command Topics:** Orchestrator sends targeted command messages to dedicated request topics (e.g. `payment-commands`, `inventory-commands`) via `KafkaTemplate`.
+- **Spring `@KafkaListener` Command Handlers:** Participant services listen for specific command topics and return response/status events back to the Orchestrator reply topic.
 
 ---
 
@@ -177,7 +192,7 @@ classDiagram
 | Design Pattern | Category | Core Purpose | Spring Boot Realization / Equivalent |
 |---|---|---|---|
 | **API Gateway** | Architectural | Unified routing, security, and rate-limiting entry point | **Spring Cloud Gateway** (`RouteLocator`) |
-| **Saga Pattern** | Architectural | Distributed transaction management & compensation | **Spring Kafka** (`KafkaTemplate`, `@KafkaListener`) + Event Sourcing |
+| **Saga Orchestration** | Architectural | Centralized command coordinator managing distributed transactions & compensations | **Spring StateMachine / Temporal / Axon** + **Spring Kafka** (`KafkaTemplate`, `@KafkaListener`) |
 | **Factory Pattern** | Creational (GoF) | Encapsulates object instantiation logic | **`ApplicationContext` / `BeanFactory`** & `Map<String, Bean>` injection |
 | **Singleton Pattern** | Creational (GoF) | Guarantees single instance creation | **Default Spring Bean Scope** (`@Scope("singleton")`) |
 | **Builder Pattern** | Creational (GoF) | Step-by-step fluent construction of complex objects | **Lombok `@Builder`**, `UriComponentsBuilder`, `TopicBuilder` |
