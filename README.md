@@ -47,6 +47,8 @@ export ANTHROPIC_API_KEY=your_claude_api_key_here
 | [REACT.md](file:///Users/biratsaha/Desktop/spring%20boot%20projects/springboot%20learning/REACT.md) | **React Guide** — VDOM Render Flow, Hooks Reference & Interview Q&A |
 | [KUBERNETES_DOCKER_REDIS.md](file:///Users/biratsaha/Desktop/spring%20boot%20projects/springboot%20learning/KUBERNETES_DOCKER_REDIS.md) | **Cloud Infra Guide** — Docker, Kubernetes Architecture & Redis Cache |
 | [ANNOTATION.md](file:///Users/biratsaha/Desktop/spring%20boot%20projects/springboot%20learning/ANNOTATION.md) | **Spring Boot Annotations Master Reference** — Categorized Table |
+| [DESIGN_PATTERNS.md](file:///Users/biratsaha/Desktop/spring%20boot%20projects/springboot%20learning/DESIGN_PATTERNS.md) | **Design Patterns Guide** — API Gateway, Saga, Factory, Singleton, Builder |
+
 
 
 
