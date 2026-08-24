@@ -140,6 +140,17 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
+        <!--
+            ┌─────────────────────────────────────────────┐
+            │  SPRING SECURITY (OAuth2 Resource Server)   │
+            └─────────────────────────────────────────────┘
+            Validates JWT tokens for securing REST APIs.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+
         <!-- Tests (includes Reactor test utilities like StepVerifier) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
