@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Master Studio: 20 Topic Cheat-Sheet & 125-Question Quiz</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts: Outfit + Inter + JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --font-heading: 'Outfit', sans-serif;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #d946ef 100%);
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+
+            --bg-dark-mesh: #0b0f19;
+            --card-glass-bg: rgba(17, 24, 39, 0.85);
+            --card-glass-border: rgba(255, 255, 255, 0.12);
+            --card-hover-transform: translateY(-6px);
+        }
+
+        [data-bs-theme="dark"] body {
+            background-color: var(--bg-dark-mesh);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(217, 70, 239, 0.15) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+        [data-bs-theme="light"] body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(217, 70, 239, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: #0f172a;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+        }
+
+        code, pre, .font-mono {
+            font-family: var(--font-mono);
+        }
+
+        /* Override Grey Text to Bright White */
+        .text-secondary, .text-muted, [data-bs-theme="dark"] .text-secondary, [data-bs-theme="dark"] .text-muted {
+            color: #f8fafc !important;
+        }
+
+        /* Override Yellow Color Text for High Contrast Legibility */
+        .text-warning, [data-bs-theme="dark"] .text-warning {
+            color: #fde047 !important; /* Luminous electric gold */
+            font-weight: 600;
+        }
+
+        .text-warning-emphasis {
+            color: #fef08a !important;
+        }
+
+        .bg-warning-subtle {
+            background-color: rgba(250, 204, 21, 0.22) !important;
+            color: #fef08a !important;
+            border: 1px solid rgba(250, 204, 21, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            border-color: #f59e0b !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Glassmorphism Navbar */
+        .navbar-glass {
+            background: rgba(11, 15, 25, 0.92) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--card-glass-border);
+        }
+
+        [data-bs-theme="light"] .navbar-glass {
+            background: rgba(255, 255, 255, 0.92) !important;
+        }
+
+        .bg-gradient-header {
+            background: var(--primary-gradient);
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.22) 0%, rgba(124, 58, 237, 0.22) 50%, rgba(217, 70, 239, 0.22) 100%);
+            border: 1px solid rgba(124, 58, 237, 0.35);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Topic Card Glassmorphism */
+        .topic-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--card-glass-bg);
+            border: 1px solid var(--card-glass-border);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-gradient);
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: var(--card-hover-transform);
+            box-shadow: 0 16px 36px rgba(124, 58, 237, 0.3);
+            border-color: rgba(124, 58, 237, 0.5);
+        }
+
+        .topic-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Inactive Nav Links & Tabs -> Bright White */
+        .nav-link:not(.active) {
+            color: #f8fafc !important;
+        }
+
+        .nav-link:hover:not(.active) {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .nav-tabs .nav-link {
+            color: #e2e8f0 !important;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #ffffff !important;
+            background: rgba(124, 58, 237, 0.3) !important;
+            border-color: rgba(124, 58, 237, 0.5) !important;
+            font-weight: 700;
+        }
+
+        /* Nav Pills Styling */
+        .nav-pills .nav-link {
+            border-radius: 30px;
+            font-weight: 600;
+            padding: 9px 20px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #f8fafc;
+            border: 1px solid transparent;
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary-gradient);
+            color: #ffffff !important;
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            background: rgba(124, 58, 237, 0.18);
+            border-color: rgba(124, 58, 237, 0.35);
+        }
+
+        /* Filter Topic Badges */
+        .filter-card-btn {
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            transition: all 0.2s ease;
+            color: #f8fafc !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+
+        .filter-card-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+        }
+
+        .filter-card-btn.active {
+            background: var(--primary-gradient) !important;
+            border-color: transparent !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Quiz Option Buttons */
+        .quiz-option-btn {
+            text-align: left;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            background-color: rgba(17, 24, 39, 0.7);
+            color: #ffffff;
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .quiz-option-btn:hover:not(:disabled) {
+            border-color: #7c3aed;
+            background-color: rgba(124, 58, 237, 0.18);
+            color: #ffffff;
+            transform: translateX(6px);
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);
+        }
+
+        .quiz-option-btn.selected {
+            border-color: #7c3aed;
+            background-color: rgba(124, 58, 237, 0.3);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .quiz-option-btn.correct {
+            border-color: #10b981 !important;
+            background-color: rgba(16, 185, 129, 0.25) !important;
+            color: #34d399 !important;
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+        }
+
+        .quiz-option-btn.incorrect {
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.25) !important;
+            color: #f87171 !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+        }
+
+        .q-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .q-nav-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .q-nav-btn {
+            width: 100%;
+            height: 38px;
+            padding: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #ffffff;
+        }
+
+        .q-nav-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Flashcard 3D FX */
+        .flashcard-container {
+            perspective: 1000px;
+            min-height: 340px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 340px;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard-container.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+        }
+
+        .flashcard-front {
+            background: rgba(17, 24, 39, 0.9);
+            border: 2px solid rgba(124, 58, 237, 0.35);
+            backdrop-filter: blur(16px);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.95), rgba(15, 23, 42, 0.95));
+            border: 2px solid #7c3aed;
+            transform: rotateY(180deg);
+            backdrop-filter: blur(16px);
+        }
+
+        /* Sleek Glowing Badges */
+        .badge-topic {
+            background: rgba(124, 58, 237, 0.22);
+            color: #c4b5fd;
+            border: 1px solid rgba(124, 58, 237, 0.45);
+        }
+
+        .badge-annotation {
+            background: rgba(16, 185, 129, 0.22);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+        }
+
+        .badge-config {
+            background: rgba(250, 204, 21, 0.22);
+            color: #fef08a !important; /* Luminous bright cream gold */
+            border: 1px solid rgba(250, 204, 21, 0.45);
+        }
+
+        .badge-string {
+            background: rgba(244, 63, 94, 0.22);
+            color: #fda4af;
+            border: 1px solid rgba(244, 63, 94, 0.45);
+        }
+
+        .badge-cmd {
+            background: rgba(6, 182, 212, 0.22);
+            color: #7dd3fc;
+            border: 1px solid rgba(6, 182, 212, 0.45);
+        }
+
+        .table-custom th {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pulse-timer {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-glass sticky-top shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-gradient" href="#">
+                <div class="rounded-3 p-2 bg-gradient-header text-white d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <i class="bi bi-cpu-fill fs-5"></i>
+                </div>
+                <span>Tech Master <span class="badge bg-primary rounded-pill fs-7 ms-1">160 Quiz & Reference</span></span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav nav-pills ms-auto my-2 my-lg-0 gap-2" id="mainTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active d-flex align-items-center gap-2" id="cards-tab" data-bs-toggle="tab" data-bs-target="#cards-pane" type="button" role="tab">
+                            <i class="bi bi-journal-bookmark-fill"></i> 24 Topic Reference Cards
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link d-flex align-items-center gap-2" id="quiz-tab" data-bs-toggle="tab" data-bs-target="#quiz-pane" type="button" role="tab">
+                            <i class="bi bi-question-square-fill"></i> 160-Question Quiz
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link d-flex align-items-center gap-2" id="flashcard-tab" data-bs-toggle="tab" data-bs-target="#flashcard-pane" type="button" role="tab">
+                            <i class="bi bi-card-heading"></i> Flashcards Mode
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 ms-lg-3">
+                    <a href="file:///Users/biratsaha/Desktop/biratWebsite/interview.html" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-sm fw-bold text-dark d-flex align-items-center gap-1 rounded-pill px-3 py-2" title="Open Study Guide in a new tab">
+                        <i class="bi bi-book-half fs-6"></i> <span>Study Guide</span> <i class="bi bi-box-arrow-up-right small"></i>
+                    </a>
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle p-2" id="themeToggle" title="Toggle Light/Dark Theme">
+                        <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container-fluid px-4 py-4">
+
+        <!-- TAB CONTENT AREA -->
+        <div class="tab-content" id="mainTabContent">
+
+            <!-- ========================================== -->
+            <!-- TAB 1: 20 TOPIC CHEAT-SHEET CARDS SECTION  -->
+            <!-- ========================================== -->
+            <div class="tab-pane fade show active" id="cards-pane" role="tabpanel">
+                
+                <!-- Hero Header -->
+                <div class="hero-banner p-4 p-md-5 rounded-4 mb-4 text-center text-md-start d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
+                    <div>
+                        <h1 class="fw-bold mb-2">Master Reference Cheat-Sheet Cards</h1>
+                        <p class="text-secondary mb-0 max-w-xl">
+                            Explore comprehensive reference cards covering <strong>Annotations</strong>, <strong>Config Attributes/Properties</strong>, and <strong>Key Concepts/Strings</strong> across <strong>24 core enterprise topics</strong>.
+                        </p>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        <a href="file:///Users/biratsaha/Desktop/biratWebsite/interview.html" target="_blank" rel="noopener noreferrer" class="btn btn-warning fw-bold text-dark d-flex align-items-center gap-2 rounded-pill px-4 py-2 me-2">
+                            <i class="bi bi-book-half fs-5"></i> <span>Open Full Study Guide</span> <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                        <div class="input-group">
+                            <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control bg-body-tertiary border-start-0" id="cardSearchInput" placeholder="Filter cards & properties...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic Filter Badges -->
+                <div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
+                    <span class="text-secondary small fw-bold me-2"><i class="bi bi-funnel-fill"></i> Filter Topic:</span>
+                    <button class="btn btn-sm btn-outline-primary active filter-card-btn" data-topic="all">All Topics (24)</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Kafka">Kafka</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Redis">Redis</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="React">React</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Resilience4j">Resilience4j</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="API Gateway">API Gateway</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Spring AOP">Spring AOP</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Log4j">Log4j / Logging</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Actuator">Actuator</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Java 8">Java 8</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Java 11">Java 11</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Spring Data JPA">Spring Data JPA</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Hibernate">Hibernate</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Swagger">Swagger / OpenAPI</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="JDBC">JDBC</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="JVM">JVM</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="OOP">OOP</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Design Patterns">Design Patterns</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Spring Boot">Spring Boot</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Spring MVC">Spring MVC</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="REST API">REST API</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Docker">Docker</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Kubernetes">Kubernetes</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="OAuth2 + JWT">OAuth2 + JWT</button>
+                    <button class="btn btn-sm btn-outline-primary filter-card-btn" data-topic="Spring AI">Spring AI & Claude</button>
+                </div>
+
+                <!-- Topic Cards Container Grid -->
+                <div class="row g-4" id="topicCardsGrid">
+                    <!-- Dynamic rendering via JavaScript -->
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 2: 100 QUIZ QUESTIONS ENGINE SECTION   -->
+            <!-- ========================================== -->
+            <div class="tab-pane fade" id="quiz-pane" role="tabpanel">
+                
+                <div class="row g-4">
+                    <!-- Left Column: Quiz Question & Controls -->
+                    <div class="col-lg-8">
+                        
+                        <!-- Quiz Header Control Bar -->
+                        <div class="card mb-4 border-0 shadow-sm bg-body-tertiary">
+                            <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
+                                
+                                <div class="d-flex align-items-center gap-2">
+                                    <label class="small text-secondary fw-semibold">Topic Filter:</label>
+                                    <select class="form-select form-select-sm" id="quizTopicSelect" style="width: 200px;">
+                                        <option value="all">All 24 Topics (160 Qs)</option>
+                                        <option value="Kafka">Kafka</option>
+                                        <option value="Redis">Redis</option>
+                                        <option value="React">React</option>
+                                        <option value="Resilience4j">Resilience4j</option>
+                                        <option value="API Gateway">API Gateway</option>
+                                        <option value="Spring AOP">Spring AOP</option>
+                                        <option value="Log4j">Log4j / Logging</option>
+                                        <option value="Actuator">Actuator</option>
+                                        <option value="Java 8">Java 8</option>
+                                        <option value="Java 11">Java 11</option>
+                                        <option value="Spring Data JPA">Spring Data JPA</option>
+                                        <option value="Hibernate">Hibernate</option>
+                                        <option value="Swagger">Swagger / OpenAPI</option>
+                                        <option value="JDBC">JDBC</option>
+                                        <option value="JVM">JVM</option>
+                                        <option value="OOP">OOP</option>
+                                        <option value="Design Patterns">Design Patterns</option>
+                                        <option value="Spring Boot">Spring Boot</option>
+                                        <option value="Spring MVC">Spring MVC</option>
+                                        <option value="REST API">REST API</option>
+                                        <option value="Docker">Docker</option>
+                                        <option value="Kubernetes">Kubernetes</option>
+                                        <option value="OAuth2">OAuth2 / JWT</option>
+                                        <option value="Spring AI">Spring AI & Claude</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <label class="small text-secondary fw-semibold">Mode:</label>
+                                    <select class="form-select form-select-sm" id="quizModeSelect" style="width: 170px;">
+                                        <option value="practice">Practice (Instant Feedback)</option>
+                                        <option value="exam">Exam Mode (Timed)</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="badge bg-primary-subtle text-primary px-3 py-2 fs-6 rounded-pill d-flex align-items-center gap-1" id="timerBadge">
+                                        <i class="bi bi-stopwatch"></i> <span id="timerDisplay">00:00</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-danger" id="resetQuizBtn" title="Reset Quiz State">
+                                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Progress Bar -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small text-secondary fw-bold" id="quizProgressText">Question 1 of 160</span>
+                                <span class="small text-primary fw-bold" id="quizScoreCount">Score: 0 / 0</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-gradient-header" role="progressbar" id="quizProgressBar" style="width: 1%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Active Question Display Card -->
+                        <div class="card border-0 shadow-lg mb-4 topic-card" id="activeQuestionCard">
+                            <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                                <span class="badge badge-topic px-3 py-2 rounded-pill fs-7" id="qTopicBadge">Kafka</span>
+                                <button class="btn btn-sm btn-link text-warning p-0 text-decoration-none" id="bookmarkBtn" title="Bookmark Question">
+                                    <i class="bi bi-bookmark fs-5" id="bookmarkIcon"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="card-body px-4 pb-4">
+                                <h4 class="card-title fw-bold mb-4" id="qQuestionText">
+                                    Which Spring Kafka annotation is used to designate a method as a listener for receiving messages from Kafka topics?
+                                </h4>
+
+                                <!-- 4 Options Buttons Grid -->
+                                <div class="d-grid gap-3 mb-4" id="qOptionsContainer">
+                                    <!-- Dynamic options rendering -->
+                                </div>
+
+                                <!-- Explanation Box -->
+                                <div class="alert alert-info border-0 shadow-sm d-none mb-0" id="qExplanationBox">
+                                    <div class="fw-bold mb-1"><i class="bi bi-info-circle-fill me-1"></i> Explanation:</div>
+                                    <div id="qExplanationText">...</div>
+                                </div>
+                            </div>
+
+                            <!-- Card Footer Navigation -->
+                            <div class="card-footer bg-transparent border-0 px-4 pb-4 d-flex justify-content-between align-items-center">
+                                <button class="btn btn-outline-secondary px-4 rounded-pill" id="prevQBtn" disabled>
+                                    <i class="bi bi-chevron-left"></i> Previous
+                                </button>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-gradient-header text-white px-4 rounded-pill" id="nextQBtn">
+                                        Next <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                    <button class="btn btn-success px-4 rounded-pill d-none" id="finishQuizBtn" data-bs-toggle="modal" data-bs-target="#scoreModal">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Finish Exam
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Question Quick Jump Palette (1-160) -->
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm bg-body-tertiary sticky-lg-top" style="top: 80px;">
+                            <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center py-3">
+                                <h6 class="fw-bold mb-0"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Question Palette (160)</h6>
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#scoreModal">
+                                    <i class="bi bi-bar-chart-fill"></i> Results
+                                </button>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="d-flex flex-wrap gap-2 mb-3 small">
+                                    <span class="d-flex align-items-center gap-1"><span class="badge bg-success" style="width: 12px; height: 12px; display: inline-block;"></span> Correct</span>
+                                    <span class="d-flex align-items-center gap-1"><span class="badge bg-danger" style="width: 12px; height: 12px; display: inline-block;"></span> Wrong</span>
+                                    <span class="d-flex align-items-center gap-1"><span class="badge bg-primary" style="width: 12px; height: 12px; display: inline-block;"></span> Answered</span>
+                                    <span class="d-flex align-items-center gap-1"><span class="badge bg-warning text-dark" style="width: 12px; height: 12px; display: inline-block;"></span> Bookmarked</span>
+                                </div>
+
+                                <!-- 100 Grid Buttons -->
+                                <div class="q-nav-grid" id="questionNavGrid" style="max-height: 480px; overflow-y: auto; padding-right: 4px;">
+                                    <!-- Dynamic 100 buttons -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 3: FLASHCARDS MODE SECTION             -->
+            <!-- ========================================== -->
+            <div class="tab-pane fade" id="flashcard-pane" role="tabpanel">
+                <div class="max-w-2xl mx-auto py-4 text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold mb-0"><i class="bi bi-card-heading me-2"></i>Quick Study Flashcards</h4>
+                        <select class="form-select form-select-sm style-select" id="flashcardTopicSelect" style="width: 200px;">
+                            <option value="all">All Topics (100 Cards)</option>
+                            <option value="Kafka">Kafka</option>
+                            <option value="Redis">Redis</option>
+                            <option value="React">React</option>
+                            <option value="Resilience4j">Resilience4j</option>
+                            <option value="API Gateway">API Gateway</option>
+                            <option value="Spring AOP">Spring AOP</option>
+                            <option value="Log4j">Log4j</option>
+                            <option value="Actuator">Actuator</option>
+                            <option value="Java 8">Java 8</option>
+                            <option value="Java 11">Java 11</option>
+                            <option value="Hibernate">Hibernate</option>
+                            <option value="JDBC">JDBC</option>
+                            <option value="JVM">JVM</option>
+                        </select>
+                    </div>
+
+                    <!-- Flip Card Container -->
+                    <div class="flashcard-container mb-4" id="flashcardContainer" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <span class="badge badge-topic mb-3 px-3 py-2 rounded-pill" id="fcTopicBadge">Kafka</span>
+                                <h3 class="fw-bold mb-3" id="fcFrontText">What is @KafkaListener?</h3>
+                                <p class="text-secondary small"><i class="bi bi-hand-index-thumb me-1"></i> Click card to reveal answer</p>
+                            </div>
+                            <div class="flashcard-back text-white">
+                                <h5 class="fw-bold text-success mb-3" id="fcCorrectAnswer">@KafkaListener</h5>
+                                <p class="lead fs-6 mb-3" id="fcBackText">Marks a method to act as a listener container for receiving messages from Kafka topics.</p>
+                                <span class="badge bg-secondary rounded-pill"><i class="bi bi-arrow-repeat me-1"></i> Click to flip back</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard Navigation Buttons -->
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <button class="btn btn-outline-secondary rounded-circle p-3" id="prevFcBtn"><i class="bi bi-chevron-left fs-5"></i></button>
+                        <span class="fw-bold text-secondary" id="fcCounter">Card 1 of 100</span>
+                        <button class="btn btn-outline-secondary rounded-circle p-3" id="nextFcBtn"><i class="bi bi-chevron-right fs-5"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- SCORE REPORT MODAL -->
+    <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-gradient-header text-white">
+                    <h5 class="modal-title fw-bold" id="scoreModalLabel"><i class="bi bi-trophy-fill me-2"></i> Quiz Score & Performance Report</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    
+                    <div class="row text-center mb-4 g-3">
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-3 bg-body-tertiary border">
+                                <span class="text-secondary small fw-bold d-block">Overall Score</span>
+                                <h2 class="fw-bold text-primary mb-0" id="mFinalScore">0%</h2>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-3 bg-body-tertiary border">
+                                <span class="text-secondary small fw-bold d-block">Correct Answers</span>
+                                <h2 class="fw-bold text-success mb-0" id="mCorrectCount">0</h2>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-3 bg-body-tertiary border">
+                                <span class="text-secondary small fw-bold d-block">Incorrect Answers</span>
+                                <h2 class="fw-bold text-danger mb-0" id="mIncorrectCount">0</h2>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-3 bg-body-tertiary border">
+                                <span class="text-secondary small fw-bold d-block">Time Elapsed</span>
+                                <h2 class="fw-bold text-warning mb-0" id="mTimeElapsed">00:00</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3"><i class="bi bi-diagram-3-fill me-2"></i>Topic Performance Breakdown:</h6>
+                    <div id="modalTopicBreakdown" class="mb-4">
+                        <!-- Dynamic topic score bars -->
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-body-tertiary">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary rounded-pill" onclick="resetQuiz()">Retake Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+
+    <!-- DATA & LOGIC ENGINE SCRIPT -->
+    <script>
+        // ==========================================
+        // 1. TOPIC REFERENCE CARDS DATA (13 TOPICS)
+        // ==========================================
+        const TOPIC_CARDS_DATA = [
+            {
+                id: "kafka",
+                title: "Kafka",
+                icon: "bi-diagram-2-fill",
+                badgeColor: "primary",
+                annotations: [
+                    { name: "@KafkaListener", desc: "Marks a method to listen for messages from specified Kafka topics." },
+                    { name: "@EnableKafka", desc: "Enables detection of @KafkaListener annotations on Spring beans." },
+                    { name: "@TopicPartition", desc: "Configures explicit topic partition offset assignments." },
+                    { name: "@SendTo", desc: "Forwards the return payload of a listener method to another topic." },
+                    { name: "@Header", desc: "Extracts specific Kafka message headers into method parameters." }
+                ],
+                configs: [
+                    { key: "spring.kafka.bootstrap-servers", val: "localhost:9092", desc: "Comma-separated host:port list for Kafka broker clusters." },
+                    { key: "spring.kafka.consumer.group-id", val: "my-group-id", desc: "Consumer group identifier for consuming messages." },
+                    { key: "spring.kafka.consumer.auto-offset-reset", val: "earliest | latest", desc: "Offset reset strategy when no initial offset exists." },
+                    { key: "spring.kafka.producer.key-serializer", val: "StringSerializer", desc: "Serializer class for record keys." },
+                    { key: "spring.kafka.producer.value-serializer", val: "JsonSerializer", desc: "Serializer class for record values." }
+                ],
+                strings: [
+                    "KafkaTemplate.send(topic, key, data)",
+                    "ConsumerRecord<K, V> (Topic, Partition, Offset, Key, Value)",
+                    "acks=all (Guarantees all in-sync replicas acknowledge write)",
+                    "enable.idempotence=true (Prevents duplicate messages)",
+                    "Partition Rebalance (Consumer Group re-allocation trigger)"
+                ],
+                commands: [
+                    { cmd: "kafka-topics.sh --create --bootstrap-server localhost:9092 --topic orders --partitions 3 --replication-factor 1", desc: "Creates a new Kafka topic with 3 partitions." },
+                    { cmd: "kafka-topics.sh --list --bootstrap-server localhost:9092", desc: "Lists all existing topics in Kafka broker." },
+                    { cmd: "kafka-console-producer.sh --bootstrap-server localhost:9092 --topic orders", desc: "Launches CLI message producer interface." },
+                    { cmd: "kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic orders --from-beginning", desc: "Consumes all topic messages from beginning." },
+                    { cmd: "kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group", desc: "Displays consumer lag per partition." }
+                ],
+                senior: {
+                    what: "Distributed event streaming platform built on append-only partitioned commit logs.",
+                    why: "Decouples microservices asynchronously, enabling high throughput (1M+ msg/sec) with durable event replayability.",
+                    when: "Use for high-volume event-driven architectures & CDC; avoid for simple synchronous HTTP request-response.",
+                    gotcha: "Always set acks=all and enable.idempotence=true to prevent duplicate writes during broker partition rebalances."
+                }
+            },
+            {
+                id: "redis",
+                title: "Redis",
+                icon: "bi-database-fill-gear",
+                badgeColor: "danger",
+                annotations: [
+                    { name: "@Cacheable", desc: "Caches method return values into Redis based on key parameters." },
+                    { name: "@CacheEvict", desc: "Removes entries from specified Redis cache names." },
+                    { name: "@CachePut", desc: "Forces method execution and updates the Redis cache value." },
+                    { name: "@EnableCaching", desc: "Enables Spring Boot annotation-driven cache management." },
+                    { name: "@RedisHash", desc: "Marks a domain object to be stored in a Redis Hash data structure." }
+                ],
+                configs: [
+                    { key: "spring.data.redis.host", val: "localhost", desc: "Redis server hostname." },
+                    { key: "spring.data.redis.port", val: "6379", desc: "Redis server port number." },
+                    { key: "spring.cache.type", val: "redis", desc: "Specifies Redis as the primary cache provider." },
+                    { key: "spring.cache.redis.time-to-live", val: "60000ms", desc: "Default Time-To-Live duration for cache items." },
+                    { key: "spring.data.redis.timeout", val: "2000ms", desc: "Redis connection timeout threshold." }
+                ],
+                strings: [
+                    "StringRedisTemplate / RedisTemplate<K, V>",
+                    "Lettuce (Default reactive/non-blocking Redis driver)",
+                    "Jedis (Alternative synchronous Redis driver)",
+                    "EXPIRE key seconds (Sets TTL on key)",
+                    "Pub/Sub (Redis Publish/Subscribe channels)"
+                ],
+                senior: {
+                    what: "Ultra-fast in-memory key-value data store used as a cache, message broker, and distributed lock manager.",
+                    why: "Provides sub-millisecond read/write latency, drastically reducing relational DB load and latency bottlenecks.",
+                    when: "Use for hot-data caching, session management, and rate-limiting; avoid using as a primary durable database.",
+                    gotcha: "Always set explicit TTLs on keys and configure maxmemory with allkeys-lfu eviction to avoid OOM crashes."
+                },
+                commands: [
+                    { cmd: "redis-cli ping", desc: "Pings Redis server (returns PONG if active)." },
+                    { cmd: "redis-cli set mykey 'hello' EX 60", desc: "Sets key with a 60-second expiration TTL." },
+                    { cmd: "redis-cli get mykey", desc: "Retrieves value stored at specified key." },
+                    { cmd: "redis-cli info memory", desc: "Displays memory consumption breakdown." },
+                    { cmd: "redis-cli monitor", desc: "Streams commands received by Redis server in real-time." }
+                ]
+            },
+            {
+                id: "react",
+                title: "React",
+                icon: "bi-code-slash",
+                badgeColor: "info",
+                annotations: [
+                    { name: "'use client'", desc: "Next.js/React directive declaring a Client Component." },
+                    { name: "'use server'", desc: "Directive marking Server Actions or Server Components." },
+                    { name: "PropTypes", desc: "Runtime type checking for React component props." },
+                    { name: "React.memo", desc: "Higher-order component memoizing props to prevent re-renders." }
+                ],
+                configs: [
+                    { key: "package.json -> scripts", val: "react-scripts start", desc: "Start script for React local dev server." },
+                    { key: "dangerouslySetInnerHTML", val: "{ __html: '...' }", desc: "React prop for setting raw HTML content." },
+                    { key: "key prop", val: "key={item.id}", desc: "Unique identifier for list items in Virtual DOM reconciliation." }
+                ],
+                strings: [
+                    "useState(initialState) -> [state, setState]",
+                    "useEffect(effectFn, [deps]) -> Handles side effects",
+                    "useContext(MyContext) -> Consumes Context values",
+                    "useMemo(() => fn(), [deps]) -> Memoizes computed value",
+                    "useCallback(fn, [deps]) -> Memoizes function reference",
+                    "useRef(initialValue) -> Persistent mutable reference object"
+                ],
+                senior: {
+                    what: "Component-based JavaScript UI library utilizing a Virtual DOM for efficient declarative web interfaces.",
+                    why: "State-driven architecture speeds up UI development while Virtual DOM reconciliation minimizes costly real DOM paints.",
+                    when: "Use for dynamic single-page applications (SPAs); avoid when simple server-side HTML rendering is sufficient.",
+                    gotcha: "Prevent unnecessary re-renders by memoizing callbacks with useCallback and expensive computations with useMemo."
+                }
+            },
+            {
+                id: "resilience4j",
+                title: "Resilience4j",
+                icon: "bi-shield-fill-check",
+                badgeColor: "warning",
+                annotations: [
+                    { name: "@CircuitBreaker", desc: "Wraps method calls in a Circuit Breaker state machine." },
+                    { name: "@Retry", desc: "Automatically retries failed method executions up to max attempts." },
+                    { name: "@RateLimiter", desc: "Limits execution frequency within a specified refresh period." },
+                    { name: "@Bulkhead", desc: "Limits concurrent executions to isolate resource pools." },
+                    { name: "@TimeLimiter", desc: "Sets maximum execution time limits for Futures/Monos." }
+                ],
+                configs: [
+                    { key: "resilience4j.circuitbreaker.instances.<name>.sliding-window-size", val: "100", desc: "Number of calls recorded for rate evaluation." },
+                    { key: "resilience4j.circuitbreaker.instances.<name>.failure-rate-threshold", val: "50", desc: "Percentage threshold to open circuit." },
+                    { key: "resilience4j.circuitbreaker.instances.<name>.wait-duration-in-open-state", val: "10000ms", desc: "Wait time before entering HALF_OPEN." },
+                    { key: "resilience4j.retry.instances.<name>.max-attempts", val: "3", desc: "Max retry attempt count." }
+                ],
+                strings: [
+                    "fallbackMethod = 'fallbackFnName'",
+                    "CircuitBreaker.State (CLOSED, OPEN, HALF_OPEN)",
+                    "SemaphoreBulkhead vs ThreadPoolBulkhead",
+                    "Sliding Window Type (COUNT_BASED vs TIME_BASED)"
+                ],
+                senior: {
+                    what: "Fault tolerance library designed for Java 8+ and functional reactive microservice architectures.",
+                    why: "Prevents cascading downstream microservice failures via Circuit Breakers, Rate Limiters, Bulkheads, and Retries.",
+                    when: "Use around remote REST/gRPC network boundaries; avoid wrapping fast local in-memory method calls.",
+                    gotcha: "Always implement fallback methods matching target exception signatures and monitor breaker states in Micrometer."
+                }
+            },
+            {
+                id: "apigateway",
+                title: "API Gateway",
+                icon: "bi-router-fill",
+                badgeColor: "success",
+                annotations: [
+                    { name: "@EnableDiscoveryClient", desc: "Enables Eureka service registration & discovery in Gateway." },
+                    { name: "@Route", desc: "Spring Cloud Gateway custom route programmatic definition." }
+                ],
+                configs: [
+                    { key: "spring.cloud.gateway.routes[0].id", val: "user-service-route", desc: "Unique route identifier." },
+                    { key: "spring.cloud.gateway.routes[0].uri", val: "lb://USER-SERVICE", desc: "Target URI or LoadBalanced service name." },
+                    { key: "spring.cloud.gateway.routes[0].predicates", val: "Path=/api/users/**", desc: "Predicates matching incoming HTTP requests." },
+                    { key: "spring.cloud.gateway.routes[0].filters", val: "AddRequestHeader=X-App, Key", desc: "Gateway Filters transforming requests/responses." },
+                    { key: "spring.cloud.gateway.discovery.locator.enabled", val: "true", desc: "Enables dynamic auto-routes based on Eureka services." }
+                ],
+                strings: [
+                    "lb://SERVICE-NAME (LoadBalanced service lookup)",
+                    "RewritePath=/api/v1/(?<segment>.*), /$\\{segment}",
+                    "CircuitBreaker Gateway Filter (Integration with Resilience4j)",
+                    "GlobalFilter & GatewayFilterFactories"
+                ],
+                senior: {
+                    what: "Centralized reverse proxy routing client HTTP traffic to microservices while handling cross-cutting concerns.",
+                    why: "Consolidates authentication, rate limiting, SSL termination, and dynamic routing into a single secure entry point.",
+                    when: "Essential for microservice architectures; unnecessary architectural overhead for monolithic applications.",
+                    gotcha: "Build on non-blocking reactive IO (WebFlux/Netty) to prevent blocking worker thread pool saturation."
+                }
+            },
+            {
+                id: "springaop",
+                title: "Spring AOP",
+                icon: "bi-layers-fill",
+                badgeColor: "secondary",
+                annotations: [
+                    { name: "@Aspect", desc: "Declares a class as an Aspect containing pointcuts and advice." },
+                    { name: "@Before", desc: "Advice executing prior to target method execution." },
+                    { name: "@After", desc: "Advice executing after target method completes (finally block)." },
+                    { name: "@Around", desc: "Advice wrapping target method; controls execution via proceed()." },
+                    { name: "@AfterReturning", desc: "Advice executing only on successful method completion." },
+                    { name: "@AfterThrowing", desc: "Advice executing when target method throws an exception." },
+                    { name: "@Pointcut", desc: "Declares a reusable pointcut signature expression." }
+                ],
+                configs: [
+                    { key: "spring.aop.auto", val: "true", desc: "Enables Spring AOP auto-proxying." },
+                    { key: "spring.aop.proxy-target-class", val: "true", desc: "Forces CGLIB class-based proxying instead of JDK dynamic proxies." }
+                ],
+                strings: [
+                    "execution(* com.example.service.*.*(..))",
+                    "@annotation(com.example.annotation.Loggable)",
+                    "ProceedingJoinPoint.proceed() (Invokes target method in @Around)",
+                    "JoinPoint.getArgs() / JoinPoint.getSignature()",
+                    "JDK Dynamic Proxies (Interfaces) vs CGLIB (Subclasses)"
+                ],
+                senior: {
+                    what: "Aspect-Oriented Programming framework modularizing cross-cutting concerns via dynamic proxies.",
+                    why: "Keeps business domain classes clean by externalizing logging, transaction management (@Transactional), and security.",
+                    when: "Use for infrastructure aspects (@Transactional, security); avoid for core business domain logic.",
+                    gotcha: "Internal self-invocation (this.method()) bypasses Spring AOP proxies; invoke via self-injected bean or proxy."
+                }
+            },
+            {
+                id: "log4j",
+                title: "Log4j / Logging",
+                icon: "bi-file-earmark-text-fill",
+                badgeColor: "dark",
+                annotations: [
+                    { name: "@Slf4j", desc: "Lombok annotation auto-generating Logger log = LoggerFactory.getLogger(Class)." },
+                    { name: "@Log4j2", desc: "Lombok annotation instantiating Log4j2 Logger field." }
+                ],
+                configs: [
+                    { key: "logging.level.root", val: "INFO", desc: "Global root logging level." },
+                    { key: "logging.level.com.learn", val: "DEBUG", desc: "Package-specific logging level override." },
+                    { key: "logging.file.name", val: "logs/app.log", desc: "Target log file path and name." },
+                    { key: "logging.pattern.console", val: "%d{yyyy-MM-dd} - %msg%n", desc: "Console log pattern formatting." }
+                ],
+                strings: [
+                    "MDC.put('requestId', '12345') (Mapped Diagnostic Context)",
+                    "Appenders (ConsoleAppender, RollingFileAppender)",
+                    "Log Levels: TRACE < DEBUG < INFO < WARN < ERROR < FATAL",
+                    "%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n"
+                ],
+                senior: {
+                    what: "Enterprise logging framework for structured application logging, diagnostic filtering, and file rotation.",
+                    why: "Essential for real-time observability, security auditing, and post-mortem failure analysis in production.",
+                    when: "Use appropriate log levels (INFO for business events, ERROR for exceptions, DEBUG for troubleshooting).",
+                    gotcha: "Always clear MDC in a finally block (MDC.clear()) to prevent contextual log pollution across shared thread pools."
+                }
+            },
+            {
+                id: "actuator",
+                title: "Actuator",
+                icon: "bi-activity",
+                badgeColor: "primary",
+                annotations: [
+                    { name: "@Endpoint", desc: "Declares a custom Spring Boot Actuator management endpoint." },
+                    { name: "@ReadOperation", desc: "Maps endpoint method to HTTP GET request." },
+                    { name: "@WriteOperation", desc: "Maps endpoint method to HTTP POST request." },
+                    { name: "@DeleteOperation", desc: "Maps endpoint method to HTTP DELETE request." },
+                    { name: "@WebEndpoint", desc: "Exposes endpoint strictly over HTTP Web protocol." }
+                ],
+                configs: [
+                    { key: "management.endpoints.web.exposure.include", val: "health,info,metrics,prometheus", desc: "Exposed web endpoint list." },
+                    { key: "management.endpoint.health.show-details", val: "always | never", desc: "Exposes detailed health indicator components." },
+                    { key: "management.server.port", val: "8081", desc: "Separate management HTTP server port." }
+                ],
+                strings: [
+                    "/actuator/health (Health check status)",
+                    "/actuator/metrics (Application metrics data)",
+                    "/actuator/prometheus (Scrape target for Prometheus)",
+                    "/actuator/env (Environment properties dump)",
+                    "MeterRegistry (Micrometer metric recording instance)"
+                ],
+                senior: {
+                    what: "Spring Boot production-readiness module exposing health indicators, metrics, and application telemetry.",
+                    why: "Gives DevOps teams real-time visibility into JVM metrics, database connectivity, thread pools, and app health.",
+                    when: "Mandatory for all production Spring Boot applications deployed on Kubernetes or Cloud platforms.",
+                    gotcha: "Secure sensitive endpoints (/env, /heapdump, /configprops) behind authentication to prevent security leaks."
+                }
+            },
+            {
+                id: "java8",
+                title: "Java 8 Features",
+                icon: "bi-cup-hot-fill",
+                badgeColor: "danger",
+                annotations: [
+                    { name: "@FunctionalInterface", desc: "Ensures interface contains exactly one abstract method." },
+                    { name: "@Repeatable", desc: "Allows applying the same annotation multiple times." }
+                ],
+                configs: [
+                    { key: "default keyword", val: "default void log() { ... }", desc: "Interface default method implementations." },
+                    { key: "static interface methods", val: "static void print() { ... }", desc: "Static helper methods in interfaces." }
+                ],
+                strings: [
+                    "Streams API: stream().filter().map().collect(Collectors.toList())",
+                    "Optional<T>: Optional.ofNullable().orElseGet(() -> defaultVal)",
+                    "Functional Interfaces: Function<T,R>, Supplier<T>, Consumer<T>, Predicate<T>",
+                    "Java 8 Date/Time API: LocalDate, LocalTime, LocalDateTime, Duration, Instant",
+                    "Method References: ClassName::methodName"
+                ],
+                senior: {
+                    what: "Landmark Java release introducing Lambdas, Streams API, Functional Interfaces, and Optional<T>.",
+                    why: "Enables concise, declarative functional-style code that improves readability and simplifies collection processing.",
+                    when: "Standard programming style for modern Java collection processing and safe null handling.",
+                    gotcha: "Avoid Optional.get() without checking isPresent(); use orElseGet() or orElseThrow() to avoid NullPointerExceptions."
+                }
+            },
+            {
+                id: "java11",
+                title: "Java 11 Features",
+                icon: "bi-box-seam-fill",
+                badgeColor: "info",
+                annotations: [
+                    { name: "(var x, var y) -> x + y", desc: "Allows var syntax in lambda parameters to support type annotations." }
+                ],
+                configs: [
+                    { key: "Files.readString(path)", val: "Files.readString(Path.of('file.txt'))", desc: "Reads entire file into String." },
+                    { key: "Files.writeString(path, str)", val: "Files.writeString(Path.of('file.txt'), 'content')", desc: "Writes String to file." }
+                ],
+                strings: [
+                    "String methods: isBlank(), strip(), lines(), repeat(n)",
+                    "HttpClient API: HttpClient.newHttpClient(), HttpRequest, HttpResponse",
+                    "Single-File Execution: java Main.java (No explicit javac needed)",
+                    "Predicate.not(Predicate::test)",
+                    "Collection.toArray(IntFunction) -> list.toArray(String[]::new)"
+                ],
+                senior: {
+                    what: "Long-Term Support (LTS) Java version introducing var syntax, native HTTP Client, and Metaspace memory.",
+                    why: "Replaced legacy PermGen with native Metaspace memory, upgraded default GC to G1, and boosted startup performance.",
+                    when: "Recommended baseline Java runtime version for enterprise microservices and modern container deployments.",
+                    gotcha: "Always configure -XX:MaxMetaspaceSize explicitly to prevent unbounded native OS memory expansion."
+                }
+            },
+            {
+                id: "springdatajpa",
+                title: "Spring Data JPA",
+                icon: "bi-database-fill-gear",
+                badgeColor: "success",
+                annotations: [
+                    { name: "@Repository", desc: "Marks a Data Access Object interface for Spring container management and exception translation." },
+                    { name: "@Query", desc: "Defines custom JPQL or native SQL query directly on repository methods." },
+                    { name: "@Param", desc: "Binds method parameter names to named parameters in @Query statements." },
+                    { name: "@Modifying", desc: "Triggers DML UPDATE or DELETE queries when executed via @Query." },
+                    { name: "@Transactional", desc: "Configures transactional boundaries for database operations." },
+                    { name: "@CreatedDate / @LastModifiedDate", desc: "Auditing annotations for automatic timestamp population." }
+                ],
+                configs: [
+                    { key: "spring.jpa.open-in-view", val: "false", desc: "Disables Open Session in View anti-pattern to prevent connection leaks." },
+                    { key: "spring.data.jpa.repositories.enabled", val: "true", desc: "Enables Spring Data JPA repository auto-configuration." },
+                    { key: "spring.jpa.hibernate.ddl-auto", val: "update | validate", desc: "Schema auto-generation lifecycle management." }
+                ],
+                strings: [
+                    "JpaRepository<T, ID> extends PagingAndSortingRepository & CrudRepository",
+                    "Derived Query Methods: findByLastNameAndFirstName(String last, String first)",
+                    "Pagination & Sorting: Pageable pageable = PageRequest.of(page, size, Sort.by('id'))",
+                    "JPQL vs Native SQL: @Query(value = 'SELECT u FROM User u', nativeQuery = false)",
+                    "Auditing: @EnableJpaAuditing + @EntityListeners(AuditingEntityListener.class)"
+                ],
+                senior: {
+                    what: "Abstraction layer over JPA/Hibernate providing automated repositories and dynamic JPQL query generation.",
+                    why: "Eliminates boilerplate DAO implementations by constructing queries automatically from repository method names.",
+                    when: "Ideal for standard relational CRUD operations; bypass with JdbcTemplate for ultra-complex reporting queries.",
+                    gotcha: "Set spring.jpa.open-in-view=false to avoid holding open DB connections during HTTP view rendering."
+                }
+            },
+            {
+                id: "hibernate",
+                title: "Hibernate / JPA",
+                icon: "bi-database-fill",
+                badgeColor: "success",
+                annotations: [
+                    { name: "@Entity", desc: "Marks a class as a JPA persistent database entity." },
+                    { name: "@Table", desc: "Maps an entity to a target relational table name." },
+                    { name: "@Id", desc: "Designates the primary key field of an entity." },
+                    { name: "@GeneratedValue", desc: "Specifies primary key generation strategy (IDENTITY, SEQUENCE)." },
+                    { name: "@Column", desc: "Maps field to specific table column name and properties." },
+                    { name: "@OneToMany / @ManyToOne", desc: "Defines object relational entity mappings." },
+                    { name: "@JoinColumn", desc: "Specifies foreign key column name." },
+                    { name: "@Transient", desc: "Excludes field from database persistence." },
+                    { name: "@Version", desc: "Enables Optimistic Locking for concurrency control." },
+                    { name: "@DynamicUpdate", desc: "Generates dynamic UPDATE SQL containing only changed columns." }
+                ],
+                configs: [
+                    { key: "spring.jpa.hibernate.ddl-auto", val: "update | validate | create-drop", desc: "Database schema DDL auto-generation." },
+                    { key: "spring.jpa.show-sql", val: "true | false", desc: "Logs generated SQL to console." },
+                    { key: "spring.jpa.properties.hibernate.format_sql", val: "true", desc: "Formats SQL output for readability." }
+                ],
+                strings: [
+                    "N+1 Select Problem (1 query for parents + N queries for children)",
+                    "FetchType.LAZY vs FetchType.EAGER",
+                    "CascadeType.ALL / PERSIST / MERGE / REMOVE",
+                    "L1 Cache (Session level) vs L2 Cache (SessionFactory level)",
+                    "LazyInitializationException (Accessing uninitialized lazy proxy outside active Session)"
+                ],
+                senior: {
+                    what: "Object-Relational Mapping (ORM) framework bridging Java object models to relational SQL databases.",
+                    why: "Automates SQL generation, entity dirty-checking, first-level caching, and object graph persistence.",
+                    when: "Use for rich domain model persistence; avoid for bulk DML operations or complex raw analytical reporting.",
+                    gotcha: "Prevent N+1 SELECT queries by using JOIN FETCH or @EntityGraph to eagerly load required child collections."
+                }
+            },
+            {
+                id: "swagger",
+                title: "Swagger / OpenAPI",
+                icon: "bi-file-earmark-code-fill",
+                badgeColor: "info",
+                annotations: [
+                    { name: "@Tag", desc: "Groups REST controller endpoints under a specific category in Swagger UI." },
+                    { name: "@Operation", desc: "Describes a specific REST operation (summary, description, HTTP method)." },
+                    { name: "@ApiResponse", desc: "Documents expected HTTP response status codes and schema payloads." },
+                    { name: "@Parameter", desc: "Documents method parameters (query params, path variables, headers)." },
+                    { name: "@Schema", desc: "Documents DTO models, field constraints, descriptions, and example values." },
+                    { name: "@SecurityRequirement", desc: "Specifies security requirement (e.g. Bearer JWT) for API endpoints." }
+                ],
+                configs: [
+                    { key: "springdoc.swagger-ui.path", val: "/swagger-ui.html", desc: "Custom path to access Swagger UI web interface." },
+                    { key: "springdoc.api-docs.path", val: "/v3/api-docs", desc: "Custom path to fetch raw OpenAPI 3.0 JSON specification." },
+                    { key: "springdoc.swagger-ui.operations-sorter", val: "alpha", desc: "Sorts API endpoints alphabetically in Swagger UI." }
+                ],
+                strings: [
+                    "springdoc-openapi-starter-webmvc-ui (Spring Boot 3 OpenAPI dependency)",
+                    "http://localhost:8080/swagger-ui/index.html (Interactive API Dashboard)",
+                    "http://localhost:8080/v3/api-docs (Raw OpenAPI 3.0 Spec JSON)",
+                    "Try It Out (Interactive in-browser HTTP request execution)"
+                ],
+                commands: [
+                    { cmd: "curl http://localhost:8080/v3/api-docs", desc: "Fetches raw OpenAPI 3.0 specification JSON from running Spring Boot app." }
+                ],
+                senior: {
+                    what: "OpenAPI 3.0 documentation framework generating interactive API specs directly from Spring controllers.",
+                    why: "Provides a single source of truth for REST endpoints, enabling seamless frontend integration and API testing.",
+                    when: "Essential for public and internal REST microservice documentation and developer onboarding.",
+                    gotcha: "Disable or secure Swagger UI (springdoc.swagger-ui.enabled=false) in production to prevent API exposure."
+                }
+            },
+            {
+                id: "jdbc",
+                title: "JDBC",
+                icon: "bi-plugin",
+                badgeColor: "warning",
+                annotations: [
+                    { name: "@Transactional", desc: "Manages database transaction boundaries on methods." },
+                    { name: "@Modifying", desc: "Marks Spring Data query methods as executing DML (INSERT/UPDATE/DELETE)." }
+                ],
+                configs: [
+                    { key: "spring.datasource.url", val: "jdbc:mysql://localhost:3306/db", desc: "JDBC connection URL string." },
+                    { key: "spring.datasource.username", val: "root", desc: "Database username." },
+                    { key: "spring.datasource.password", val: "secret", desc: "Database password." },
+                    { key: "spring.datasource.driver-class-name", val: "com.mysql.cj.jdbc.Driver", desc: "JDBC driver class." },
+                    { key: "spring.datasource.hikari.maximum-pool-size", val: "10", desc: "Max HikariCP connection pool size." }
+                ],
+                strings: [
+                    "DriverManager.getConnection(url, user, pass)",
+                    "PreparedStatement (Precompiled SQL preventing SQL Injection)",
+                    "CallableStatement (Executes database stored procedures)",
+                    "ResultSet.next() (Navigates database cursor row by row)",
+                    "connection.setAutoCommit(false) & connection.commit()"
+                ],
+                senior: {
+                    what: "Low-level Java API executing raw SQL queries directly against relational databases via database drivers.",
+                    why: "Delivers maximum raw execution speed, explicit transaction control, and zero ORM mapping overhead.",
+                    when: "Use for high-performance batch updates, complex reporting queries, or custom connection pool management.",
+                    gotcha: "Always parameterize inputs using PreparedStatement to prevent catastrophic SQL Injection security vulnerabilities."
+                }
+            },
+            {
+                id: "jvm",
+                title: "JVM",
+                icon: "bi-cpu",
+                badgeColor: "secondary",
+                annotations: [
+                    { name: "JVM Flags", desc: "Command line arguments configuring JVM runtime memory and garbage collection." }
+                ],
+                configs: [
+                    { key: "-Xms512m", val: "512 Megabytes", desc: "Initial Heap memory allocation size." },
+                    { key: "-Xmx2048m", val: "2048 Megabytes", desc: "Maximum Heap memory allocation size." },
+                    { key: "-XX:+UseG1GC", val: "G1 Collector", desc: "Enables Garbage-First Garbage Collector." },
+                    { key: "-XX:MetaspaceSize", val: "256m", desc: "Initial Metaspace memory size for class metadata." },
+                    { key: "-XX:+HeapDumpOnOutOfMemoryError", val: "Enabled", desc: "Generates .hprof heap dump on OOM exception." }
+                ],
+                strings: [
+                    "Heap Memory: Stores Object instances (new Object()), Arrays, String Pool. Divided into Eden, S0/S1, Old Gen.",
+                    "JVM Stack (Thread Stack): Stores primitive local variables, reference handles pointing to Heap objects, stack frames per method.",
+                    "Metaspace (Native OS Memory): Stores Class metadata, bytecodes, method structures, field descriptions, constant pool.",
+                    "PC Register & Native Stack: PC Register holds instruction address per thread; Native Stack holds C/C++ JNI frames.",
+                    "Code Cache: Native memory region holding compiled native CPU instructions generated by JIT C1/C2 compilers.",
+                    "ClassLoader Hierarchy (Bootstrap -> Extension/Platform -> Application)"
+                ],
+                commands: [
+                    { cmd: "jcmd <pid> GC.heap_dump /tmp/heap.hprof", desc: "Triggers on-demand HPROF heap dump for memory leak analysis." },
+                    { cmd: "jstack <pid>", desc: "Prints thread stack traces to diagnose CPU spikes and thread deadlocks." },
+                    { cmd: "jmap -heap <pid>", desc: "Prints heap configuration and memory usage breakdown per generation." },
+                    { cmd: "jstat -gc <pid> 1000", desc: "Monitors garbage collection statistics every 1000ms." },
+                    { cmd: "java -XX:+PrintGCDetails -jar app.jar", desc: "Runs app with verbose GC logging enabled." }
+                ],
+                senior: {
+                    what: "Execution engine executing compiled Java Bytecode on underlying hardware with automatic memory management.",
+                    why: "Manages memory via Garbage Collectors and optimizes hotspots into native machine code with JIT compilation.",
+                    when: "Runtime foundation for all Java applications; tune GC algorithms (G1, ZGC) based on latency SLAs.",
+                    gotcha: "Set -Xms and -Xmx to identical initial and max heap values to prevent dynamic heap resizing performance hits."
+                }
+            },
+            {
+                id: "oop",
+                title: "OOP",
+                icon: "bi-diagram-3-fill",
+                badgeColor: "primary",
+                annotations: [
+                    { name: "@Override", desc: "Indicates method overrides a superclass method or implements an interface method." },
+                    { name: "class / interface", desc: "Core OOP structures defining state, contract, and behavior." },
+                    { name: "abstract class", desc: "Base class that cannot be directly instantiated and can contain abstract & concrete methods." },
+                    { name: "extends / implements", desc: "Keywords for class inheritance and interface contract fulfillment." }
+                ],
+                configs: [
+                    { key: "Encapsulation", val: "private fields + getters/setters", desc: "Bundles data with methods and restricts direct object access." },
+                    { key: "Inheritance", val: "subclass extends superclass", desc: "Mechanism where a new class inherits properties of an existing class." },
+                    { key: "Polymorphism", val: "Overloading & Overriding", desc: "Ability of an object or method to take many forms at runtime or compile-time." },
+                    { key: "Abstraction", val: "interfaces & abstract classes", desc: "Hides complex implementation details and exposes only essential features." }
+                ],
+                strings: [
+                    "SOLID Principles: Single Resp, Open/Closed, Liskov Sub, Interface Seg, Dep Inversion",
+                    "Loose Coupling & High Cohesion",
+                    "Composition over Inheritance ('Has-A' relationship preferred over 'Is-A')",
+                    "Method Overloading (Compile-time) vs Overriding (Runtime)"
+                ],
+                senior: {
+                    what: "Software paradigm structuring code into objects encapsulating state (fields) and behavior (methods).",
+                    why: "Promotes modularity, maintainability, and code reusability through SOLID object-oriented principles.",
+                    when: "Core paradigm for domain-driven enterprise software design and business logic modeling.",
+                    gotcha: "Prefer composition over inheritance ('Has-A' over 'Is-A') to avoid rigid coupling and fragile base classes."
+                }
+            },
+            {
+                id: "designpatterns",
+                title: "Design Patterns",
+                icon: "bi-diagram-2",
+                badgeColor: "warning",
+                annotations: [
+                    { name: "@Scope('singleton')", desc: "Default Spring bean scope ensuring 1 shared instance per IoC container." },
+                    { name: "@Scope('prototype')", desc: "Spring bean scope creating a new object instance every time requested." },
+                    { name: "@Builder", desc: "Lombok annotation generating a fluent Builder pattern implementation." },
+                    { name: "@EventListener", desc: "Spring annotation implementing the Observer pattern for event handling." }
+                ],
+                configs: [
+                    { key: "Singleton Pattern", val: "Private Constructor + static getInstance()", desc: "Guarantees a class has only one instance and provides a global access point." },
+                    { key: "Factory Pattern", val: "LoggerFactory.getLogger()", desc: "Defines an interface for object creation, deferring instantiation to subclasses." },
+                    { key: "Prototype Pattern", val: "Object.clone() / prototype scope", desc: "Creates new object instances by cloning an existing prototype object." },
+                    { key: "Saga Pattern", val: "Choreography vs Orchestration", desc: "Manages distributed transactions in microservices via local & compensating transactions." }
+                ],
+                strings: [
+                    "Creational Patterns: Singleton, Factory Method, Abstract Factory, Builder, Prototype",
+                    "Structural Patterns: Adapter, Decorator, Proxy, Facade, Composite, Bridge",
+                    "Behavioral Patterns: Strategy, Observer, Command, Chain of Resp, State",
+                    "Saga Choreography: Microservices communicate via async domain events (Kafka)",
+                    "Saga Orchestration: Central Orchestrator directs transaction steps & compensations"
+                ],
+                senior: {
+                    what: "Standardized, battle-tested solutions to recurring software engineering and architectural challenges.",
+                    why: "Provides proven abstractions for object creation (Singleton, Factory), structure (Adapter), and microservice sagas.",
+                    when: "Apply when facing established architectural problems; avoid over-engineering simple solutions.",
+                    gotcha: "In Saga Orchestration, ensure every local transaction step has a corresponding verified compensating action."
+                }
+            },
+            {
+                id: "springboot",
+                title: "Spring Boot",
+                icon: "bi-box-seam",
+                badgeColor: "success",
+                annotations: [
+                    { name: "@SpringBootApplication", desc: "Combines @Configuration, @EnableAutoConfiguration, and @ComponentScan." },
+                    { name: "@EnableAutoConfiguration", desc: "Enables Spring Boot auto-configuration mechanism based on classpath dependencies." },
+                    { name: "@ComponentScan", desc: "Scans package and sub-packages for Spring component stereotypes (@Component, @Service)." },
+                    { name: "@Profile", desc: "Conditionally activates configuration beans based on active environment profile." },
+                    { name: "@ConfigurationProperties", desc: "Binds external hierarchical properties to a strongly typed Java object." }
+                ],
+                configs: [
+                    { key: "spring.profiles.active", val: "dev | prod", desc: "Specifies active application environment profile." },
+                    { key: "server.port", val: "8080", desc: "Embedded Tomcat/Web server HTTP listener port." },
+                    { key: "spring.main.banner-mode", val: "off | console", desc: "Configures or disables ASCII banner output on startup." },
+                    { key: "spring.config.import", val: "optional:configserver:", desc: "Imports externalized configuration sources." }
+                ],
+                strings: [
+                    "Spring Boot Starters (spring-boot-starter-web, spring-boot-starter-data-jpa)",
+                    "Auto-Configuration (META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports)",
+                    "Embedded Servlet Containers (Tomcat, Jetty, Undertow)",
+                    "SpringApplication.run(Application.class, args)"
+                ],
+                senior: {
+                    what: "Opinionated framework for building standalone, production-ready Spring apps with embedded servers.",
+                    why: "Eliminates XML configuration via auto-configuration starters, drastically speeding up cloud microservice delivery.",
+                    when: "Default standard framework for modern Java enterprise microservices and RESTful backends.",
+                    gotcha: "Understand auto-configuration conditions (@ConditionalOnProperty) to avoid silent bean overriding bugs."
+                }
+            },
+            {
+                id: "springmvc",
+                title: "Spring MVC",
+                icon: "bi-layout-text-window-reverse",
+                badgeColor: "info",
+                annotations: [
+                    { name: "@Controller", desc: "Marks presentation layer controller returning view names or Model objects." },
+                    { name: "@RequestMapping", desc: "Maps HTTP request URLs to handler methods." },
+                    { name: "@GetMapping / @PostMapping", desc: "HTTP method specific request mapping shortcuts." },
+                    { name: "@PathVariable", desc: "Binds URI path parameters (/users/{id}) to method arguments." },
+                    { name: "@RequestParam", desc: "Binds query parameters (/users?name=john) or form data." },
+                    { name: "@ModelAttribute", desc: "Binds form data or model objects to view templates." }
+                ],
+                configs: [
+                    { key: "spring.mvc.view.prefix", val: "/WEB-INF/views/", desc: "ViewResolver prefix location for templates/JSPs." },
+                    { key: "spring.mvc.view.suffix", val: ".jsp | .html", desc: "ViewResolver template suffix extension." },
+                    { key: "spring.mvc.format.date", val: "yyyy-MM-dd", desc: "Global date formatting pattern for request binding." }
+                ],
+                strings: [
+                    "DispatcherServlet (Front Controller handling all incoming HTTP requests)",
+                    "HandlerMapping (Maps request URL to target Controller method)",
+                    "ModelAndView (Holds model attributes and target view name)",
+                    "ViewResolver (Resolves logical view names to actual renderable views)"
+                ],
+                senior: {
+                    what: "Servlet-based Web MVC framework handling HTTP requests, RESTful routing, and controller data binding.",
+                    why: "Integrates request validation, exception handling, and content negotiation seamlessly with Spring IoC.",
+                    when: "Standard choice for synchronous, thread-per-request REST APIs and traditional web applications.",
+                    gotcha: "Avoid blocking request worker threads with long IO calls; offload to async tasks or reactive Spring WebFlux."
+                }
+            },
+            {
+                id: "restapi",
+                title: "REST API",
+                icon: "bi-globe",
+                badgeColor: "warning",
+                annotations: [
+                    { name: "@RestController", desc: "Combines @Controller and @ResponseBody for JSON/XML web APIs." },
+                    { name: "@RequestBody", desc: "Deserializes incoming JSON HTTP payload into Java DTO objects." },
+                    { name: "@ResponseBody", desc: "Serializes return Java objects directly into HTTP response body JSON." },
+                    { name: "@ResponseStatus", desc: "Sets HTTP response status code (e.g., HttpStatus.CREATED)." },
+                    { name: "@CrossOrigin", desc: "Enables Cross-Origin Resource Sharing (CORS) rules on controllers." }
+                ],
+                configs: [
+                    { key: "spring.mvc.converters.preferred-json-mapper", val: "jackson", desc: "Preferred JSON object mapper converter." },
+                    { key: "server.error.include-message", val: "always", desc: "Includes error message details in default REST error responses." }
+                ],
+                strings: [
+                    "HTTP Verbs: GET (Read), POST (Create), PUT (Replace), PATCH (Partial Update), DELETE (Remove)",
+                    "HTTP Status Codes: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Error",
+                    "HATEOAS (Hypermedia As The Engine Of Application State)",
+                    "Idempotent Operations (GET, PUT, DELETE produce same result on repeated calls)"
+                ],
+                senior: {
+                    what: "Architectural style for network APIs using HTTP methods (GET, POST, PUT, DELETE) and JSON payloads.",
+                    why: "Stateless, uniform interface ensures high scalability, client decoupling, and simple cross-platform integration.",
+                    when: "Default protocol for public web APIs and synchronous microservice-to-microservice communication.",
+                    gotcha: "Return proper HTTP status codes (201, 400, 404, 409, 500) and ensure PUT and DELETE operations are idempotent."
+                }
+            },
+            {
+                id: "docker",
+                title: "Docker",
+                icon: "bi-box-fill",
+                badgeColor: "primary",
+                annotations: [
+                    { name: "Dockerfile Directives", desc: "Instructions for building reproducible container images." },
+                    { name: "FROM", desc: "Sets base parent container image (e.g. eclipse-temurin:17-jre)." },
+                    { name: "WORKDIR", desc: "Sets working directory inside container for execution." },
+                    { name: "COPY / ADD", desc: "Copies files from host machine into container filesystem." },
+                    { name: "RUN", desc: "Executes build commands during image creation layer." },
+                    { name: "CMD / ENTRYPOINT", desc: "Configures default execution command when container starts." }
+                ],
+                configs: [
+                    { key: "docker build -t app:v1 .", val: "CLI", desc: "Builds a container image named app:v1 from local Dockerfile." },
+                    { key: "docker run -d -p 8080:8080 app:v1", val: "CLI", desc: "Runs container detached with port forwarding 8080." },
+                    { key: "docker-compose.yml", val: "YAML config", desc: "Orchestrates multi-container Docker applications." }
+                ],
+                strings: [
+                    "Multi-Stage Builds (Build in maven container -> Copy jar to lightweight JRE image)",
+                    "Docker Layer Caching (Order commands from least to most frequently changing)",
+                    "Container Namespaces & cgroups (OS-level virtualization & resource isolation)"
+                ],
+                senior: {
+                    what: "Containerization engine packaging code, runtime, system tools, and dependencies into lightweight images.",
+                    why: "Eliminates 'works on my machine' bugs by guaranteeing identical execution environments across dev and prod.",
+                    when: "Standard container deployment packaging unit for all modern cloud microservices.",
+                    gotcha: "Use multi-stage builds and minimal base images (Alpine/Distroless) to reduce container size and vulnerabilities."
+                }
+            },
+            {
+                id: "kubernetes",
+                title: "Kubernetes",
+                icon: "bi-hdd-network-fill",
+                badgeColor: "info",
+                annotations: [
+                    { name: "Kubernetes Manifests", desc: "YAML definitions describing desired state of cluster objects." }
+                ],
+                configs: [
+                    { key: "kubectl apply -f manifest.yaml", val: "CLI", desc: "Creates or updates k8s cluster resources." },
+                    { key: "kubectl get pods -n namespace", val: "CLI", desc: "Lists all running pods in a namespace." },
+                    { key: "kubectl logs -f pod-name", val: "CLI", desc: "Streams live container stdout logs." },
+                    { key: "kubectl exec -it pod -- /bin/sh", val: "CLI", desc: "Opens interactive terminal shell in pod." }
+                ],
+                strings: [
+                    "Pod (Smallest deployable unit containing 1+ co-located containers)",
+                    "Deployment (Manages declarative updates, scaling, and rolling restarts of Pods)",
+                    "Service Types: ClusterIP (Internal), NodePort, LoadBalancer (External cloud LB)",
+                    "ConfigMap (Non-confidential key-value config) & Secret (Base64 encrypted credentials)",
+                    "Probes: Liveness Probe (Restarts failed container) vs Readiness Probe (Routes traffic when ready)"
+                ],
+                senior: {
+                    what: "Container orchestration platform automating deployment, scaling, healing, and management of containers.",
+                    why: "Provides automated rollouts, self-healing pod restarts, ingress load balancing, and dynamic horizontal scaling.",
+                    when: "Standard orchestration platform for managing containerized microservice architectures in production.",
+                    gotcha: "Always define CPU/Memory requests and limits alongside liveness/readiness probes to avoid OOMKills."
+                }
+            },
+            {
+                id: "oauth2jwt",
+                title: "OAuth2 + JWT",
+                icon: "bi-key-fill",
+                badgeColor: "danger",
+                annotations: [
+                    { name: "@EnableResourceServer", desc: "Configures Spring application as an OAuth2 Resource Server." },
+                    { name: "@EnableWebSecurity", desc: "Enables Spring Security web protection features." },
+                    { name: "@PreAuthorize", desc: "Method security evaluation (e.g. @PreAuthorize(\"hasAuthority('SCOPE_read')\"))." }
+                ],
+                configs: [
+                    { key: "spring.security.oauth2.resourceserver.jwt.issuer-uri", val: "https://auth-server.com", desc: "OAuth2 Authorization Server issuer URI." },
+                    { key: "spring.security.oauth2.resourceserver.jwt.jwk-set-uri", val: "https://auth-server.com/.well-known/jwks.json", desc: "JSON Web Key Set URI for verifying JWT signature." }
+                ],
+                strings: [
+                    "OAuth2 Roles: Resource Owner, Client, Authorization Server, Resource Server",
+                    "OAuth2 Grant Types: Authorization Code (with PKCE), Client Credentials, Refresh Token",
+                    "JWT Structure: Header (Alg/Type) . Payload (Claims: sub, iss, exp, roles) . Signature",
+                    "Authorization Header format: Bearer <JWT_ACCESS_TOKEN>"
+                ],
+                senior: {
+                    what: "Industry-standard authorization framework (OAuth2) paired with cryptographically signed JSON Web Tokens (JWT).",
+                    why: "Enables stateless, decentralized user authentication and token verification across microservices without DB lookups.",
+                    when: "Standard security protocol for Single Sign-On (SSO), mobile clients, and microservice API protection.",
+                    gotcha: "Sign tokens using strong asymmetric keys (RS256) and enforce short token lifetimes with refresh tokens."
+                }
+            },
+            {
+                id: "springai",
+                title: "Spring AI & Claude AI",
+                icon: "bi-robot",
+                badgeColor: "primary",
+                annotations: [
+                    { name: "@EnableAi", desc: "Enables Spring AI auto-configurations for LLM Chat Models & Vector Stores." },
+                    { name: "@Observed", desc: "Micrometer observation annotation tracking AI prompt latency & token metrics." },
+                    { name: "@Value('${spring.ai.anthropic.api-key}')", desc: "Injects Anthropic API Key for Claude AI model authorization." }
+                ],
+                configs: [
+                    { key: "spring.ai.anthropic.api-key", val: "sk-ant-api03-...", desc: "Anthropic API secret key authorization token." },
+                    { key: "spring.ai.anthropic.chat.options.model", val: "claude-3-5-sonnet-20241022", desc: "Target Anthropic Claude model version." },
+                    { key: "spring.ai.anthropic.chat.options.temperature", val: "0.7", desc: "Controls randomness and creativity of generated responses." },
+                    { key: "spring.ai.anthropic.chat.options.max-tokens", val: "4096", desc: "Maximum token generation threshold per response." }
+                ],
+                strings: [
+                    "ChatModel chatModel = new AnthropicChatModel(anthropicApi)",
+                    "Prompt prompt = new Prompt(new UserMessage('Explain Spring AI'))",
+                    "ChatResponse response = chatModel.call(prompt)",
+                    "EmbeddingModel (Generates vector embeddings for semantic search)",
+                    "VectorStore vectorStore (PgVector / Pinecone / Redis storage for RAG context)"
+                ],
+                commands: [
+                    { cmd: "curl https://api.anthropic.com/v1/messages -H 'x-api-key: $ANTHROPIC_API_KEY' -H 'anthropic-version: 2023-06-01'", desc: "Directly queries Anthropic Claude REST API endpoint." }
+                ],
+                senior: {
+                    what: "Spring AI abstraction layer integrating Java applications with GenAI Chat Models (Claude AI / Anthropic) & VectorStores.",
+                    why: "Standardizes LLM interactions (prompts, embeddings, streaming, function calling) with clean Spring IoC dependency injection.",
+                    when: "Use for embedding AI assistants, automated RAG document search, and LLM text generation into Spring microservices.",
+                    gotcha: "Always configure timeout limits, backoff retries, and token usage monitors to prevent unexpected API cost spikes."
+                }
+            }
+        ];
+
+        // ==========================================
+        // 2. 100 QUIZ QUESTIONS DATA (ALL 13 TOPICS)
+        // ==========================================
+        const QUIZ_QUESTIONS = [
+            // Kafka (1-8)
+            { id: 1, topic: "Kafka", question: "Which Spring Kafka annotation designates a method as a listener for receiving messages from Kafka topics?", options: ["@EnableKafka", "@KafkaListener", "@KafkaStream", "@ReceiveKafkaMessage"], answer: 1, explanation: "@KafkaListener marks a method to act as a listener container for specified Kafka topics." },
+            { id: 2, topic: "Kafka", question: "Which configuration property specifies the list of broker host:port pairs for connecting to a Kafka cluster?", options: ["spring.kafka.cluster-url", "spring.kafka.bootstrap-servers", "spring.kafka.brokers", "spring.kafka.host-list"], answer: 1, explanation: "spring.kafka.bootstrap-servers defines the initial list of Kafka broker addresses." },
+            { id: 3, topic: "Kafka", question: "What property determines consumer behavior when there is no initial offset in Kafka or current offset no longer exists?", options: ["spring.kafka.consumer.auto-offset-reset", "spring.kafka.offset-policy", "spring.kafka.consumer.fallback-offset", "spring.kafka.auto-reset"], answer: 0, explanation: "spring.kafka.consumer.auto-offset-reset (e.g. earliest, latest) dictates offset strategy when offset is missing." },
+            { id: 4, topic: "Kafka", question: "Which annotation allows forwarding the return value of a @KafkaListener method directly to another Kafka topic?", options: ["@ForwardTo", "@SendTo", "@KafkaPublisher", "@RedirectMessage"], answer: 1, explanation: "@SendTo automatically publishes the return value of a listener method to a specified destination topic." },
+            { id: 5, topic: "Kafka", question: "Which producer acknowledgement setting guarantees that all in-sync replicas must acknowledge a message before write confirmation?", options: ["acks=0", "acks=1", "acks=all (or -1)", "acks=leader"], answer: 2, explanation: "acks=all (or -1) ensures maximum durability by waiting for full replication acknowledgement across all ISRs." },
+            { id: 6, topic: "Kafka", question: "Which parameter object in a @KafkaListener method gives direct access to topic name, partition, offset, and key?", options: ["KafkaRecord", "ConsumerRecord<K,V>", "MessageWrapper", "KafkaPayload"], answer: 1, explanation: "ConsumerRecord<K,V> encapsulates all message metadata including partition, offset, key, value, and headers." },
+            { id: 7, topic: "Kafka", question: "Which annotation is required on a @Configuration class to enable detection of @KafkaListener annotations?", options: ["@EnableKafka", "@EnableKafkaListeners", "@ConfigureKafka", "@KafkaSetup"], answer: 0, explanation: "@EnableKafka enables Spring Kafka listener infrastructure detection on beans." },
+            { id: 8, topic: "Kafka", question: "Which Spring Template class is used to publish messages synchronously or asynchronously to Kafka topics?", options: ["KafkaTemplate", "KafkaClientTemplate", "ProducerTemplate", "KafkaMessageTemplate"], answer: 0, explanation: "KafkaTemplate wraps a Kafka Producer and provides high-level message sending operations." },
+
+            // Redis (9-16)
+            { id: 9, topic: "Redis", question: "Which Spring Cache annotation indicates that the result of invoking a method should be cached in Redis?", options: ["@CachePut", "@CacheEvict", "@Cacheable", "@RedisCache"], answer: 2, explanation: "@Cacheable triggers caching of method return values in the specified Redis cache." },
+            { id: 10, topic: "Redis", question: "Which property defines the host address of the Redis server in Spring Boot application.properties?", options: ["spring.redis.server", "spring.data.redis.host", "spring.redis.host-name", "spring.cache.redis.host"], answer: 1, explanation: "spring.data.redis.host configures the target Redis server IP or domain." },
+            { id: 11, topic: "Redis", question: "Which annotation is used to evict or purge stale data from a Redis cache?", options: ["@CacheRemove", "@CacheEvict", "@CacheClear", "@RedisEvict"], answer: 1, explanation: "@CacheEvict marks a method to remove one or all entries from a cache." },
+            { id: 12, topic: "Redis", question: "Which Spring annotation forces method execution and updates the Redis cache with the return result without skipping execution?", options: ["@Cacheable", "@CachePut", "@CacheUpdate", "@ForceCache"], answer: 1, explanation: "@CachePut always executes the method and updates the cache with the fresh return value." },
+            { id: 13, topic: "Redis", question: "Which Spring Data Redis template class is optimized specifically for string-to-string Redis operations?", options: ["RedisTemplate<String, Object>", "StringRedisTemplate", "BasicRedisTemplate", "RedisStringOperations"], answer: 1, explanation: "StringRedisTemplate uses StringRedisSerializer for both keys and values." },
+            { id: 14, topic: "Redis", question: "Which property sets the default Time-To-Live (TTL) expiration for Redis cache entries in Spring Boot?", options: ["spring.cache.redis.time-to-live", "spring.data.redis.ttl", "spring.redis.cache.expire", "spring.cache.ttl"], answer: 0, explanation: "spring.cache.redis.time-to-live configures entry expiration time." },
+            { id: 15, topic: "Redis", question: "Which Spring Data Redis annotation marks an entity class to be stored inside a Redis Hash data structure?", options: ["@Entity", "@RedisHash", "@RedisTable", "@CacheEntity"], answer: 1, explanation: "@RedisHash(\"hash_name\") designates a class for Spring Data Redis repository storage." },
+            { id: 16, topic: "Redis", question: "What is the default non-blocking/reactive Java client driver used by Spring Boot 2.x and 3.x for Redis?", options: ["Jedis", "Redisson", "Lettuce", "JRedis"], answer: 2, explanation: "Lettuce is the default scalable, thread-safe, non-blocking Redis driver in Spring Boot." },
+
+            // React (17-24)
+            { id: 17, topic: "React", question: "Which React Hook allows functional components to declare and update local state variables?", options: ["useRef", "useState", "useMemo", "useContext"], answer: 1, explanation: "useState returns a stateful value and a function to update it." },
+            { id: 18, topic: "React", question: "Which React Hook is designed to perform side effects like data fetching or DOM subscriptions?", options: ["useEffect", "useCallback", "useLayoutEffect", "useReducer"], answer: 0, explanation: "useEffect runs side-effect operations after component rendering." },
+            { id: 19, topic: "React", question: "Which hook consumes values from a React Context without wrapping components in Consumer tags?", options: ["useContext", "useProvider", "useConsumer", "useStore"], answer: 0, explanation: "useContext accepts a context object and returns current context value." },
+            { id: 20, topic: "React", question: "Which hook memoizes the calculated result of an expensive function between re-renders?", options: ["useCallback", "useMemo", "useRef", "useReducer"], answer: 1, explanation: "useMemo recomputes a memoized value only when one of its dependencies changes." },
+            { id: 21, topic: "React", question: "Which hook returns a memoized callback function instance to prevent unnecessary child component re-renders?", options: ["useMemo", "useCallback", "useEffect", "useRef"], answer: 1, explanation: "useCallback memoizes a function reference between renders." },
+            { id: 22, topic: "React", question: "Which hook returns a mutable ref object whose .current property persists across re-renders without triggering a re-render?", options: ["useState", "useRef", "useMemo", "useValue"], answer: 1, explanation: "useRef holds mutable state across renders without causing re-renders when updated." },
+            { id: 23, topic: "React", question: "Which higher-order component prevents a functional component from re-rendering if its props have not changed?", options: ["React.pure", "React.memo", "React.cache", "React.freeze"], answer: 1, explanation: "React.memo memoizes component render output based on shallow prop comparisons." },
+            { id: 24, topic: "React", question: "Which React hook is preferred over useState for managing complex state logic involving multiple sub-values?", options: ["useReducer", "useStore", "useComplexState", "useDispatcher"], answer: 0, explanation: "useReducer accepts a (state, action) => newState reducer function." },
+
+            // Resilience4j (25-32)
+            { id: 25, topic: "Resilience4j", question: "Which Resilience4j annotation decorates a method to monitor failures and transition between CLOSED, OPEN, and HALF_OPEN states?", options: ["@Retry", "@CircuitBreaker", "@RateLimiter", "@Bulkhead"], answer: 1, explanation: "@CircuitBreaker manages method invocation health and circuit state transitions." },
+            { id: 26, topic: "Resilience4j", question: "Which attribute in @CircuitBreaker specifies the target method name to execute when the circuit is open or throws an exception?", options: ["fallbackMethod", "onFailure", "defaultHandler", "errorCallback"], answer: 0, explanation: "fallbackMethod specifies the local method name for handling circuit breaker failures." },
+            { id: 27, topic: "Resilience4j", question: "Which Resilience4j annotation automatically re-executes a failed method according to backoff configurations?", options: ["@Repeat", "@Retry", "@Reattempt", "@Backoff"], answer: 1, explanation: "@Retry automatically retries failed method executions based on configured attempts." },
+            { id: 28, topic: "Resilience4j", question: "Which annotation limits the frequency of method calls within a given timeframe?", options: ["@RateLimiter", "@Throttler", "@Bulkhead", "@TimeLimiter"], answer: 0, explanation: "@RateLimiter restricts method invocation rates to configured thresholds." },
+            { id: 29, topic: "Resilience4j", question: "Which annotation restricts the maximum number of concurrent executions to isolate microservice resources?", options: ["@ConcurrencyLimit", "@Bulkhead", "@Isolation", "@PoolLimiter"], answer: 1, explanation: "@Bulkhead isolates execution capacity using semaphores or thread pools." },
+            { id: 30, topic: "Resilience4j", question: "Which Resilience4j configuration attribute defines the number of calls recorded to evaluate failure rate?", options: ["sliding-window-size", "sample-count", "ring-buffer-size", "window-threshold"], answer: 0, explanation: "sliding-window-size configures the recorded execution window size." },
+            { id: 31, topic: "Resilience4j", question: "Which property sets the percentage failure threshold above which the CircuitBreaker transitions to OPEN state?", options: ["failure-rate-threshold", "open-circuit-rate", "error-threshold-percent", "max-failure-ratio"], answer: 0, explanation: "failure-rate-threshold defines the percentage of failed calls required to open the circuit." },
+            { id: 32, topic: "Resilience4j", question: "Which Resilience4j annotation restricts the execution duration of asynchronous or reactive methods?", options: ["@TimeLimiter", "@Timeout", "@DurationLimit", "@Deadline"], answer: 0, explanation: "@TimeLimiter sets maximum execution timeout for Futures, CompletableFutures, or Rx/Reactor types." },
+
+            // API Gateway (33-39)
+            { id: 33, topic: "API Gateway", question: "Which root YAML configuration property path defines routes in Spring Cloud Gateway?", options: ["spring.cloud.gateway.routes", "spring.gateway.route-list", "cloud.gateway.routes", "spring.routes.gateway"], answer: 0, explanation: "spring.cloud.gateway.routes is the configuration array path for gateway routes." },
+            { id: 34, topic: "API Gateway", question: "Which Spring Cloud Gateway predicate matches incoming HTTP requests based on URI path patterns (e.g. /api/v1/**)?", options: ["Path", "UriPattern", "RequestPath", "RoutePath"], answer: 0, explanation: "The Path predicate matches request paths using AntPathMatcher patterns." },
+            { id: 35, topic: "API Gateway", question: "Which Gateway filter modifies the request URL path before forwarding it to downstream microservices?", options: ["StripPrefix", "RewritePath", "SetPath", "ChangeUrl"], answer: 1, explanation: "RewritePath uses regular expressions to rewrite incoming request paths before forwarding." },
+            { id: 36, topic: "API Gateway", question: "What URI schema prefix in Spring Cloud Gateway indicates dynamic routing via Eureka service discovery?", options: ["eureka://", "lb://", "cloud://", "discover://"], answer: 1, explanation: "lb:// specifies LoadBalancer resolution based on registered service names." },
+            { id: 37, topic: "API Gateway", question: "Which annotation enables a service to register with and locate services from a Service Discovery registry?", options: ["@EnableDiscoveryClient", "@EnableGateway", "@EnableEurekaRoute", "@RegisterClient"], answer: 0, explanation: "@EnableDiscoveryClient activates DiscoveryClient implementation for Eureka/Consul." },
+            { id: 38, topic: "API Gateway", question: "Which Gateway filter adds a custom header to incoming HTTP requests before routing?", options: ["AddRequestHeader", "InjectHeader", "SetHeaderFilter", "HeaderAppender"], answer: 0, explanation: "AddRequestHeader adds a designated header name and value to routed requests." },
+            { id: 39, topic: "API Gateway", question: "Which configuration attribute enables automatic route creation based on services registered in Eureka?", options: ["spring.cloud.gateway.discovery.locator.enabled=true", "spring.gateway.auto-routes=true", "spring.eureka.routes.enable=true", "cloud.gateway.auto-discover=true"], answer: 0, explanation: "discovery.locator.enabled=true auto-creates routes for all Eureka services." },
+
+            // Spring AOP (40-47)
+            { id: 40, topic: "Spring AOP", question: "Which annotation marks a Java class as an Aspect containing pointcuts and advice in Spring AOP?", options: ["@Aspect", "@Advice", "@PointcutClass", "@Interceptor"], answer: 0, explanation: "@Aspect marks a class as an AspectJ aspect containing cross-cutting logic." },
+            { id: 41, topic: "Spring AOP", question: "Which advice annotation surrounds a method execution, allowing custom logic before and after, as well as altering return values?", options: ["@Before", "@Around", "@After", "@AfterReturning"], answer: 1, explanation: "@Around surrounds join points and provides complete control over execution." },
+            { id: 42, topic: "Spring AOP", question: "Which parameter type must be passed into an @Around advice method to invoke the target method via .proceed()?", options: ["JoinPoint", "ProceedingJoinPoint", "MethodInvocation", "AspectContext"], answer: 1, explanation: "ProceedingJoinPoint is required for @Around advice to call proceed() on the target method." },
+            { id: 43, topic: "Spring AOP", question: "Which advice executes prior to the join point method execution?", options: ["@Before", "@PreExecute", "@Around", "@AfterReturning"], answer: 0, explanation: "@Before runs advice code prior to target method execution." },
+            { id: 44, topic: "Spring AOP", question: "Which advice executes only after a matched target method completes successfully without throwing exceptions?", options: ["@After", "@AfterReturning", "@AfterSuccess", "@OnComplete"], answer: 1, explanation: "@AfterReturning runs only when target method returns normally without exceptions." },
+            { id: 45, topic: "Spring AOP", question: "Which advice executes when a matched method exits by throwing an exception?", options: ["@AfterThrowing", "@OnError", "@CatchException", "@AfterError"], answer: 0, explanation: "@AfterThrowing runs when a target method throws an exception." },
+            { id: 46, topic: "Spring AOP", question: "Which annotation is used to declare reusable pointcut expressions in Spring AOP?", options: ["@Pointcut", "@PointcutExpression", "@AspectRule", "@MatchMethod"], answer: 0, explanation: "@Pointcut defines a named pointcut expression for reuse across advices." },
+            { id: 47, topic: "Spring AOP", question: "Which configuration property forces Spring AOP to use CGLIB class-based proxying instead of JDK dynamic proxies?", options: ["spring.aop.proxy-target-class=true", "spring.aop.use-cglib=true", "spring.aop.force-class-proxy=true", "spring.cglib.enabled=true"], answer: 0, explanation: "spring.aop.proxy-target-class=true forces CGLIB subclassing proxies." },
+
+            // Log4j / Logging (48-54)
+            { id: 48, topic: "Log4j", question: "Which Lombok annotation automatically generates a 'Logger log = LoggerFactory.getLogger(Target.class)' field?", options: ["@Log", "@Slf4j", "@Logger", "@Loggable"], answer: 1, explanation: "@Slf4j creates a static final Logger instance named log using SLF4J." },
+            { id: 49, topic: "Log4j", question: "Which property sets the global default log output level for a Spring Boot application?", options: ["logging.level.root", "logging.default-level", "logger.root.level", "spring.logging.level"], answer: 0, explanation: "logging.level.root sets the root logger log level." },
+            { id: 50, topic: "Log4j", question: "Which application property specifies the target log output filename?", options: ["logging.file.name", "logging.output-file", "logging.path.file", "spring.log.file"], answer: 0, explanation: "logging.file.name specifies the log file path/name." },
+            { id: 51, topic: "Log4j", question: "What does MDC stand for in logging frameworks like Log4j2 and Logback?", options: ["Managed Diagnostic Context", "Mapped Diagnostic Context", "Memory Data Container", "Message Diagnostic Controller"], answer: 1, explanation: "MDC stands for Mapped Diagnostic Context, providing thread-local contextual info for logs." },
+            { id: 52, topic: "Log4j", question: "In Log4j2 configuration, which component defines where log events are written (e.g. Console, File, RollingFile)?", options: ["Logger", "Appender", "Layout", "Filter"], answer: 1, explanation: "Appenders deliver log events to destination targets like console or files." },
+            { id: 53, topic: "Log4j", question: "Which property defines the layout format pattern for console log outputs in Spring Boot?", options: ["logging.pattern.console", "logging.format.console", "spring.log.console-pattern", "logging.layout.console"], answer: 0, explanation: "logging.pattern.console configures log pattern string for console output." },
+            { id: 54, topic: "Log4j", question: "What is the correct order of log levels from least severe to most severe?", options: ["TRACE < DEBUG < INFO < WARN < ERROR < FATAL", "DEBUG < TRACE < INFO < WARN < FATAL < ERROR", "INFO < DEBUG < TRACE < WARN < ERROR < FATAL", "TRACE < INFO < DEBUG < WARN < ERROR < FATAL"], answer: 0, explanation: "Log levels ascend: TRACE, DEBUG, INFO, WARN, ERROR, FATAL." },
+
+            // Actuator (55-61)
+            { id: 55, topic: "Actuator", question: "Which annotation defines a custom Spring Boot Actuator management endpoint?", options: ["@ActuatorEndpoint", "@Endpoint", "@ManagementEndpoint", "@MetricEndpoint"], answer: 1, explanation: "@Endpoint marks a class as an Actuator management endpoint." },
+            { id: 56, topic: "Actuator", question: "Which property controls which Actuator endpoints are exposed over HTTP?", options: ["management.endpoints.web.exposure.include", "management.web.endpoints.include", "endpoints.web.exposure", "spring.actuator.endpoints.include"], answer: 0, explanation: "management.endpoints.web.exposure.include dictates exposed endpoints (e.g. *, health, metrics)." },
+            { id: 57, topic: "Actuator", question: "Which annotation inside a custom @Endpoint class maps a read operation to an HTTP GET request?", options: ["@GetMapping", "@ReadOperation", "@GetEndpoint", "@FetchData"], answer: 1, explanation: "@ReadOperation maps method execution to HTTP GET on an endpoint." },
+            { id: 58, topic: "Actuator", question: "Which default Actuator endpoint displays application health status and component indicators?", options: ["/actuator/status", "/actuator/health", "/actuator/info", "/actuator/ping"], answer: 1, explanation: "/actuator/health checks application uptime and health indicators." },
+            { id: 59, topic: "Actuator", question: "Which configuration attribute exposes detailed component health info to authenticated or all users?", options: ["management.endpoint.health.show-details", "management.health.details.enabled", "actuator.health.show-components", "management.health.full-info"], answer: 0, explanation: "management.endpoint.health.show-details=always shows detailed component health breakdowns." },
+            { id: 60, topic: "Actuator", question: "Which annotation maps to HTTP POST on a custom @Endpoint class?", options: ["@PostMapping", "@WriteOperation", "@PostEndpoint", "@UpdateOperation"], answer: 1, explanation: "@WriteOperation maps to HTTP POST operations on an Actuator endpoint." },
+            { id: 61, topic: "Actuator", question: "Which Actuator endpoint exports application metrics in a format readable by Prometheus monitoring?", options: ["/actuator/metrics/prometheus", "/actuator/prometheus", "/actuator/metrics-export", "/actuator/prom"], answer: 1, explanation: "/actuator/prometheus formats Micrometer metrics for Prometheus scraping." },
+
+            // Java 8 (62-69)
+            { id: 62, topic: "Java 8", question: "Which annotation guarantees an interface contains exactly one abstract method?", options: ["@SingleMethod", "@FunctionalInterface", "@LambdaInterface", "@AbstractInterface"], answer: 1, explanation: "@FunctionalInterface generates a compile error if an interface has > 1 abstract method." },
+            { id: 63, topic: "Java 8", question: "How does Optional.orElseGet() differ from Optional.orElse() in Java 8?", options: ["orElseGet() accepts a Supplier and is evaluated lazily", "orElse() accepts a Supplier and is evaluated lazily", "There is no difference", "orElseGet() throws NullPointerException if empty"], answer: 0, explanation: "orElseGet(Supplier) evaluates the fallback Supplier lazily only if the Optional is empty." },
+            { id: 64, topic: "Java 8", question: "What is the primary purpose of the flatMap stream operation in Java 8?", options: ["Filters out null values", "Flattens nested streams/collections into a single stream", "Maps values into a HashMap", "Sorts elements in descending order"], answer: 1, explanation: "flatMap replaces each element of a stream with contents of a mapped stream, flattening nested structures." },
+            { id: 65, topic: "Java 8", question: "Which keyword allows interfaces to provide method implementations with default logic in Java 8?", options: ["default", "virtual", "implementation", "override"], answer: 0, explanation: "default methods allow interface backwards-compatibility by providing default method bodies." },
+            { id: 66, topic: "Java 8", question: "Which functional interface in java.util.function accepts an argument of type T and returns a boolean?", options: ["Function<T, Boolean>", "Consumer<T>", "Predicate<T>", "Supplier<Boolean>"], answer: 2, explanation: "Predicate<T> defines boolean test(T t) method." },
+            { id: 67, topic: "Java 8", question: "Which functional interface accepts an argument of type T and produces a result of type R?", options: ["Function<T, R>", "Supplier<R>", "Consumer<T>", "BiFunction<T, T, R>"], answer: 0, explanation: "Function<T, R> defines R apply(T t)." },
+            { id: 68, topic: "Java 8", question: "Which stream collector is used to group stream elements according to a classification function and return a Map?", options: ["Collectors.toMap()", "Collectors.groupingBy()", "Collectors.partitioningBy()", "Collectors.summarizing()"], answer: 1, explanation: "Collectors.groupingBy() performs SQL-like GROUP BY aggregation on streams." },
+            { id: 69, topic: "Java 8", question: "Which class in java.time represents an immutable date without time or time-zone information?", options: ["java.util.Date", "LocalDate", "LocalDateTime", "ZonedDateTime"], answer: 1, explanation: "LocalDate represents a date string like 2026-08-27 without time-zone or time components." },
+
+            // Java 11 (70-76)
+            { id: 70, topic: "Java 11", question: "What does String.isBlank() return for a string containing only whitespace characters in Java 11?", options: ["false", "true", "NullPointerException", "0"], answer: 1, explanation: "String.isBlank() returns true if the string is empty or contains only whitespace codepoints." },
+            { id: 71, topic: "Java 11", question: "Java 11 introduced support for 'var' in lambda parameters primarily to enable which capability?", options: ["Type inference for return types", "Applying annotations like @NotNull to lambda parameters", "Declaring dynamic variables", "Implicit parameter casting"], answer: 1, explanation: "Using (var x, var y) -> ... allows applying parameter annotations in lambda expressions." },
+            { id: 72, topic: "Java 11", question: "Which static method in java.nio.file.Files reads an entire file into a String in Java 11?", options: ["Files.readAllBytesAsString()", "Files.readString(Path)", "Files.readText()", "Files.contentToString()"], answer: 1, explanation: "Files.readString(path) reads all content from a file into a UTF-8 String directly." },
+            { id: 73, topic: "Java 11", question: "How can a single Java 11 source code file (Main.java) be executed directly from CLI without explicit javac compilation?", options: ["java Main.java", "javac --run Main.java", "java -execute Main.java", "java -compile Main.java"], answer: 0, explanation: "Java 11 allows direct single-file execution: java Main.java." },
+            { id: 74, topic: "Java 11", question: "Which standard package introduced the standardized HTTP Client in Java 11 supporting HTTP/2 and WebSockets?", options: ["java.net.http", "org.apache.http", "java.http.client", "javax.net.http"], answer: 0, explanation: "java.net.http provides HttpClient, HttpRequest, and HttpResponse APIs." },
+            { id: 75, topic: "Java 11", question: "How does Java 11 String.strip() differ from legacy String.trim()?", options: ["strip() is Unicode-aware and removes all Unicode whitespace", "trim() is Unicode-aware while strip() is ASCII only", "There is no difference", "strip() mutates the original string"], answer: 0, explanation: "String.strip() determines whitespace using Character.isWhitespace(codepoint), unlike ASCII-only trim()." },
+            { id: 76, topic: "Java 11", question: "Which static utility method in Java 11 negates a given Predicate lambda?", options: ["Predicate.not(...)", "Predicate.negate(...)", "Predicate.invert(...)", "Predicate.opposite(...)"], answer: 0, explanation: "Predicate.not(p) returns a predicate that is the negation of the supplied predicate." },
+
+            // Hibernate / JPA (77-84)
+            { id: 77, topic: "Hibernate", question: "Which annotation specifies that a Java class is a JPA entity mapped to a relational database table?", options: ["@Table", "@Entity", "@Model", "@Persistent"], answer: 1, explanation: "@Entity marks a domain class as a JPA relational persistent entity." },
+            { id: 78, topic: "Hibernate", question: "Which annotation combination sets up an auto-incrementing primary key in JPA?", options: ["@Id and @GeneratedValue(strategy = GenerationType.IDENTITY)", "@PrimaryKey and @AutoIncrement", "@Id and @SequenceGenerator", "@Column(primaryKey=true)"], answer: 0, explanation: "@Id and @GeneratedValue(strategy = GenerationType.IDENTITY) configures auto-increment primary keys." },
+            { id: 79, topic: "Hibernate", question: "Which annotation defines the foreign key column name in a JPA entity relationship (@ManyToOne / @OneToOne)?", options: ["@ForeignKey", "@JoinColumn", "@MappedColumn", "@RelationColumn"], answer: 1, explanation: "@JoinColumn specifies the physical database foreign key column name." },
+            { id: 80, topic: "Hibernate", question: "Which spring.jpa.hibernate.ddl-auto value validates and updates database schema without dropping existing data?", options: ["create", "update", "create-drop", "validate"], answer: 1, explanation: "update updates the relational schema according to entities without dropping data." },
+            { id: 81, topic: "Hibernate", question: "Which JPA annotation prevents an entity field from being persisted into the database table?", options: ["@Ignore", "@Transient", "@Skip", "@Exclude"], answer: 1, explanation: "@Transient marks a field to be ignored by the JPA persistence provider." },
+            { id: 82, topic: "Hibernate", question: "Which JPA annotation is used to implement Optimistic Locking to prevent concurrent update conflicts?", options: ["@Lock", "@Version", "@Optimistic", "@ConcurrencyControl"], answer: 1, explanation: "@Version enables optimistic locking by tracking entity version numbers/timestamps." },
+            { id: 83, topic: "Hibernate", question: "What is the N+1 SELECT problem in JPA/Hibernate?", options: ["Executing 1 query for parent entities and N additional queries for lazy child associations", "Executing N queries for 1 parent entity", "Executing 1 query that takes N seconds", "Database connection pool exhaustion"], answer: 0, explanation: "N+1 query problem occurs when fetching N parent entities triggers N separate child queries." },
+            { id: 84, topic: "Hibernate", question: "What does the mappedBy attribute signify in a bidirectional @OneToMany mapping?", options: ["Indicates the owning side of the foreign key", "Indicates the inverse (non-owning) side of the relationship", "Maps entity to a secondary table", "Enables lazy fetching"], answer: 1, explanation: "mappedBy points to the field name on the owning child entity that holds the @JoinColumn." },
+
+            // JDBC (85-91)
+            { id: 85, topic: "JDBC", question: "Why is PreparedStatement preferred over basic Statement in JDBC?", options: ["Precompiles SQL statements and prevents SQL Injection attacks", "Uses less memory", "Executes queries asynchronously", "Supports auto-commit automatically"], answer: 0, explanation: "PreparedStatement precompiles SQL and parameterizes input values, defeating SQL injection." },
+            { id: 86, topic: "JDBC", question: "Which parameters are required by DriverManager.getConnection() to open a raw database connection?", options: ["(driverClass, url)", "(url, username, password)", "(host, port, dbName)", "(connectionString)"], answer: 1, explanation: "DriverManager.getConnection(url, username, password) returns a active Connection object." },
+            { id: 87, topic: "JDBC", question: "Which HikariCP configuration property sets the upper limit on database connections in the pool?", options: ["spring.datasource.hikari.maximum-pool-size", "spring.datasource.hikari.max-connections", "spring.datasource.pool.limit", "hikari.pool.max-size"], answer: 0, explanation: "spring.datasource.hikari.maximum-pool-size dictates maximum pool connection count." },
+            { id: 88, topic: "JDBC", question: "Which JDBC methods allow executing multiple SQL INSERT/UPDATE commands in a single network round-trip?", options: ["addBatch() and executeBatch()", "addQuery() and runBatch()", "appendBatch() and submitBatch()", "executeMulti()"], answer: 0, explanation: "addBatch() accumulates SQL commands, and executeBatch() submits them as a single batch execution." },
+            { id: 89, topic: "JDBC", question: "What does ResultSet.next() do in JDBC?", options: ["Moves database cursor to next row and returns true if a valid row exists", "Returns next column value", "Closes result set", "Resets cursor to row 0"], answer: 0, explanation: "ResultSet.next() advances the cursor and returns true if another record exists." },
+            { id: 90, topic: "JDBC", question: "Which JDBC interface is specifically used to execute database stored procedures with IN/OUT parameters?", options: ["Statement", "PreparedStatement", "CallableStatement", "ProcedureStatement"], answer: 2, explanation: "CallableStatement extends PreparedStatement to execute SQL stored procedures." },
+            { id: 91, topic: "JDBC", question: "Why is connection.setAutoCommit(false) invoked before transaction execution in raw JDBC?", options: ["To manually control transaction commit/rollback boundaries", "To speed up query performance", "To lock the database table", "To enable auto-rollback on timeout"], answer: 0, explanation: "setAutoCommit(false) disables auto-commit per statement, grouping operations into an atomic transaction." },
+
+            // JVM (92-100)
+            { id: 92, topic: "JVM", question: "What is the difference between -Xms and -Xmx JVM flags?", options: ["-Xms sets initial heap allocation size, while -Xmx sets maximum heap size", "-Xms sets maximum heap size, while -Xmx sets initial heap size", "-Xms configures Metaspace, -Xmx configures Stack", "-Xms is for GC, -Xmx is for JIT"], answer: 0, explanation: "-Xms sets starting memory footprint; -Xmx caps max heap memory allocation." },
+            { id: 93, topic: "JVM", question: "What replaced PermGen (Permanent Generation) in Java 8+ for storing class metadata in native memory?", options: ["Metaspace", "Stack Space", "Code Cache", "Native Heap"], answer: 0, explanation: "Metaspace replaced PermGen in Java 8, allocating class metadata out of OS native memory." },
+            { id: 94, topic: "JVM", question: "Which Garbage Collector was introduced as the default GC in Java 9+ for multi-core server systems?", options: ["Parallel GC", "Serial GC", "G1 GC (Garbage-First)", "CMS (Concurrent Mark Sweep)"], answer: 2, explanation: "G1 GC became the default garbage collector in Java 9+ replacing Parallel GC." },
+            { id: 95, topic: "JVM", question: "What is the function of the -XX:+HeapDumpOnOutOfMemoryError JVM flag?", options: ["Automatically dumps heap memory snapshot to a .hprof file on OutOfMemoryError", "Restarts the JVM on memory failure", "Clears heap memory automatically", "Increases heap size dynamically"], answer: 0, explanation: "-XX:+HeapDumpOnOutOfMemoryError generates a heap dump file upon OOM exception for post-mortem analysis." },
+            { id: 96, topic: "JVM", question: "What is the top-level parent ClassLoader in Java responsible for loading core runtime classes (java.lang.*)?", options: ["Application ClassLoader", "Platform ClassLoader", "Bootstrap ClassLoader", "System ClassLoader"], answer: 2, explanation: "Bootstrap ClassLoader is implemented in native C/C++ code and loads core JDK classes." },
+            { id: 97, topic: "JVM", question: "What does the Just-In-Time (JIT) compiler do in the JVM Execution Engine?", options: ["Compiles Java source code to Bytecode", "Compiles frequently executed bytecode (hotspots) into native machine code at runtime", "Decompiles classes at runtime", "Optimizes memory garbage collection"], answer: 1, explanation: "JIT converts hotspot bytecode into native machine code to boost runtime performance." },
+            { id: 98, topic: "JVM", question: "Which JVM memory area stores thread-specific method invocation frames, local variables, and call stacks?", options: ["Heap Memory", "Metaspace", "JVM Stack (Thread Stack)", "Method Area"], answer: 2, explanation: "Each JVM thread has a private JVM Stack containing stack frames for active method calls." },
+            { id: 99, topic: "JVM", question: "What happens if -XX:MaxMetaspaceSize is not set in a modern 64-bit JVM?", options: ["JVM fails to start", "Metaspace dynamically expands up to total available physical OS memory", "Metaspace defaults to 64MB", "Garbage collection is disabled"], answer: 1, explanation: "Unbounded Metaspace can grow until physical system RAM/swap is exhausted." },
+            { id: 100, topic: "JVM", question: "What is a key defining feature of Z Garbage Collector (ZGC)?", options: ["Low-latency garbage collector with sub-millisecond pause times regardless of heap size", "Single-threaded collector for small apps", "Deprecated in Java 11", "Requires manual memory deallocation"], answer: 0, explanation: "ZGC is a scalable low-latency GC engineered to handle massive heaps with sub-millisecond pause times." },
+
+            // Advanced & Complex Concepts (101-125)
+            { id: 101, topic: "JVM", question: "Where in JVM memory are Java object instances (e.g., new User()) allocated and stored?", options: ["JVM Stack", "Heap Memory", "Metaspace", "Program Counter Register"], answer: 1, explanation: "Heap Memory is the shared memory region where all object instances, arrays, and string pools are allocated." },
+            { id: 102, topic: "JVM", question: "Where are local primitive variables (e.g. int x = 10) declared inside a method stored in JVM memory?", options: ["Heap Memory", "JVM Stack (Thread Stack)", "Metaspace", "Code Cache"], answer: 1, explanation: "Local primitive variables and object reference pointers inside methods are stored in thread-private JVM Stack frames." },
+            { id: 103, topic: "JVM", question: "In Java 8+, where is class metadata (class structures, method bytecodes, and constant pools) stored?", options: ["PermGen", "Metaspace (Native OS Memory)", "Java Heap", "Thread Local Storage"], answer: 1, explanation: "Metaspace replaced PermGen in Java 8 and resides in off-heap native operating system memory." },
+            { id: 104, topic: "JVM", question: "Where are string literals (e.g. 'hello') stored in modern HotSpot JVM (Java 7+)?", options: ["Metaspace", "Inside Heap Memory (String Pool)", "JVM Stack", "Native C Heap"], answer: 1, explanation: "The String Constant Pool was relocated from PermGen into the main Java Heap in Java 7." },
+            { id: 105, topic: "JVM", question: "Which JVM JIT optimization allows object instances to be allocated on the Thread Stack instead of the Heap if they do not escape method scope?", options: ["Class Data Sharing", "Escape Analysis", "Inlining", "Lock Coarsening"], answer: 1, explanation: "Escape Analysis determines if an object is accessible outside the current thread/method; if not, it allocates it on the stack to reduce GC overhead." },
+            { id: 106, topic: "JVM", question: "Which JVM Heap memory region stores short-lived newly instantiated objects before promotion to Old Generation?", options: ["Eden Space (Young Gen)", "Tenured Space", "Survivor S1 Space", "Code Cache"], answer: 0, explanation: "New objects are initially allocated in the Eden space within the Young Generation." },
+            { id: 107, topic: "Kafka", question: "In Kafka consumer group rebalancing, which interface listener gracefully handles offset commits before partitions are reassigned?", options: ["RebalanceHandler", "ConsumerRebalanceListener", "PartitionOffsetListener", "KafkaGroupListener"], answer: 1, explanation: "ConsumerRebalanceListener provides onPartitionsRevoked() to commit offsets prior to partition rebalancing." },
+            { id: 108, topic: "Kafka", question: "What is the primary architectural effect of enabling enable.idempotence=true on a Kafka Producer?", options: ["Compresses messages using zstd", "Assigns sequence numbers to records to prevent duplicate writes from retries", "Enables multithreaded consuming", "Encrypts payloads at rest"], answer: 1, explanation: "Idempotent producers assign sequence numbers and producer IDs to prevent broker duplicate writes." },
+            { id: 109, topic: "Redis", question: "Which Redis memory eviction policy evicts the Least Frequently Used (LFU) keys first when memory capacity is reached?", options: ["volatile-lru", "allkeys-lfu", "volatile-ttl", "noeviction"], answer: 1, explanation: "allkeys-lfu analyzes frequency counters across all keys and evicts the least frequently used keys." },
+            { id: 110, topic: "Redis", question: "Which Redis commands are used to bundle multiple commands for atomic execution without interruption?", options: ["BEGIN ... COMMIT", "MULTI ... EXEC", "LOCK ... UNLOCK", "BATCH ... SUBMIT"], answer: 1, explanation: "MULTI starts a transaction block, queuing commands until EXEC triggers atomic execution." },
+            { id: 111, topic: "React", question: "Which React 18 hook marks a state update as non-urgent, keeping the UI responsive during heavy re-renders?", options: ["useTransition", "useDeferredValue", "useId", "useSyncExternalStore"], answer: 0, explanation: "useTransition returns [isPending, startTransition] allowing state updates to be deferred as non-blocking transitions." },
+            { id: 112, topic: "React", question: "Which React 18 hook is recommended for subscribing to external state stores without risk of visual UI tearing in Concurrent mode?", options: ["useExternalStore", "useSyncExternalStore", "useStoreSubscription", "useConcurrentStore"], answer: 1, explanation: "useSyncExternalStore provides safe, concurrent-mode subscription to external non-React stores." },
+            { id: 113, topic: "Resilience4j", question: "What happens when a Resilience4j ThreadPoolBulkhead's max thread pool and task queue capacity are both fully saturated?", options: ["Silently drops the call", "Throws BulkheadFullException and triggers fallbackMethod", "Blocks the thread indefinitely", "Retries automatically"], answer: 1, explanation: "Saturated Bulkheads throw BulkheadFullException, causing Resilience4j to execute the fallback method." },
+            { id: 114, topic: "Resilience4j", question: "In a Resilience4j CircuitBreaker, what causes a transition from HALF_OPEN state back to OPEN state?", options: ["Timer expiration", "Failure rate of trial calls in HALF_OPEN exceeding failure-rate-threshold", "Manual reset command", "JVM memory garbage collection"], answer: 1, explanation: "If configured trial calls in HALF_OPEN fail above the failure-rate-threshold, the circuit re-opens." },
+            { id: 115, topic: "API Gateway", question: "How does Spring Cloud Gateway execute non-blocking, highly concurrent HTTP requests efficiently?", options: ["Uses 1 thread per request model on Tomcat", "Uses Project Reactor and Netty event loop threads", "Uses JDBC connection pooling", "Uses Servlet 3.0 Async Filters"], answer: 1, explanation: "Spring Cloud Gateway is built on Spring WebFlux, Project Reactor, and Netty for non-blocking reactive IO." },
+            { id: 116, topic: "Spring AOP", question: "Why is a @Transactional method advice ignored when called internally from within the same class (this.myTransactionalMethod())?", options: ["Transaction manager is disabled", "Self-invocation bypasses the Spring AOP proxy wrapper", "Method is private", "CGLIB does not support transactions"], answer: 1, explanation: "Spring AOP uses proxy wrappers; internal method calls (this.method()) bypass the proxy instance." },
+            { id: 117, topic: "Docker", question: "What is the key operational difference between CMD and ENTRYPOINT in a Dockerfile?", options: ["CMD runs at build time; ENTRYPOINT runs at start", "ENTRYPOINT sets the default executable, while CMD supplies default arguments that CLI can override", "ENTRYPOINT requires root privileges", "CMD cannot be overridden"], answer: 1, explanation: "ENTRYPOINT defines container runtime binary, while CMD supplies default arguments overridable via CLI." },
+            { id: 118, topic: "Kubernetes", question: "Which Kubernetes container probe checks if a Pod is ready to accept network traffic and removes it from Service endpoints if it fails?", options: ["Liveness Probe", "Readiness Probe", "Startup Probe", "Health Probe"], answer: 1, explanation: "Readiness Probe determines network traffic routing eligibility to Pod endpoints." },
+            { id: 119, topic: "OAuth2", question: "In a JWT token JSON header, which parameter specifies the cryptographic algorithm used to sign the token (e.g. RS256)?", options: ["alg", "typ", "sub", "iss"], answer: 0, explanation: "The header 'alg' claim indicates the cryptographic signing algorithm (e.g. RS256, HS256)." },
+            { id: 120, topic: "OAuth2", question: "Which OAuth2 grant type is recommended for secure machine-to-machine microservice authentication without user involvement?", options: ["Authorization Code Grant", "Implicit Grant", "Client Credentials Grant", "Resource Owner Password Credentials"], answer: 2, explanation: "Client Credentials Grant authenticates client credentials directly for service-to-service communication." },
+            { id: 121, topic: "Spring Boot", question: "Where does Spring Boot 3.x discover auto-configuration classes on the classpath?", options: ["META-INF/spring.factories", "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports", "application.yml", "spring-boot.xml"], answer: 1, explanation: "Spring Boot 3.0+ uses AutoConfiguration.imports files instead of legacy spring.factories." },
+            { id: 122, topic: "Hibernate", question: "What is the primary effect of applying @DynamicUpdate on a Hibernate Entity class?", options: ["Updates schema DDL automatically", "Generates SQL UPDATE queries containing only columns whose values have changed", "Enables optimistic locking", "Disables L1 cache"], answer: 1, explanation: "@DynamicUpdate generates dynamic UPDATE statements including only modified column fields." },
+            { id: 123, topic: "Hibernate", question: "Which JPA inheritance mapping strategy stores all entity hierarchy subclasses in a single relational table using a discriminator column?", options: ["InheritanceType.SINGLE_TABLE", "InheritanceType.TABLE_PER_CLASS", "InheritanceType.JOINED", "InheritanceType.MAPPED_SUPERCLASS"], answer: 0, explanation: "SINGLE_TABLE stores all subclasses in 1 database table differentiated by a @DiscriminatorColumn." },
+            { id: 124, topic: "JDBC", question: "What is the purpose of invoking statement.setFetchSize(1000) on a JDBC PreparedStatement?", options: ["Limits maximum rows returned", "Instructs database driver to fetch 1000 rows per network round-trip from database cursor", "Sets connection pool size", "Sets query timeout in ms"], answer: 1, explanation: "setFetchSize() controls driver network buffer row fetching size for large result sets." },
+            { id: 125, topic: "JVM", question: "Which JDK CLI tool is used to capture thread stack traces of a running Java process to diagnose CPU spikes and deadlocks?", options: ["jstat", "jstack (or jcmd <pid> Thread.print)", "jinfo", "jhat"], answer: 1, explanation: "jstack prints stack traces of Java threads in the specified process." },
+
+            // Design Patterns & Architecture (126-135)
+            { id: 126, topic: "Design Patterns", question: "Which Creational Design Pattern guarantees a class has only one instance throughout the application and provides a global point of access to it?", options: ["Factory Method", "Singleton Pattern", "Prototype Pattern", "Builder Pattern"], answer: 1, explanation: "Singleton pattern restricts instantiation to a single object instance via private constructor and static getInstance()." },
+            { id: 127, topic: "Design Patterns", question: "In Spring Framework, what is the default scope of a bean declared with @Component or @Service?", options: ["Prototype", "Singleton Scope", "Request", "Session"], answer: 1, explanation: "Spring beans default to Singleton scope, where the IoC container maintains exactly one shared bean instance per ApplicationContext." },
+            { id: 128, topic: "Design Patterns", question: "Which Creational Pattern creates new object instances by cloning an existing benchmark instance rather than using constructors?", options: ["Factory Pattern", "Prototype Pattern", "Singleton Pattern", "Adapter Pattern"], answer: 1, explanation: "Prototype pattern uses Object.clone() or copy mechanisms to instantiate new objects from prototype templates." },
+            { id: 129, topic: "Design Patterns", question: "Which Creational Pattern delegates object instantiation logic to a dedicated creation method or class (e.g., LoggerFactory.getLogger())?", options: ["Factory Method Pattern", "Decorator Pattern", "Facade Pattern", "Proxy Pattern"], answer: 0, explanation: "Factory Method defines an interface for creating objects, letting subclasses decide which class to instantiate." },
+            { id: 130, topic: "Design Patterns", question: "Which Microservices Architectural Pattern manages distributed transactions across multiple services via a sequence of local transactions and compensating rollbacks?", options: ["Two-Phase Commit (2PC)", "Saga Pattern", "Outbox Pattern", "CQRS Pattern"], answer: 1, explanation: "Saga Pattern coordinates distributed transactions across microservices using local transactions and compensating actions on failure." },
+            { id: 131, topic: "Design Patterns", question: "In the Saga Pattern, what is the primary distinction between Choreography and Orchestration approaches?", options: ["Choreography uses a central orchestrator; Orchestration uses events", "In Choreography services communicate via async domain events without a central coordinator; in Orchestration a central controller directs execution", "Choreography is synchronous; Orchestration is offline", "There is no difference"], answer: 1, explanation: "Choreography relies on event-driven peer-to-peer pub/sub; Orchestration uses a central Saga Orchestrator logic." },
+            { id: 132, topic: "Design Patterns", question: "Which Lombok annotation automatically generates a fluent Builder Pattern implementation with method chaining?", options: ["@Factory", "@Builder", "@Prototype", "@Singleton"], answer: 1, explanation: "@Builder produces complex builder APIs for constructing object instances with method chaining." },
+            { id: 133, topic: "Design Patterns", question: "Which Structural Pattern allows incompatible interfaces to work together by wrapping an object in a compatible adapter interface (e.g. InputStreamReader)?", options: ["Adapter Pattern", "Bridge Pattern", "Flyweight Pattern", "Composite Pattern"], answer: 0, explanation: "Adapter converts the interface of a class into another interface expected by clients." },
+            { id: 134, topic: "Design Patterns", question: "Which Behavioral Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime (e.g. dynamic PaymentStrategy selection)?", options: ["State Pattern", "Strategy Pattern", "Template Method", "Command Pattern"], answer: 1, explanation: "Strategy pattern encapsulates algorithms into strategy implementations, selecting them dynamically at runtime." },
+            { id: 135, topic: "Design Patterns", question: "Which Behavioral Pattern establishes a 1-to-N dependency so that when one object state changes, all dependents are notified automatically (e.g. Spring @EventListener)?", options: ["Observer Pattern", "Mediator Pattern", "Visitor Pattern", "Iterator Pattern"], answer: 0, explanation: "Observer pattern defines a publish-subscribe dependency mechanism between observable state and listener objects." },
+
+            // Spring Data JPA, Hibernate, Log4j & Swagger (136-150)
+            { id: 136, topic: "Spring Data JPA", question: "Which Spring Data JPA interface provides built-in CRUD operations, batch execution, pagination, and sorting out of the box?", options: ["CrudRepository", "PagingAndSortingRepository", "JpaRepository<T, ID>", "Repository"], answer: 2, explanation: "JpaRepository extends PagingAndSortingRepository and CrudRepository, providing JPA-specific batch and flushing methods." },
+            { id: 137, topic: "Spring Data JPA", question: "In Spring Data JPA, what annotation is mandatory alongside @Query when executing bulk UPDATE or DELETE DML statements?", options: ["@Update", "@Modifying", "@ExecuteDml", "@TransactionalOnly"], answer: 1, explanation: "@Modifying instructs Spring Data JPA that the custom query executes a DML update/delete operation instead of a SELECT." },
+            { id: 138, topic: "Spring Data JPA", question: "Why is setting spring.jpa.open-in-view=false recommended for production Spring Boot microservices?", options: ["It disables database caching", "It prevents holding database connections open during view rendering (OSIV anti-pattern connection leaks)", "It speeds up JSON serialization", "It forces native SQL queries"], answer: 1, explanation: "Disabling Open Session in View (OSIV) closes database connections immediately after service transactions complete, avoiding connection pool exhaustion." },
+            { id: 139, topic: "Spring Data JPA", question: "How does Spring Data JPA create queries from derived repository method names like findByEmailAndStatus(String email, String status)?", options: ["Executes a raw SQL file", "Parses method name keywords into JPQL queries at application startup", "Uses reflection at runtime for every call", "Requires manual SQL mapping"], answer: 1, explanation: "Spring Data JPA parses method name subject and predicate keywords into JPQL AST queries during container startup." },
+            { id: 140, topic: "Hibernate", question: "Which runtime exception is thrown by Hibernate when trying to access an uninitialized lazy collection or entity proxy outside an active Session?", options: ["NullPointerException", "LazyInitializationException", "EntityNotFoundException", "SessionClosedException"], answer: 1, explanation: "LazyInitializationException occurs when navigating lazy associations without an open Hibernate Session/EntityManager transaction." },
+            { id: 141, topic: "Hibernate", question: "Which Hibernate annotation is placed on entity collection mappings (e.g. @OneToMany) to optimize lazy loading and reduce N+1 queries by fetching children in batches?", options: ["@BatchSize(size = 20)", "@FetchBatch", "@OptimizeNPlusOne", "@LazyBatch"], answer: 0, explanation: "@BatchSize instructs Hibernate to load lazy collections in batches of the specified size instead of 1 by 1." },
+            { id: 142, topic: "Hibernate", question: "Which cache level in Hibernate is bound to the current Session lifecycle and is enabled by default for all entity operations?", options: ["Second-Level Cache", "First-Level Cache (Session Cache)", "Query Cache", "JVM Metaspace Cache"], answer: 1, explanation: "First-Level Cache is mandatory and scoped to the active Session/EntityManager to guarantee entity identity." },
+            { id: 143, topic: "Hibernate", question: "Which JPA annotation explicitly defines the join table name and foreign key columns for mapping a @ManyToMany entity relationship?", options: ["@JoinColumn", "@JoinTable", "@SecondaryTable", "@MappingTable"], answer: 1, explanation: "@JoinTable specifies the intermediate relational join table name and its joinColumns/inverseJoinColumns." },
+            { id: 144, topic: "Log4j", question: "In Log4j2 XML configuration, which component defines file archiving strategies (such as size-based or time-based rollover)?", options: ["ConsoleAppender", "RollingFileAppender", "AsyncAppender", "PatternLayout"], answer: 1, explanation: "RollingFileAppender writes log output to a file and rotates/archives files according to configured TriggeringPolicies." },
+            { id: 145, topic: "Log4j", question: "Which SLF4J / Log4j MDC (Mapped Diagnostic Context) method must be invoked in a finally block to prevent thread pool context pollution?", options: ["MDC.close()", "MDC.clear()", "MDC.reset()", "MDC.flush()"], answer: 1, explanation: "Calling MDC.clear() in a finally block cleans up thread-local diagnostic contextual data (e.g. requestId, userId) before thread reuse." },
+            { id: 146, topic: "Log4j", question: "Which Lombok annotation injects a Log4j2 specific logger (org.apache.logging.log4j.Logger) instead of standard SLF4J?", options: ["@Slf4j", "@Log4j2", "@CommonsLog", "@Log"], answer: 1, explanation: "@Log4j2 generates private static final org.apache.logging.log4j.Logger log = LogManager.getLogger()." },
+            { id: 147, topic: "Swagger", question: "Which OpenAPI / springdoc annotation groups REST controller endpoints under a specific category heading in Swagger UI?", options: ["@Api", "@Tag", "@Category", "@Group"], answer: 1, explanation: "@Tag(name = '...', description = '...') categorizes REST controller endpoints in OpenAPI 3.0 / Swagger UI." },
+            { id: 148, topic: "Swagger", question: "Which springdoc annotation documents the endpoint summary, detailed description, and HTTP method details for a REST API operation?", options: ["@Operation", "@ApiOperation", "@EndpointDoc", "@RestMethod"], answer: 0, explanation: "@Operation(summary = '...', description = '...') documents REST API endpoint metadata in OpenAPI 3.0." },
+            { id: 149, topic: "Swagger", question: "What is the standard URL path to access the interactive Swagger UI web dashboard in Spring Boot 3 using springdoc-openapi-starter-webmvc-ui?", options: ["/swagger/ui", "/swagger-ui/index.html", "/api-docs/ui", "/swagger-v3"], answer: 1, explanation: "Spring Boot 3 springdoc renders the interactive Swagger UI at /swagger-ui/index.html (or /swagger-ui.html)." },
+            { id: 150, topic: "Swagger", question: "Which annotation is used on DTO payload classes to document field descriptions, example values, and validation constraints in Swagger UI?", options: ["@ApiModelProperty", "@Schema", "@FieldDoc", "@PropertySchema"], answer: 1, explanation: "@Schema(description = '...', example = '...') documents object fields and DTO schemas in OpenAPI 3.0." },
+
+            // Spring AI & Claude AI / Anthropic (151-160)
+            { id: 151, topic: "Spring AI", question: "Which primary Spring AI interface represents the client for interacting with Large Language Models (LLMs) like Claude AI?", options: ["AiClient", "ChatModel", "LlmService", "ModelClient"], answer: 1, explanation: "ChatModel is the central Spring AI interface for calling LLM chat generation endpoints (e.g. AnthropicChatModel)." },
+            { id: 152, topic: "Spring AI", question: "Which Spring Boot configuration property sets the API authorization key for Anthropic Claude AI integration?", options: ["spring.ai.claude.key", "spring.ai.anthropic.api-key", "anthropic.secret-key", "spring.ai.llm.token"], answer: 1, explanation: "spring.ai.anthropic.api-key configures the Anthropic API secret key for Spring AI auto-configuration." },
+            { id: 153, topic: "Spring AI", question: "Which Spring AI class encapsulates system messages, user messages, and model options when invoking chatModel.call(...)?", options: ["ChatRequest", "Prompt", "AiMessageContainer", "LlmQuery"], answer: 1, explanation: "Prompt wraps UserMessage, SystemMessage, and ChatOptions sent to ChatModel." },
+            { id: 154, topic: "Spring AI", question: "In Retrieval-Augmented Generation (RAG), what is the primary role of a VectorStore in Spring AI?", options: ["Caches raw HTTP requests", "Stores high-dimensional vector embeddings of document chunks for semantic similarity search", "Compiles Java code at runtime", "Manages database connections"], answer: 1, explanation: "VectorStore (e.g. PgVector, Pinecone, Redis) indexes vector embeddings for semantic document retrieval in RAG." },
+            { id: 155, topic: "Spring AI", question: "Which Anthropic chat model option property in Spring AI controls the randomness vs determinism of generated responses?", options: ["top_p", "temperature", "max-tokens", "presence-penalty"], answer: 1, explanation: "temperature (range 0.0 - 1.0) controls response randomness; lower values yield deterministic output." },
+            { id: 156, topic: "Spring AI", question: "Which Spring AI interface converts raw text chunks into high-dimensional numerical vector representations?", options: ["EmbeddingModel", "VectorConverter", "TextSerializer", "Tokenizer"], answer: 0, explanation: "EmbeddingModel (e.g. OpenAI/Ollama embedding models) transforms text into vector arrays for semantic similarity matching." },
+            { id: 157, topic: "Spring AI", question: "Which ChatModel method in Spring AI enables real-time reactive streaming of generated response tokens back to clients?", options: ["chatModel.callAsync()", "chatModel.stream(prompt)", "chatModel.subscribe()", "chatModel.executeStream()"], answer: 1, explanation: "chatModel.stream(prompt) returns a Reactive Flux<ChatResponse> for streaming LLM tokens incrementally." },
+            { id: 158, topic: "Spring AI", question: "Which feature in Spring AI enables Claude AI to dynamically invoke Java methods (tools) to fetch live external data?", options: ["Method Injection", "Function Calling (Tools)", "Dynamic Proxying", "Aspect Orientation"], answer: 1, explanation: "Function Calling allows LLMs to return tool execution requests that Spring AI automatically resolves to Java bean methods." },
+            { id: 159, topic: "Spring AI", question: "Which Spring Boot starter dependency is required to auto-configure Anthropic Claude chat models?", options: ["spring-boot-starter-ai", "spring-ai-anthropic-spring-boot-starter", "anthropic-java-sdk", "spring-ai-claude-starter"], answer: 1, explanation: "spring-ai-anthropic-spring-boot-starter provides Spring Boot 3 auto-configurations for Anthropic Claude AI." },
+            { id: 160, topic: "Spring AI", question: "What is the primary architectural advantage of using Spring AI over direct raw HTTP REST calls to Claude API?", options: ["Avoids network latency", "Provides portable abstractions, native Spring IoC bean injection, prompt templates, and seamless RAG integration", "Requires no API key", "Executes LLMs locally on CPU"], answer: 1, explanation: "Spring AI offers unified portable APIs across LLM providers with Spring Boot auto-configuration, prompt templating, and vector store integrations." }
+        ];
+
+        // ==========================================
+        // 3. APPLICATION STATE & INITIALIZATION
+        // ==========================================
+        let currentQuizIndex = 0;
+        let filteredQuizList = [...QUIZ_QUESTIONS];
+        let userAnswers = {}; // { questionId: optionIndex }
+        let bookmarkedQuestions = new Set();
+        let currentFlashcardIndex = 0;
+        let quizMode = 'practice'; // 'practice' or 'exam'
+        let timerInterval = null;
+        let timerSeconds = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            renderTopicCards('all');
+            initQuizEngine();
+            renderFlashcard(0);
+            setupEventListeners();
+        });
+
+        // Theme Switcher Logic
+        function initTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', newTheme);
+                themeIcon.className = newTheme === 'dark' ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+            });
+        }
+
+        // ==========================================
+        // 4. RENDER CHEAT-SHEET TOPIC CARDS
+        // ==========================================
+        function renderTopicCards(filterTopic = 'all', searchQuery = '') {
+            const container = document.getElementById('topicCardsGrid');
+            container.innerHTML = '';
+
+            const filteredData = TOPIC_CARDS_DATA.filter(topic => {
+                const matchesTopic = filterTopic === 'all' || 
+                    topic.title.toLowerCase().includes(filterTopic.toLowerCase()) || 
+                    topic.id.toLowerCase().includes(filterTopic.toLowerCase().replace(/\s+/g, ''));
+                const q = searchQuery.toLowerCase();
+                const matchesSearch = !q || 
+                    topic.title.toLowerCase().includes(q) ||
+                    topic.annotations.some(a => a.name.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q)) ||
+                    topic.configs.some(c => c.key.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q)) ||
+                    topic.strings.some(s => s.toLowerCase().includes(q));
+                
+                return matchesTopic && matchesSearch;
+            });
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center py-5 text-secondary"><i class="bi bi-search fs-1 d-block mb-2"></i>No topic cards found matching search term.</div>`;
+                return;
+            }
+
+            filteredData.forEach(topic => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-xl-4';
+                
+                col.innerHTML = `
+                    <div class="card h-100 border-0 shadow-sm topic-card bg-body-tertiary">
+                        <!-- Card Header -->
+                        <div class="card-header bg-transparent border-bottom d-flex align-items-center justify-content-between py-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-3 p-2 bg-${topic.badgeColor}-subtle text-${topic.badgeColor}">
+                                    <i class="bi ${topic.icon} fs-5"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">${topic.title}</h5>
+                            </div>
+                            <span class="badge bg-${topic.badgeColor}-subtle text-${topic.badgeColor} rounded-pill">
+                                ${topic.annotations.length + topic.configs.length + topic.strings.length} Items
+                            </span>
+                        </div>
+
+                        <!-- Card Body Tabs -->
+                        <div class="card-body p-3">
+                            <ul class="nav nav-tabs nav-tabs-sm border-bottom-0 mb-3" id="tab-${topic.id}" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active small py-1 px-2" id="sr-tab-${topic.id}" data-bs-toggle="tab" data-bs-target="#sr-pane-${topic.id}" type="button">
+                                        💼 Sr. Dev (What & Why)
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link small py-1 px-2" id="ann-tab-${topic.id}" data-bs-toggle="tab" data-bs-target="#ann-pane-${topic.id}" type="button">
+                                        🏷️ Annotations (${topic.annotations.length})
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link small py-1 px-2" id="cfg-tab-${topic.id}" data-bs-toggle="tab" data-bs-target="#cfg-pane-${topic.id}" type="button">
+                                        ⚙️ Config (${topic.configs.length})
+                                    </button>
+                                </li>
+                                ${topic.commands ? `
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link small py-1 px-2" id="cmd-tab-${topic.id}" data-bs-toggle="tab" data-bs-target="#cmd-pane-${topic.id}" type="button">
+                                        🖥️ CMD (${topic.commands.length})
+                                    </button>
+                                </li>
+                                ` : ''}
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link small py-1 px-2" id="str-tab-${topic.id}" data-bs-toggle="tab" data-bs-target="#str-pane-${topic.id}" type="button">
+                                        💡 Concepts (${topic.strings.length})
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" id="tabContent-${topic.id}">
+                                <!-- Senior Dev What & Why Tab Pane (Default Active) -->
+                                <div class="tab-pane fade show active" id="sr-pane-${topic.id}" role="tabpanel">
+                                    <div class="p-3 rounded-3 bg-dark-subtle border border-warning-subtle shadow-sm" style="min-height: 220px;">
+                                        <h6 class="fw-bold text-warning mb-2 d-flex align-items-center gap-1">
+                                            <i class="bi bi-briefcase-fill"></i> Senior Developer Perspective (What & Why)
+                                        </h6>
+                                        ${topic.senior ? `
+                                        <div class="d-flex flex-column gap-2 small">
+                                            <div><span class="badge bg-primary me-1">📌 WHAT</span> <span class="text-body-secondary">${topic.senior.what}</span></div>
+                                            <div><span class="badge bg-success me-1">💡 WHY</span> <span class="text-body-secondary">${topic.senior.why}</span></div>
+                                            <div><span class="badge bg-info me-1">⚖️ WHEN</span> <span class="text-body-secondary">${topic.senior.when}</span></div>
+                                            <div><span class="badge bg-danger me-1">⚠️ GOTCHA</span> <span class="text-warning-emphasis fw-medium">${topic.senior.gotcha}</span></div>
+                                        </div>
+                                        ` : `
+                                        <div class="small text-secondary">Senior developer insight loading...</div>
+                                        `}
+                                    </div>
+                                </div>
+
+                                <!-- Annotations Tab Pane -->
+                                <div class="tab-pane fade" id="ann-pane-${topic.id}" role="tabpanel">
+                                    <div class="table-responsive" style="max-height: 220px; overflow-y: auto;">
+                                        <table class="table table-sm table-borderless table-custom align-middle mb-0">
+                                            <tbody>
+                                                ${topic.annotations.map(a => `
+                                                    <tr>
+                                                        <td><code class="badge badge-annotation text-start text-wrap">${a.name}</code></td>
+                                                        <td class="small text-secondary">${a.desc}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Config Attributes Tab Pane -->
+                                <div class="tab-pane fade" id="cfg-pane-${topic.id}" role="tabpanel">
+                                    <div class="table-responsive" style="max-height: 220px; overflow-y: auto;">
+                                        <table class="table table-sm table-borderless table-custom align-middle mb-0">
+                                            <tbody>
+                                                ${topic.configs.map(c => `
+                                                    <tr>
+                                                        <td>
+                                                            <code class="badge badge-config text-start text-wrap d-block">${c.key}</code>
+                                                            ${c.val ? `<span class="small text-muted font-mono d-block mt-1">e.g. ${c.val}</span>` : ''}
+                                                        </td>
+                                                        <td class="small text-secondary">${c.desc}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                ${topic.commands ? `
+                                <!-- CLI Commands Tab Pane -->
+                                <div class="tab-pane fade" id="cmd-pane-${topic.id}" role="tabpanel">
+                                    <div class="d-flex flex-column gap-2" style="max-height: 220px; overflow-y: auto;">
+                                        ${topic.commands.map(cmdObj => `
+                                            <div class="p-2 rounded bg-body border border-secondary-subtle">
+                                                <code class="badge bg-dark text-warning text-start text-wrap d-block font-mono mb-1"><i class="bi bi-terminal me-1"></i>${cmdObj.cmd}</code>
+                                                <span class="small text-secondary d-block">${cmdObj.desc}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                ` : ''}
+
+                                <!-- Key Strings Tab Pane -->
+                                <div class="tab-pane fade" id="str-pane-${topic.id}" role="tabpanel">
+                                    <div class="d-flex flex-column gap-2" style="max-height: 220px; overflow-y: auto;">
+                                        ${topic.strings.map(s => `
+                                            <div class="p-2 rounded bg-body border border-secondary-subtle font-mono small text-break">
+                                                <i class="bi bi-terminal-fill me-1 text-primary"></i> ${s}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(col);
+            });
+        }
+
+        // Filter Cards Event Listeners
+        document.querySelectorAll('.filter-card-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-card-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const topic = e.target.getAttribute('data-topic');
+                const searchVal = document.getElementById('cardSearchInput').value;
+                renderTopicCards(topic, searchVal);
+            });
+        });
+
+        document.getElementById('cardSearchInput').addEventListener('input', (e) => {
+            const activeTopicBtn = document.querySelector('.filter-card-btn.active');
+            const topic = activeTopicBtn ? activeTopicBtn.getAttribute('data-topic') : 'all';
+            renderTopicCards(topic, e.target.value);
+        });
+
+        // ==========================================
+        // 5. QUIZ ENGINE LOGIC
+        // ==========================================
+        function initQuizEngine() {
+            currentQuizIndex = 0;
+            userAnswers = {};
+            bookmarkedQuestions.clear();
+            startTimer();
+            filterQuizQuestions();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timerDisplay').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function filterQuizQuestions() {
+            const topicSelect = document.getElementById('quizTopicSelect').value;
+            if (topicSelect === 'all') {
+                filteredQuizList = [...QUIZ_QUESTIONS];
+            } else {
+                filteredQuizList = QUIZ_QUESTIONS.filter(q => q.topic.toLowerCase() === topicSelect.toLowerCase());
+            }
+            currentQuizIndex = 0;
+            renderQuestionNavGrid();
+            renderActiveQuestion();
+        }
+
+        function renderQuestionNavGrid() {
+            const grid = document.getElementById('questionNavGrid');
+            grid.innerHTML = '';
+
+            filteredQuizList.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn q-nav-btn btn-outline-secondary';
+                btn.innerText = idx + 1;
+
+                // Style based on state
+                if (idx === currentQuizIndex) {
+                    btn.classList.remove('btn-outline-secondary');
+                    btn.classList.add('btn-primary', 'fw-bold', 'border-2');
+                } else if (userAnswers.hasOwnProperty(q.id)) {
+                    btn.classList.remove('btn-outline-secondary');
+                    if (quizMode === 'practice') {
+                        const isCorrect = userAnswers[q.id] === q.answer;
+                        btn.classList.add(isCorrect ? 'btn-success' : 'btn-danger');
+                    } else {
+                        btn.classList.add('btn-primary');
+                    }
+                }
+
+                if (bookmarkedQuestions.has(q.id)) {
+                    btn.classList.add('border-warning');
+                }
+
+                btn.addEventListener('click', () => {
+                    currentQuizIndex = idx;
+                    renderActiveQuestion();
+                    renderQuestionNavGrid();
+                });
+
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderActiveQuestion() {
+            if (filteredQuizList.length === 0) return;
+
+            const q = filteredQuizList[currentQuizIndex];
+            
+            // Header Info
+            document.getElementById('qTopicBadge').innerText = q.topic;
+            document.getElementById('qQuestionText').innerText = `${currentQuizIndex + 1}. ${q.question}`;
+            document.getElementById('quizProgressText').innerText = `Question ${currentQuizIndex + 1} of ${filteredQuizList.length}`;
+            
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('quizScoreCount').innerText = `Answered: ${answeredCount} / ${filteredQuizList.length}`;
+            
+            const progressPercent = Math.round(((currentQuizIndex + 1) / filteredQuizList.length) * 100);
+            document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+            // Bookmark icon state
+            const bookmarkIcon = document.getElementById('bookmarkIcon');
+            if (bookmarkedQuestions.has(q.id)) {
+                bookmarkIcon.className = 'bi bi-bookmark-fill text-warning';
+            } else {
+                bookmarkIcon.className = 'bi bi-bookmark text-secondary';
+            }
+
+            // Options Container
+            const container = document.getElementById('qOptionsContainer');
+            container.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOpt = userAnswers[q.id];
+
+            q.options.forEach((optText, optIdx) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = 'btn quiz-option-btn d-flex align-items-center gap-3';
+                
+                const letter = String.fromCharCode(65 + optIdx); // A, B, C, D
+                
+                optBtn.innerHTML = `
+                    <span class="badge bg-secondary-subtle text-body rounded-circle px-2 py-1">${letter}</span>
+                    <span class="flex-grow-1">${optText}</span>
+                `;
+
+                if (isAnswered) {
+                    if (quizMode === 'practice') {
+                        if (optIdx === q.answer) {
+                            optBtn.classList.add('correct');
+                        } else if (optIdx === selectedOpt) {
+                            optBtn.classList.add('incorrect');
+                        }
+                    } else {
+                        if (optIdx === selectedOpt) {
+                            optBtn.classList.add('selected');
+                        }
+                    }
+                    optBtn.disabled = true;
+                } else {
+                    optBtn.addEventListener('click', () => handleSelectOption(q.id, optIdx));
+                }
+
+                container.appendChild(optBtn);
+            });
+
+            // Explanation Box
+            const expBox = document.getElementById('qExplanationBox');
+            if (isAnswered && (quizMode === 'practice' || currentQuizIndex === filteredQuizList.length - 1)) {
+                expBox.classList.remove('d-none');
+                document.getElementById('qExplanationText').innerText = q.explanation;
+            } else {
+                expBox.classList.add('d-none');
+            }
+
+            // Navigation Buttons State
+            document.getElementById('prevQBtn').disabled = currentQuizIndex === 0;
+            
+            const nextBtn = document.getElementById('nextQBtn');
+            const finishBtn = document.getElementById('finishQuizBtn');
+
+            if (currentQuizIndex === filteredQuizList.length - 1) {
+                nextBtn.classList.add('d-none');
+                finishBtn.classList.remove('d-none');
+            } else {
+                nextBtn.classList.remove('d-none');
+                finishBtn.classList.add('d-none');
+            }
+        }
+
+        function handleSelectOption(questionId, optionIndex) {
+            userAnswers[questionId] = optionIndex;
+            renderActiveQuestion();
+            renderQuestionNavGrid();
+        }
+
+        // Bookmark Toggle
+        document.getElementById('bookmarkBtn').addEventListener('click', () => {
+            const q = filteredQuizList[currentQuizIndex];
+            if (bookmarkedQuestions.has(q.id)) {
+                bookmarkedQuestions.delete(q.id);
+            } else {
+                bookmarkedQuestions.add(q.id);
+            }
+            renderActiveQuestion();
+            renderQuestionNavGrid();
+        });
+
+        // Quiz Prev / Next buttons
+        document.getElementById('prevQBtn').addEventListener('click', () => {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderActiveQuestion();
+                renderQuestionNavGrid();
+            }
+        });
+
+        document.getElementById('nextQBtn').addEventListener('click', () => {
+            if (currentQuizIndex < filteredQuizList.length - 1) {
+                currentQuizIndex++;
+                renderActiveQuestion();
+                renderQuestionNavGrid();
+            }
+        });
+
+        document.getElementById('quizTopicSelect').addEventListener('change', filterQuizQuestions);
+        
+        document.getElementById('quizModeSelect').addEventListener('change', (e) => {
+            quizMode = e.target.value;
+            renderActiveQuestion();
+            renderQuestionNavGrid();
+        });
+
+        document.getElementById('resetQuizBtn').addEventListener('click', resetQuiz);
+
+        function resetQuiz() {
+            userAnswers = {};
+            bookmarkedQuestions.clear();
+            startTimer();
+            filterQuizQuestions();
+            const modalEl = document.getElementById('scoreModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
+
+        // ==========================================
+        // 6. FLASHCARDS ENGINE LOGIC
+        // ==========================================
+        let flashcardList = [...QUIZ_QUESTIONS];
+
+        function renderFlashcard(index) {
+            if (flashcardList.length === 0) return;
+            currentFlashcardIndex = index;
+            const item = flashcardList[index];
+
+            document.getElementById('fcTopicBadge').innerText = item.topic;
+            document.getElementById('fcFrontText').innerText = item.question;
+            document.getElementById('fcCorrectAnswer').innerText = item.options[item.answer];
+            document.getElementById('fcBackText').innerText = item.explanation;
+            document.getElementById('fcCounter').innerText = `Card ${index + 1} of ${flashcardList.length}`;
+
+            // Reset flip state
+            document.getElementById('flashcardContainer').classList.remove('flipped');
+        }
+
+        document.getElementById('prevFcBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentFlashcardIndex > 0) {
+                renderFlashcard(currentFlashcardIndex - 1);
+            }
+        });
+
+        document.getElementById('nextFcBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentFlashcardIndex < flashcardList.length - 1) {
+                renderFlashcard(currentFlashcardIndex + 1);
+            }
+        });
+
+        document.getElementById('flashcardTopicSelect').addEventListener('change', (e) => {
+            const topic = e.target.value;
+            if (topic === 'all') {
+                flashcardList = [...QUIZ_QUESTIONS];
+            } else {
+                flashcardList = QUIZ_QUESTIONS.filter(q => q.topic.toLowerCase() === topic.toLowerCase());
+            }
+            renderFlashcard(0);
+        });
+
+        // ==========================================
+        // 7. SCORE REPORT & PERFORMANCE ANALYTICS
+        // ==========================================
+        const scoreModalEl = document.getElementById('scoreModal');
+        scoreModalEl.addEventListener('show.bs.modal', calculateScoreReport);
+
+        function calculateScoreReport() {
+            let correctCount = 0;
+            let totalAnswered = 0;
+            const topicStats = {}; // { topicName: { total: 0, correct: 0 } }
+
+            QUIZ_QUESTIONS.forEach(q => {
+                if (!topicStats[q.topic]) {
+                    topicStats[q.topic] = { total: 0, correct: 0 };
+                }
+                topicStats[q.topic].total++;
+
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    totalAnswered++;
+                    if (userAnswers[q.id] === q.answer) {
+                        correctCount++;
+                        topicStats[q.topic].correct++;
+                    }
+                }
+            });
+
+            const scorePercent = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+            const incorrectCount = totalAnswered - correctCount;
+
+            document.getElementById('mFinalScore').innerText = `${scorePercent}%`;
+            document.getElementById('mCorrectCount').innerText = correctCount;
+            document.getElementById('mIncorrectCount').innerText = incorrectCount;
+            
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            document.getElementById('mTimeElapsed').innerText = `${mins}:${secs}`;
+
+            // Render Topic Breakdown
+            const container = document.getElementById('modalTopicBreakdown');
+            container.innerHTML = '';
+
+            Object.keys(topicStats).forEach(tName => {
+                const stats = topicStats[tName];
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'mb-3';
+                wrapper.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-1 small">
+                        <span class="fw-bold">${tName}</span>
+                        <span class="text-secondary">${stats.correct} / ${stats.total} (${pct}%)</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar ${pct >= 75 ? 'bg-success' : (pct >= 50 ? 'bg-warning' : 'bg-danger')}" 
+                             role="progressbar" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                container.appendChild(wrapper);
+            });
+        }
+
+        function setupEventListeners() {
+            // Universal Tab switching event delegation for main and inner card tabs
+            document.addEventListener('click', (e) => {
+                const tabBtn = e.target.closest('[data-bs-toggle="tab"]');
+                if (!tabBtn) return;
+                
+                e.preventDefault();
+                const targetSelector = tabBtn.getAttribute('data-bs-target');
+                if (!targetSelector) return;
+                
+                const nav = tabBtn.closest('.nav');
+                if (nav) {
+                    nav.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    tabBtn.classList.add('active');
+                }
+                
+                const targetPane = document.querySelector(targetSelector);
+                if (targetPane && targetPane.parentElement) {
+                    Array.from(targetPane.parentElement.children).forEach(child => {
+                        if (child.classList.contains('tab-pane')) {
+                            child.classList.remove('show', 'active');
+                        }
+                    });
+                    targetPane.classList.add('show', 'active');
+                }
+            });
+
+            // Keyboard navigation for Quiz mode
+            document.addEventListener('keydown', (e) => {
+                const quizTabActive = document.getElementById('quiz-pane').classList.contains('active');
+                if (!quizTabActive) return;
+
+                if (e.key === 'ArrowRight' && currentQuizIndex < filteredQuizList.length - 1) {
+                    currentQuizIndex++;
+                    renderActiveQuestion();
+                    renderQuestionNavGrid();
+                } else if (e.key === 'ArrowLeft' && currentQuizIndex > 0) {
+                    currentQuizIndex--;
+                    renderActiveQuestion();
+                    renderQuestionNavGrid();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
